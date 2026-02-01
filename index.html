@@ -1,89 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AJUDAAI - Serviços perto de você</title>
+  <meta charset="UTF-8">
+  <title>AJUDAAI – Serviços perto de você</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <!-- SEO básico -->
+  <meta name="description" content="AJUDAAI conecta você a prestadores de serviços perto de você. Rápido, fácil e seguro.">
+  <meta name="keywords" content="serviços locais, ajuda, eletricista, diarista, encanador">
+  <meta name="author" content="AJUDAAI">
 
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #f5f7fb;
-      color: #333;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f5f7fa;
+      color: #0A2540;
     }
 
     header {
-      background: linear-gradient(135deg, #0d47a1, #1976d2);
-      color: white;
+      background: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    main {
       padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
       text-align: center;
     }
 
-    header h1 {
-      font-size: 3rem;
-      margin: 0;
-      letter-spacing: 2px;
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
     }
 
-    header h1 span {
-      color: #ffca28;
+    p {
+      font-size: 18px;
+      line-height: 1.6;
     }
 
-    header p {
-      margin-top: 12px;
-      font-size: 1.1rem;
-      opacity: 0.95;
+    .cta {
+      margin-top: 30px;
     }
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 40px 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
+    .cta button {
+      background: #FFC107;
+      color: #0A2540;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 30px 25px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      transition: transform 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card h2 {
-      margin-top: 0;
-      color: #0d47a1;
-    }
-
-    .card p {
-      line-height: 1.5;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      background: #ffca28;
-      color: #333;
-      padding: 12px 22px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
+    .cta button:hover {
+      background: #e6ae06;
     }
 
     footer {
-      text-align: center;
+      margin-top: 50px;
       padding: 20px;
-      background: #e3e7f0;
-      font-size: 0.9rem;
+      background: #0A2540;
+      color: white;
+      text-align: center;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -91,26 +77,50 @@
 <body>
 
 <header>
-  <h1>AJUDA<span>AI</span></h1>
-  <p>Profissionais certos, perto de você</p>
+  <!-- LOGO AJUDAAI -->
+  <svg width="260" height="80" viewBox="0 0 260 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- PIN -->
+    <path d="M40 10C28 10 18 20 18 32c0 16 22 38 22 38s22-22 22-38c0-12-10-22-22-22z" fill="#FFC107"/>
+    <circle cx="40" cy="32" r="8" fill="#0A2540"/>
+
+    <!-- Mãos -->
+    <path d="M32 36c3 2 5 2 8 0" stroke="#0A2540" stroke-width="2" fill="none"/>
+
+    <!-- Texto -->
+    <text x="85" y="45" font-size="28" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#0A2540">
+      AJUDA
+    </text>
+    <text x="165" y="45" font-size="28" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#FFC107">
+      AI
+    </text>
+
+    <!-- Slogan -->
+    <text x="85" y="65" font-size="12" font-family="Arial, Helvetica, sans-serif" fill="#555">
+      serviços perto de você
+    </text>
+  </svg>
 </header>
 
-<section class="container">
-  <div class="card">
-    <h2>🔎 Procurar serviços</h2>
-    <p>Encontre eletricistas, diaristas, encanadores e muito mais na sua região.</p>
-    <a href="#" class="btn">Buscar profissionais</a>
-  </div>
+<main>
+  <h1>Conectando você a quem resolve</h1>
+  <p>
+    O <strong>AJUDAAI</strong> é uma plataforma simples e rápida para encontrar
+    prestadores de serviços perto de você.
+    Sem complicação, sem burocracia.
+  </p>
 
-  <div class="card">
-    <h2>🧰 Oferecer serviços</h2>
-    <p>Cadastre seu serviço e comece a receber pedidos de clientes próximos.</p>
-    <a href="#" class="btn">Cadastrar serviço</a>
+  <p>
+    Encontre diaristas, eletricistas, encanadores, montadores,
+    pequenos reparos e muito mais — tudo em um só lugar.
+  </p>
+
+  <div class="cta">
+    <button>Em breve disponível</button>
   </div>
-</section>
+</main>
 
 <footer>
-  © 2026 AJUDAAI · Todos os direitos reservados
+  © 2026 AJUDAAI — Todos os direitos reservados
 </footer>
 
 </body>
