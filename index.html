@@ -1,173 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>AJUDAAI – Encontre ajuda perto de você</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- SEO -->
-  <meta name="description" content="AJUDAAI conecta você a prestadores de serviços locais de forma simples e rápida.">
-  <meta name="keywords" content="serviços locais, diarista, eletricista, encanador, ajuda">
-  <meta name="author" content="AJUDAAI">
-
-  <!-- Favicon -->
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AJUDAAI — Encontre profissionais perto de você</title>
 
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --amarelo: #FFC107;
+      --cinza: #f4f4f4;
+      --escuro: #222;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fa;
-      color: #0A2540;
+      background: var(--cinza);
+      color: var(--escuro);
     }
 
     header {
       background: #fff;
-      padding: 16px;
-      display: flex;
-      justify-content: center;
-      border-bottom: 1px solid #ddd;
-    }
-
-    main {
-      max-width: 960px;
-      margin: auto;
-      padding: 32px 20px;
+      padding: 20px;
       text-align: center;
+      border-bottom: 3px solid var(--amarelo);
     }
 
     h1 {
-      font-size: 28px;
-      margin-bottom: 12px;
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: 2px;
     }
 
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 14px;
+    h1 span {
+      color: var(--amarelo);
     }
 
-    .cta {
-      margin: 30px 0;
+    header p {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      margin: auto;
+      overflow: hidden;
+      background: #fff;
       display: flex;
-      flex-direction: column;
-      gap: 16px;
       align-items: center;
+      justify-content: center;
     }
 
-    .cta button {
+    .avatar img {
       width: 100%;
-      max-width: 320px;
-      padding: 16px;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nome {
+      margin-top: 15px;
       font-size: 18px;
       font-weight: bold;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
     }
 
-    .primary {
-      background: #FFC107;
-      color: #0A2540;
+    .profissao {
+      color: #666;
+      margin: 5px 0;
     }
 
-    .secondary {
-      background: #0A2540;
-      color: #fff;
+    .cidade {
+      font-size: 14px;
+      color: #888;
     }
 
-    section {
-      margin-top: 50px;
-      text-align: left;
-    }
-
-    section h2 {
-      font-size: 24px;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    ul li {
-      padding: 10px 0;
-      font-size: 17px;
+    .botao {
+      margin-top: 15px;
+      display: inline-block;
+      background: var(--amarelo);
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     footer {
-      margin-top: 60px;
-      background: #0A2540;
-      color: #fff;
+      margin-top: 40px;
       padding: 20px;
       text-align: center;
       font-size: 14px;
-    }
-
-    @media (min-width: 768px) {
-      h1 { font-size: 36px; }
-      p { font-size: 20px; }
-
-      .cta {
-        flex-direction: row;
-        justify-content: center;
-      }
+      color: #666;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <!-- LOGO AJUDAAI -->
-  <svg width="280" height="80" viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg">
-    <path d="M40 10C28 10 18 20 18 32c0 16 22 38 22 38s22-22 22-38c0-12-10-22-22-22z" fill="#FFC107"/>
-    <circle cx="40" cy="32" r="8" fill="#0A2540"/>
-    <path d="M32 36c3 2 5 2 8 0" stroke="#0A2540" stroke-width="2" fill="none"/>
-    <text x="90" y="45" font-size="30" font-weight="700" fill="#0A2540">AJUDA</text>
-    <text x="185" y="45" font-size="30" font-weight="700" fill="#FFC107">AI</text>
-    <text x="90" y="65" font-size="12" fill="#555">serviços perto de você</text>
-  </svg>
-</header>
+  <header>
+    <h1>AJUDA<span>AI</span></h1>
+    <p>Conectando você a profissionais de confiança perto de você</p>
+  </header>
 
-<main>
-  <h1>Ajuda confiável, perto de você</h1>
+  <main>
+    <section class="cards" id="listaPrestadores">
+      <!-- Prestadores aparecem aqui automaticamente -->
+    </section>
+  </main>
 
-  <p>
-    O <strong>AJUDAAI</strong> conecta você a pessoas que resolvem problemas do dia a dia:
-    serviços domésticos, pequenos reparos e apoio local.
-  </p>
+  <footer>
+    © 2026 AJUDAAI — Todos os direitos reservados
+  </footer>
 
-  <div class="cta">
-    <button class="primary">Encontrar ajuda</button>
-    <button class="secondary">Sou prestador de serviço</button>
-  </div>
+  <!-- AVATAR PADRÃO (SVG INLINE) -->
+  <template id="avatarPadrao">
+    <svg viewBox="0 0 200 200" width="110" height="110">
+      <circle cx="100" cy="100" r="100" fill="#FFC107"/>
+      <circle cx="100" cy="75" r="28" fill="#fff"/>
+      <path d="M45 155c5-35 105-35 110 0" fill="#fff"/>
+      <path d="M100 15c-30 40-30 65 0 95c30-30 30-55 0-95z" fill="#222"/>
+      <circle cx="100" cy="55" r="6" fill="#FFC107"/>
+    </svg>
+  </template>
 
-  <section>
-    <h2>Como funciona</h2>
-    <ul>
-      <li>📍 Você busca ajuda perto de você</li>
-      <li>🤝 Encontra pessoas reais da sua região</li>
-      <li>⚡ Combina direto, sem burocracia</li>
-    </ul>
-  </section>
+  <script>
+    // EXEMPLO DE DADOS (temporário)
+    // Depois vamos ligar isso à planilha do Google Forms
+    const prestadores = [
+      {
+        nome: "Carlos Silva",
+        profissao: "Eletricista",
+        cidade: "São Paulo - SP",
+        whatsapp: "11999999999",
+        foto: ""
+      },
+      {
+        nome: "Ana Souza",
+        profissao: "Diarista",
+        cidade: "Campinas - SP",
+        whatsapp: "11988888888",
+        foto: ""
+      }
+    ];
 
-  <section>
-    <h2>Para quem presta serviços</h2>
-    <p>
-      Quer divulgar seu trabalho e encontrar clientes na sua região?
-      Em breve você poderá se cadastrar no AJUDAAI.
-    </p>
-  </section>
-</main>
+    const container = document.getElementById("listaPrestadores");
+    const avatarTemplate = document.getElementById("avatarPadrao").innerHTML;
 
-<footer>
-  © 2026 AJUDAAI — Todos os direitos reservados
-</footer>
+    prestadores.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+
+      if (p.foto) {
+        avatar.innerHTML = `<img src="${p.foto}" alt="Foto de ${p.nome}">`;
+      } else {
+        avatar.innerHTML = avatarTemplate;
+      }
+
+      card.appendChild(avatar);
+
+      card.innerHTML += `
+        <div class="nome">${p.nome}</div>
+        <div class="profissao">${p.profissao}</div>
+        <div class="cidade">${p.cidade}</div>
+        <a class="botao" href="https://wa.me/55${p.whatsapp}" target="_blank">
+          Falar no WhatsApp
+        </a>
+      `;
+
+      container.appendChild(card);
+    });
+  </script>
 
 </body>
 </html>
