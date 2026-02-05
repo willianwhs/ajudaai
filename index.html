@@ -3,114 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AJUDAAI — Profissionais de confiança perto de você</title>
+<title>AJUDAAI</title>
 
 <style>
-:root{
---amarelo:#FFC107;
---azul:#1E3A8A;
---cinza:#f4f6f8;
---escuro:#222;
---whatsapp:#25D366;
-}
-
-body{margin:0;background:var(--cinza);font-family:Arial}
-
-header{
-background:#fff;
-padding:26px;
-text-align:center;
-border-bottom:3px solid var(--amarelo);
-}
-
-.logo-ajuda{color:var(--azul)}
-.logo-ai{color:var(--amarelo)}
-
-.barra{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-justify-content:center;
-margin:20px;
-}
-
-input{
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-min-width:240px;
-}
-
-button{
-border:none;
-padding:12px 16px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-transition:.2s;
-}
-
-.btn-azul{background:var(--azul);color:#fff}
-.btn-amarelo{background:var(--amarelo)}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-gap:20px;
-padding:20px;
-max-width:1100px;
-margin:auto;
-}
-
-.card{
-background:#fff;
-padding:20px;
-border-radius:14px;
-text-align:center;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-transition:.2s;
-}
-
-.card:hover{transform:translateY(-5px)}
-
-.botao{
-display:inline-block;
-margin-top:10px;
-padding:10px 14px;
-border-radius:10px;
-font-weight:bold;
-text-decoration:none;
-}
-
-.botao-whatsapp{
-background:var(--whatsapp);
-color:#fff!important;
-}
+body{font-family:Arial;margin:0;background:#f4f6f8}
+header{text-align:center;padding:20px;background:#fff;border-bottom:3px solid #FFC107}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:20px}
+.card{background:#fff;padding:20px;border-radius:14px;text-align:center}
+.botao{display:block;margin-top:10px;padding:10px;background:#25D366;color:#fff;text-decoration:none;border-radius:8px}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1><span class="logo-ajuda">AJUDA</span><span class="logo-ai">AI</span></h1>
-<p>Conectando você a profissionais de confiança perto de você</p>
+<h1><span style="color:#1E3A8A">AJUDA</span><span style="color:#FFC107">AI</span></h1>
+<button onclick="ativarLocalizacao()">📍 Perto de mim</button>
 </header>
-
-<div class="barra">
-<input id="busca" placeholder="Buscar serviço ou cidade">
-<button class="btn-amarelo" onclick="filtrar()">Buscar</button>
-<button class="btn-azul" onclick="ativarLocalizacao()">📍 Perto de mim</button>
-<button class="btn-azul" onclick="verificados()">✔ Verificados</button>
-<button onclick="resetar()">Limpar</button>
-</div>
 
 <div class="cards" id="lista"></div>
 
 <script>
+
 const URL_JSON="https://raw.githubusercontent.com/willianwhs/ajudaai/main/prestadores.json";
 let dados=[];
-let userLat=null;
-let userLng=null;
 
 fetch(URL_JSON).then(r=>r.json()).then(d=>{
 dados=d;
@@ -121,8 +37,7 @@ function calcularDistancia(lat1,lng1,lat2,lng2){
 const R=6371;
 const dLat=(lat2-lat1)*Math.PI/180;
 const dLng=(lng2-lng1)*Math.PI/180;
-const a=
-Math.sin(dLat/2)**2+
+const a=Math.sin(dLat/2)**2+
 Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
 Math.sin(dLng/2)**2;
 return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
@@ -130,8 +45,8 @@ return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
 
 function ativarLocalizacao(){
 navigator.geolocation.getCurrentPosition(pos=>{
-userLat=pos.coords.latitude;
-userLng=pos.coords.longitude;
+const userLat=pos.coords.latitude;
+const userLng=pos.coords.longitude;
 
 dados.forEach(p=>{
 if(p.lat && p.lng){
@@ -155,23 +70,11 @@ c.innerHTML+=`
 <div>${p.servico}</div>
 <div>${p.cidade}</div>
 <div>${dist}</div>
-<div>${"⭐".repeat(Math.round(p.media||0))}</div>
-<a class="botao botao-whatsapp" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
+<a class="botao" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
 </div>`;
 });
 }
 
-function filtrar(){
-const t=document.getElementById("busca").value.toLowerCase();
-render(dados.filter(p=>
-p.nome.toLowerCase().includes(t)||
-p.servico.toLowerCase().includes(t)||
-p.cidade.toLowerCase().includes(t)
-));
-}
-
-function verificados(){render(dados.filter(p=>p.verificado))}
-function resetar(){render(dados)}
 </script>
 
 </body>
