@@ -69,6 +69,9 @@ c.innerHTML+=`
 <h3>${p.nome}</h3>
 <div>${p.servico}</div>
 <div>${p.cidade}</div>
+<div class="distancia">
+${p.distancia ? "📍 " + p.distancia.toFixed(1) + " km" : ""}
+</div>
 <div>${dist}</div>
 <a class="botao" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
 </div>`;
