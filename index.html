@@ -6,19 +6,97 @@
 <title>AJUDAAI</title>
 
 <style>
-body{font-family:Arial;margin:0;background:#f4f6f8}
-header{text-align:center;padding:20px;background:#fff;border-bottom:3px solid #FFC107}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:20px}
-.card{background:#fff;padding:20px;border-radius:14px;text-align:center}
-.botao{display:block;margin-top:10px;padding:10px;background:#25D366;color:#fff;text-decoration:none;border-radius:8px}
+:root{
+--amarelo:#FFC107;
+--azul:#1E3A8A;
+--cinza:#f4f6f8;
+}
+
+body{
+margin:0;
+font-family:Arial;
+background:var(--cinza);
+}
+
+header{
+background:#fff;
+padding:25px;
+text-align:center;
+border-bottom:3px solid var(--amarelo);
+}
+
+h1{
+margin:0;
+font-size:32px;
+font-weight:800;
+}
+
+.logo1{color:var(--azul)}
+.logo2{color:var(--amarelo)}
+
+.botaoTopo{
+margin-top:10px;
+padding:10px 16px;
+border:none;
+border-radius:8px;
+background:var(--azul);
+color:#fff;
+font-weight:bold;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:#fff;
+padding:20px;
+border-radius:14px;
+text-align:center;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+position:relative;
+}
+
+.selo{
+position:absolute;
+top:10px;
+right:10px;
+background:var(--azul);
+color:#fff;
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+}
+
+.botao{
+display:block;
+margin-top:8px;
+padding:10px;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.whatsapp{
+background:#25D366;
+color:#fff;
+}
+
+.avaliar{
+background:var(--azul);
+color:#fff;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1><span style="color:#1E3A8A">AJUDA</span><span style="color:#FFC107">AI</span></h1>
-<button onclick="ativarLocalizacao()">📍 Perto de mim</button>
+<h1><span class="logo1">AJUDA</span><span class="logo2">AI</span></h1>
+<button class="botaoTopo" onclick="ativarLocalizacao()">📍 Perto de mim</button>
 </header>
 
 <div class="cards" id="lista"></div>
@@ -26,11 +104,14 @@ header{text-align:center;padding:20px;background:#fff;border-bottom:3px solid #F
 <script>
 
 const URL_JSON="https://raw.githubusercontent.com/willianwhs/ajudaai/main/prestadores.json";
-let dados=[];
 
-fetch(URL_JSON).then(r=>r.json()).then(d=>{
-dados=d;
-render(dados);
+let prestadores=[];
+
+fetch(URL_JSON)
+.then(r=>r.json())
+.then(d=>{
+prestadores=d;
+renderPrestadores(prestadores);
 });
 
 function calcularDistancia(lat1,lng1,lat2,lng2){
@@ -45,37 +126,57 @@ return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
 
 function ativarLocalizacao(){
 navigator.geolocation.getCurrentPosition(pos=>{
+
 const userLat=pos.coords.latitude;
 const userLng=pos.coords.longitude;
 
-dados.forEach(p=>{
+prestadores.forEach(p=>{
 if(p.lat && p.lng){
 p.distancia=calcularDistancia(userLat,userLng,p.lat,p.lng);
 }
 });
 
-dados.sort((a,b)=>(a.distancia||999)-(b.distancia||999));
-render(dados);
+prestadores.sort((a,b)=>(a.distancia||999)-(b.distancia||999));
+
+renderPrestadores(prestadores);
+
 });
 }
 
-function render(lista){
-const c=document.getElementById("lista");
-c.innerHTML="";
+function renderPrestadores(lista){
+
+const container=document.getElementById("lista");
+container.innerHTML="";
+
 lista.forEach(p=>{
-const dist=p.distancia?`📍 ${p.distancia.toFixed(1)} km`:"";
-c.innerHTML+=`
+
+const estrelas=p.media ? "⭐".repeat(Math.round(p.media)) : "Sem avaliações";
+const distancia=p.distancia ? `📍 ${p.distancia.toFixed(1)} km` : "";
+
+container.innerHTML+=`
 <div class="card">
+
+${p.verificado ? '<div class="selo">✔ Verificado</div>' : ''}
+
 <h3>${p.nome}</h3>
 <div>${p.servico}</div>
 <div>${p.cidade}</div>
-<div class="distancia">
-${p.distancia ? "📍 " + p.distancia.toFixed(1) + " km" : ""}
+<div>${estrelas}</div>
+<div>${distancia}</div>
+
+<a class="botao whatsapp" href="https://wa.me/55${p.whatsapp}" target="_blank">
+WhatsApp
+</a>
+
+<a class="botao avaliar" href="#" target="_blank">
+Avaliar
+</a>
+
 </div>
-<div>${dist}</div>
-<a class="botao" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
-</div>`;
+`;
+
 });
+
 }
 
 </script>
