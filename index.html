@@ -17,104 +17,96 @@
 }
 
 *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-
 body{margin:0;background:var(--cinza);color:var(--escuro)}
 
 header{
   background:#fff;
-  padding:26px 16px 20px;
+  padding:40px 16px 30px;
   text-align:center;
   border-bottom:3px solid var(--amarelo);
 }
 
-h1{margin:0;font-size:34px;font-weight:800;letter-spacing:2px}
+h1{margin:0;font-size:36px;font-weight:800;letter-spacing:2px}
 .logo-ajuda{color:var(--azul)}
 .logo-ai{color:var(--amarelo)}
 
-.descricao-premium{
+.hero-text{
   max-width:760px;
-  margin:14px auto 0;
-  font-size:16px;
+  margin:18px auto 0;
+  font-size:18px;
   color:#555;
   line-height:1.6;
 }
 
-.acoes-topo{
-  margin-top:18px;
+.hero-actions{
+  margin-top:24px;
   display:flex;
   justify-content:center;
-  gap:10px;
+  gap:12px;
   flex-wrap:wrap;
 }
 
-.btn-azul{
-  background:var(--azul);
-  color:#fff;
+input{
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  min-width:260px;
+}
+
+button{
   border:none;
-  padding:12px 18px;
-  border-radius:10px;
+  padding:14px 18px;
+  border-radius:12px;
   font-weight:bold;
   cursor:pointer;
 }
 
+.btn-azul{background:var(--azul);color:#fff}
+.btn-amarelo{background:var(--amarelo);color:#000}
 .btn-outline{
   background:#fff;
   border:2px solid var(--azul);
   color:var(--azul);
-  padding:10px 16px;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
 }
 
 .como-funciona{
-  background:#fff;
   max-width:1100px;
-  margin:20px auto 0;
-  padding:18px;
-  border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  margin:30px auto;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
+  gap:20px;
+  padding:0 16px;
+}
+
+.card-info{
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
   text-align:center;
-}
-
-.como-item{
-  font-size:15px;
-  color:#444;
-}
-
-.como-item strong{
-  display:block;
-  margin-bottom:6px;
-  color:var(--azul);
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
 }
 
 #map{
-  height:220px;
-  margin:18px auto;
+  height:200px;
   max-width:1100px;
-  border-radius:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,.1);
-}
-
-main{
-  max-width:1100px;
-  margin:auto;
-  padding:24px 16px;
+  margin:20px auto;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
 .cards{
-  display:grid;
+  display:none;
   grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
   gap:22px;
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
 }
 
 .card{
   background:#fff;
-  border-radius:14px;
-  padding:22px 18px;
+  padding:22px;
+  border-radius:16px;
   text-align:center;
   box-shadow:0 6px 18px rgba(0,0,0,.08);
   position:relative;
@@ -122,39 +114,29 @@ main{
 
 .selo{
   position:absolute;
-  top:14px;
-  right:14px;
+  top:12px;
+  right:12px;
   background:var(--azul);
   color:#fff;
   padding:6px 10px;
   border-radius:20px;
   font-size:12px;
-  font-weight:bold;
 }
 
-.nome{margin-top:10px;font-size:18px;font-weight:bold}
-.profissao{color:#666;margin:6px 0}
-.cidade{font-size:14px;color:#888}
-.distancia{margin-top:6px;font-weight:bold;color:var(--azul)}
-
-.botao{
-  margin-top:10px;
-  display:block;
-  padding:10px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:bold;
-  font-size:14px;
+.cta-prestador{
+  background:linear-gradient(135deg,var(--azul),#0f2c6e);
+  color:#fff;
+  margin:40px 16px;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
 }
 
-.botao-whatsapp{background:var(--whatsapp);color:#fff}
-.botao-avaliar{background:var(--azul);color:#fff}
+.cta-prestador h2{margin-top:0}
 
 footer{
-  margin-top:40px;
-  padding:20px;
   text-align:center;
-  font-size:14px;
+  padding:20px;
   color:#666;
 }
 </style>
@@ -163,132 +145,82 @@ footer{
 <body>
 
 <header>
-  <h1>
-    <span class="logo-ajuda">AJUDA</span><span class="logo-ai">AI</span>
-  </h1>
+  <h1><span class="logo-ajuda">AJUDA</span><span class="logo-ai">AI</span></h1>
 
-  <div class="descricao-premium">
-    <strong>AJUDAAI conecta você a prestadores de serviços verificados perto de você.</strong><br>
-    Encontre profissionais locais, veja avaliações reais e fale direto pelo WhatsApp — rápido, simples e gratuito.
+  <div class="hero-text">
+    Encontre prestadores de serviços confiáveis perto de você.<br>
+    Rápido, simples e direto pelo WhatsApp.
   </div>
 
-  <div class="acoes-topo">
-    <button class="btn-azul" onclick="ativarLocalizacao()">📍 Perto de mim</button>
-    <button class="btn-outline" onclick="expandirMapa()">🗺️ Ver mapa</button>
+  <div class="hero-actions">
+    <input id="busca" placeholder="Buscar serviço ou cidade">
+    <button class="btn-amarelo" onclick="buscar()">Buscar</button>
+    <button class="btn-azul" onclick="localizacao()">📍 Perto de mim</button>
+    <button class="btn-outline" onclick="alert('Cadastro de prestadores em breve')">
+      Sou prestador
+    </button>
   </div>
 </header>
 
 <section class="como-funciona">
-  <div class="como-item">
-    <strong>📍 Encontre perto de você</strong>
-    Profissionais locais com base na sua localização
-  </div>
-  <div class="como-item">
-    <strong>⭐ Avaliações reais</strong>
-    Veja notas e experiência de outros clientes
-  </div>
-  <div class="como-item">
-    <strong>💬 Contato direto</strong>
-    Fale com o prestador pelo WhatsApp
-  </div>
+  <div class="card-info">📍 <strong>Encontre perto de você</strong><br>Profissionais locais</div>
+  <div class="card-info">⭐ <strong>Avaliações reais</strong><br>Mais confiança</div>
+  <div class="card-info">💬 <strong>Contato direto</strong><br>Sem intermediários</div>
 </section>
 
 <div id="map"></div>
 
-<main>
-  <section class="cards" id="listaPrestadores"></section>
-</main>
+<section class="cards" id="lista"></section>
+
+<section class="cta-prestador">
+  <h2>É prestador de serviços?</h2>
+  <p>Cadastre-se gratuitamente e comece a receber clientes.</p>
+  <button class="btn-amarelo" onclick="alert('Cadastro em breve')">
+    Quero me cadastrar
+  </button>
+</section>
 
 <footer>
   © 2026 AJUDAAI — Todos os direitos reservados
 </footer>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script>
-const URL_JSON="https://raw.githubusercontent.com/willianwhs/ajudaai/main/prestadores.json";
-let prestadores=[];
-let map=L.map('map').setView([-15.8,-47.9],4);
-let markers=[];
+const URL="https://raw.githubusercontent.com/willianwhs/ajudaai/main/prestadores.json";
+let dados=[],map=L.map('map').setView([-15.8,-47.9],4),markers=[];
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+fetch(URL).then(r=>r.json()).then(d=>dados=d);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-  attribution:'© OpenStreetMap'
-}).addTo(map);
-
-function limparMapa(){
-  markers.forEach(m=>map.removeLayer(m));
-  markers=[];
+function buscar(){
+  const t=document.getElementById("busca").value.toLowerCase();
+  mostrar(dados.filter(p=>p.servico.toLowerCase().includes(t)||p.cidade.toLowerCase().includes(t)));
 }
 
-function calcularDistancia(lat1,lng1,lat2,lng2){
-  const R=6371;
-  const dLat=(lat2-lat1)*Math.PI/180;
-  const dLng=(lng2-lng1)*Math.PI/180;
-  const a=Math.sin(dLat/2)**2+
-  Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
-  Math.sin(dLng/2)**2;
-  return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
-}
-
-fetch(URL_JSON)
-.then(r=>r.json())
-.then(d=>{
-  prestadores=d;
-  renderPrestadores(prestadores);
-  atualizarMapa(prestadores);
-});
-
-function atualizarMapa(lista){
-  limparMapa();
-  lista.forEach(p=>{
-    if(p.lat && p.lng){
-      const m=L.marker([p.lat,p.lng]).addTo(map)
-      .bindPopup(`<b>${p.nome}</b><br>${p.servico}`);
-      markers.push(m);
-    }
-  });
-}
-
-function ativarLocalizacao(){
+function localizacao(){
   navigator.geolocation.getCurrentPosition(pos=>{
-    const ulat=pos.coords.latitude;
-    const ulng=pos.coords.longitude;
-
-    prestadores.forEach(p=>{
-      if(p.lat && p.lng){
-        p.distancia=calcularDistancia(ulat,ulng,p.lat,p.lng);
-      }
+    dados.forEach(p=>{
+      p.dist=Math.hypot(pos.coords.latitude-p.lat,pos.coords.longitude-p.lng);
     });
-
-    prestadores.sort((a,b)=>(a.distancia||999)-(b.distancia||999));
-    map.setView([ulat,ulng],12);
-    renderPrestadores(prestadores);
-    atualizarMapa(prestadores);
+    dados.sort((a,b)=>a.dist-b.dist);
+    mostrar(dados);
+    map.setView([pos.coords.latitude,pos.coords.longitude],12);
   });
 }
 
-function expandirMapa(){
-  window.open("https://www.openstreetmap.org","#","_blank");
-}
-
-function renderPrestadores(lista){
-  const c=document.getElementById("listaPrestadores");
+function mostrar(lista){
+  document.querySelector(".cards").style.display="grid";
+  const c=document.getElementById("lista");
   c.innerHTML="";
+  markers.forEach(m=>map.removeLayer(m));markers=[];
   lista.forEach(p=>{
-    const estrelas=p.media?"⭐".repeat(Math.round(p.media)):"Sem avaliações";
-    const dist=p.distancia?`📍 ${p.distancia.toFixed(1)} km`:"";
-    c.innerHTML+=`
-      <div class="card">
-        ${p.verificado?'<div class="selo">✔ Verificado</div>':''}
-        <div class="nome">${p.nome}</div>
-        <div class="profissao">${p.servico}</div>
-        <div class="cidade">${p.cidade}</div>
-        <div class="distancia">${dist}</div>
-        <div>${estrelas}</div>
-        <a class="botao botao-whatsapp" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
-        <a class="botao botao-avaliar" href="#" target="_blank">Avaliar</a>
-      </div>
-    `;
+    if(p.lat&&p.lng){
+      markers.push(L.marker([p.lat,p.lng]).addTo(map));
+    }
+    c.innerHTML+=`<div class="card">
+      ${p.verificado?'<div class="selo">✔ Verificado</div>':''}
+      <strong>${p.nome}</strong><br>${p.servico}<br>${p.cidade}
+      <a class="botao btn-azul" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
+    </div>`;
   });
 }
 </script>
