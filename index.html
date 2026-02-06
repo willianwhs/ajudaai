@@ -3,221 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AjudaAi — Serviços perto de você</title>
+<title>AJUDAAI — Profissionais perto de você</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <style>
 :root{
---azul:#1E3A8A;
---amarelo:#FFC107;
---cinza:#f4f6f8;
---whatsapp:#25D366;
+  --amarelo:#FFC107;
+  --azul:#1E3A8A;
+  --cinza:#f4f6f8;
+  --escuro:#222;
+  --whatsapp:#25D366;
 }
-body{margin:0;font-family:Arial;background:var(--cinza);color:#222}
 
-/* HEADER */
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--cinza);color:var(--escuro)}
+
 header{
-background:#fff;
-padding:30px 20px;
-text-align:center;
-border-bottom:4px solid var(--amarelo);
+  background:#fff;
+  padding:40px 16px 30px;
+  text-align:center;
+  border-bottom:3px solid var(--amarelo);
 }
-header h1{margin:0;font-size:36px;font-weight:800}
-.logo1{color:var(--azul)}
-.logo2{color:var(--amarelo)}
-header p{margin:12px auto;max-width:600px;font-size:18px}
-.header-buttons{
-margin-top:20px;
-display:flex;
-justify-content:center;
-gap:12px;
-flex-wrap:wrap;
+
+h1{margin:0;font-size:36px;font-weight:800;letter-spacing:2px}
+.logo-ajuda{color:var(--azul)}
+.logo-ai{color:var(--amarelo)}
+
+.hero-text{
+  max-width:760px;
+  margin:18px auto 0;
+  font-size:18px;
+  color:#555;
+  line-height:1.6;
 }
-.btn{
-padding:14px 20px;
-border-radius:12px;
-border:none;
-font-weight:bold;
-cursor:pointer;
+
+.hero-actions{
+  margin-top:24px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
 }
+
+input{
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  min-width:260px;
+}
+
+button{
+  border:none;
+  padding:14px 18px;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
 .btn-azul{background:var(--azul);color:#fff}
 .btn-amarelo{background:var(--amarelo);color:#000}
-
-/* MENU */
-.menu{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-justify-content:center;
-padding:20px;
-}
-.menu input{
-padding:12px;
-border-radius:10px;
-border:1px solid #ccc;
-min-width:240px;
-}
-.menu button{
-padding:12px 16px;
-border-radius:10px;
-border:none;
-cursor:pointer;
-font-weight:bold;
+.btn-outline{
+  background:#fff;
+  border:2px solid var(--azul);
+  color:var(--azul);
 }
 
-/* MAPA */
+.como-funciona{
+  max-width:1100px;
+  margin:30px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  padding:0 16px;
+}
+
+.card-info{
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
+  text-align:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
 #map{
-max-width:1100px;
-margin:20px auto;
-height:260px;
-border-radius:14px;
-display:none;
+  height:200px;
+  max-width:1100px;
+  margin:20px auto;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-/* CARDS */
 .cards{
-max-width:1100px;
-margin:20px auto;
-padding:20px;
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-gap:20px;
+  display:none;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:22px;
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
 }
+
 .card{
-background:#fff;
-padding:20px;
-border-radius:16px;
-text-align:center;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-position:relative;
+  background:#fff;
+  padding:22px;
+  border-radius:16px;
+  text-align:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  position:relative;
 }
+
 .selo{
-position:absolute;
-top:10px;
-right:10px;
-background:var(--azul);
-color:#fff;
-padding:4px 10px;
-border-radius:20px;
-font-size:12px;
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:var(--azul);
+  color:#fff;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
 }
-.distancia{
-margin:6px 0;
-font-weight:bold;
-color:var(--azul);
+
+.cta-prestador{
+  background:linear-gradient(135deg,var(--azul),#0f2c6e);
+  color:#fff;
+  margin:40px 16px;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
 }
-.botao{
-display:block;
-margin-top:8px;
-padding:12px;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
+
+.cta-prestador h2{margin-top:0}
+
+footer{
+  text-align:center;
+  padding:20px;
+  color:#666;
 }
-.whatsapp{background:var(--whatsapp);color:#fff}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1><span class="logo1">Ajuda</span><span class="logo2">Ai</span></h1>
-<p>Encontre prestadores de serviços confiáveis perto de você, em poucos cliques.</p>
+  <h1><span class="logo-ajuda">AJUDA</span><span class="logo-ai">AI</span></h1>
 
-<div class="header-buttons">
-<button class="btn btn-azul" onclick="ativarLocalizacao()">📍 Perto de mim</button>
-<button class="btn btn-amarelo" onclick="alert('Cadastro em breve')">Sou prestador</button>
-</div>
+  <div class="hero-text">
+    Encontre prestadores de serviços confiáveis perto de você.<br>
+    Rápido, simples e direto pelo WhatsApp.
+  </div>
+
+  <div class="hero-actions">
+    <input id="busca" placeholder="Buscar serviço ou cidade">
+    <button class="btn-amarelo" onclick="buscar()">Buscar</button>
+    <button class="btn-azul" onclick="localizacao()">📍 Perto de mim</button>
+    <button class="btn-outline" onclick="alert('Cadastro de prestadores em breve')">
+      Sou prestador
+    </button>
+  </div>
 </header>
 
-<div class="menu">
-<input id="busca" placeholder="Buscar serviço ou cidade">
-<button onclick="buscar()">Buscar</button>
-<button onclick="verificados()">✔ Verificados</button>
-<button onclick="resetar()">Limpar</button>
-</div>
+<section class="como-funciona">
+  <div class="card-info">📍 <strong>Encontre perto de você</strong><br>Profissionais locais</div>
+  <div class="card-info">⭐ <strong>Avaliações reais</strong><br>Mais confiança</div>
+  <div class="card-info">💬 <strong>Contato direto</strong><br>Sem intermediários</div>
+</section>
 
 <div id="map"></div>
-<div class="cards" id="lista"></div>
+
+<section class="cards" id="lista"></section>
+
+<section class="cta-prestador">
+  <h2>É prestador de serviços?</h2>
+  <p>Cadastre-se gratuitamente e comece a receber clientes.</p>
+  <button class="btn-amarelo" onclick="alert('Cadastro em breve')">
+    Quero me cadastrar
+  </button>
+</section>
+
+<footer>
+  © 2026 AJUDAAI — Todos os direitos reservados
+</footer>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
 <script>
 const URL="https://raw.githubusercontent.com/willianwhs/ajudaai/main/prestadores.json";
-let prestadores=[], map, markers=[];
-
-fetch(URL).then(r=>r.json()).then(d=>prestadores=d);
-
-function calcularDistancia(lat1,lng1,lat2,lng2){
-const R=6371;
-const dLat=(lat2-lat1)*Math.PI/180;
-const dLng=(lng2-lng1)*Math.PI/180;
-const a=Math.sin(dLat/2)**2+
-Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
-Math.sin(dLng/2)**2;
-return R*(2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
-}
-
-function ativarLocalizacao(){
-navigator.geolocation.getCurrentPosition(pos=>{
-prestadores.forEach(p=>{
-p.distancia=calcularDistancia(pos.coords.latitude,pos.coords.longitude,p.lat,p.lng);
-});
-prestadores.sort((a,b)=>a.distancia-b.distancia);
-mostrar(prestadores,true);
-});
-}
+let dados=[],map=L.map('map').setView([-15.8,-47.9],4),markers=[];
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+fetch(URL).then(r=>r.json()).then(d=>dados=d);
 
 function buscar(){
-const t=document.getElementById("busca").value.trim().toLowerCase();
-const r=prestadores.filter(p=>
-p.nome.toLowerCase().includes(t)||
-p.servico.toLowerCase().includes(t)||
-p.cidade.toLowerCase().includes(t)
-);
-mostrar(r,true);
+  const t=document.getElementById("busca").value.toLowerCase();
+  mostrar(dados.filter(p=>p.servico.toLowerCase().includes(t)||p.cidade.toLowerCase().includes(t)));
 }
 
-function verificados(){
-mostrar(prestadores.filter(p=>p.verificado),true);
+function localizacao(){
+  navigator.geolocation.getCurrentPosition(pos=>{
+    dados.forEach(p=>{
+      p.dist=Math.hypot(pos.coords.latitude-p.lat,pos.coords.longitude-p.lng);
+    });
+    dados.sort((a,b)=>a.dist-b.dist);
+    mostrar(dados);
+    map.setView([pos.coords.latitude,pos.coords.longitude],12);
+  });
 }
 
-function resetar(){
-document.getElementById("lista").innerHTML="";
-document.getElementById("map").style.display="none";
-}
-
-function mostrar(lista,mostrarMapa){
-const c=document.getElementById("lista");
-c.innerHTML="";
-lista.forEach(p=>{
-c.innerHTML+=`
-<div class="card">
-${p.verificado?'<div class="selo">✔ Verificado</div>':''}
-<h3>${p.nome}</h3>
-<div>${p.servico}</div>
-<div>${p.cidade}</div>
-<div class="distancia">${p.distancia?`📍 ${p.distancia.toFixed(1)} km`:''}</div>
-<div>${"⭐".repeat(p.media||0)}</div>
-<a class="botao whatsapp" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
-</div>`;
-});
-if(mostrarMapa) desenharMapa(lista);
-}
-
-function desenharMapa(lista){
-document.getElementById("map").style.display="block";
-if(!map){
-map=L.map('map').setView([-22.9,-47],6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-}
-markers.forEach(m=>map.removeLayer(m));
-markers=[];
-lista.forEach(p=>{
-const m=L.marker([p.lat,p.lng]).addTo(map).bindPopup(p.nome);
-markers.push(m);
-});
-if(lista[0]) map.setView([lista[0].lat,lista[0].lng],12);
+function mostrar(lista){
+  document.querySelector(".cards").style.display="grid";
+  const c=document.getElementById("lista");
+  c.innerHTML="";
+  markers.forEach(m=>map.removeLayer(m));markers=[];
+  lista.forEach(p=>{
+    if(p.lat&&p.lng){
+      markers.push(L.marker([p.lat,p.lng]).addTo(map));
+    }
+    c.innerHTML+=`<div class="card">
+      ${p.verificado?'<div class="selo">✔ Verificado</div>':''}
+      <strong>${p.nome}</strong><br>${p.servico}<br>${p.cidade}
+      <a class="botao btn-azul" href="https://wa.me/55${p.whatsapp}" target="_blank">WhatsApp</a>
+    </div>`;
+  });
 }
 </script>
 
