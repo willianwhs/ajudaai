@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+</body>
+</html><!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -67,6 +69,16 @@ button{
   background:#fff;
   border:2px solid var(--azul);
   color:var(--azul);
+}
+
+.botao-whatsapp{
+  display:inline-block;
+  background:var(--whatsapp);
+  color:#fff;
+  padding:12px 14px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
 }
 
 .como-funciona{
@@ -156,8 +168,6 @@ footer{
     <input id="busca" placeholder="Buscar serviço ou cidade">
     <button class="btn-amarelo" onclick="buscar()">Buscar</button>
     <button class="btn-azul" onclick="localizacao()">📍 Perto de mim</button>
-
-    <!-- ÚNICA ADIÇÃO FUNCIONAL -->
     <a href="cadastro.html">
       <button class="btn-outline">Sou prestador</button>
     </a>
@@ -227,7 +237,7 @@ function mostrar(lista){
       <strong>${p.nome}</strong><br>
       ${p.servico}<br>
       ${p.cidade}<br><br>
-      <a class="btn-azul" href="https://wa.me/55${p.whatsapp}" target="_blank">
+      <a class="botao-whatsapp" href="https://wa.me/55${p.whatsapp}" target="_blank">
         WhatsApp
       </a>
     </div>`;
