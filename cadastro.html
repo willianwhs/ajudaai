@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Prestador — AJUDAAI</title>
+
+<style>
+:root{
+  --amarelo:#FFC107;
+  --azul:#1E3A8A;
+  --cinza:#f4f6f8;
+  --escuro:#222;
+}
+
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+
+body{
+  margin:0;
+  background:var(--cinza);
+  color:var(--escuro);
+}
+
+header{
+  background:#fff;
+  padding:24px;
+  text-align:center;
+  border-bottom:3px solid var(--amarelo);
+}
+
+h1{
+  margin:0;
+  font-size:28px;
+  font-weight:800;
+}
+
+.container{
+  max-width:520px;
+  background:#fff;
+  margin:30px auto;
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+label{
+  display:block;
+  margin-top:16px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-top:6px;
+  border-radius:12px;
+  border:1px solid #ddd;
+}
+
+button{
+  margin-top:24px;
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  background:var(--azul);
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.status{
+  margin-top:20px;
+  font-size:14px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Cadastro de Prestador</h1>
+  <p>Entre gratuitamente na plataforma AJUDAAI</p>
+</header>
+
+<div class="container">
+  <form id="form">
+
+    <label>Nome completo</label>
+    <input required name="nome">
+
+    <label>Serviço</label>
+    <input required name="servico" placeholder="Ex: Eletricista">
+
+    <label>Cidade</label>
+    <input required name="cidade">
+
+    <label>WhatsApp</label>
+    <input required name="whatsapp" placeholder="DDD + número">
+
+    <input type="hidden" name="lat">
+    <input type="hidden" name="lng">
+
+    <button type="submit">Finalizar cadastro</button>
+
+    <div class="status" id="status"></div>
+  </form>
+</div>
+
+<script>
+const WEBHOOK_URL = "COLE_AQUI_SEU_WEBHOOK_DO_MAKE";
+
+navigator.geolocation.getCurrentPosition(pos=>{
+  document.querySelector('[name="lat"]').value = pos.coords.latitude;
+  document.querySelector('[name="lng"]').value = pos.coords.longitude;
+});
+
+document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault();
+
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  document.getElementById("status").innerText = "Enviando cadastro...";
+
+  fetch(WEBHOOK_URL,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(()=> {
+    document.getElementById("status").innerText =
+      "Cadastro enviado com sucesso! Em breve você aparecerá no site.";
+    form.reset();
+  })
+  .catch(()=>{
+    document.getElementById("status").innerText =
+      "Erro ao enviar. Tente novamente.";
+  });
+});
+</script>
+
+</body>
+</html>
