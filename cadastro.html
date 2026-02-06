@@ -6,181 +6,112 @@
 <title>Cadastro de Prestador — AJUDAAI</title>
 
 <style>
-:root{
-  --amarelo:#FFC107;
-  --azul:#1E3A8A;
-  --cinza:#f4f6f8;
-  --escuro:#222;
-}
-
-*{
-  box-sizing:border-box;
-  font-family:Arial,Helvetica,sans-serif;
-}
-
 body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f6f8;
   margin:0;
-  background:var(--cinza);
-  color:var(--escuro);
-}
-
-header{
-  background:#fff;
-  padding:26px 16px;
-  text-align:center;
-  border-bottom:3px solid var(--amarelo);
-}
-
-header h1{
-  margin:0;
-  font-size:28px;
-  font-weight:800;
-}
-
-header p{
-  margin-top:8px;
-  color:#555;
+  padding:20px;
 }
 
 .container{
-  max-width:520px;
+  max-width:500px;
+  margin:auto;
   background:#fff;
-  margin:30px auto;
-  padding:30px;
-  border-radius:18px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
 }
 
-label{
-  display:block;
-  margin-top:16px;
-  font-weight:bold;
+h2{
+  text-align:center;
+  margin-bottom:20px;
 }
 
-input{
+input,button{
   width:100%;
   padding:14px;
-  margin-top:6px;
-  border-radius:12px;
+  margin-top:10px;
+  border-radius:10px;
   border:1px solid #ddd;
-  font-size:15px;
+  font-size:16px;
 }
 
 button{
-  margin-top:26px;
-  width:100%;
-  padding:16px;
+  background:#FFC107;
   border:none;
-  border-radius:14px;
-  background:var(--azul);
-  color:#fff;
-  font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
 
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
 .status{
-  margin-top:20px;
+  text-align:center;
   font-size:14px;
-  text-align:center;
-}
-
-.voltar{
-  margin-top:20px;
-  text-align:center;
-}
-
-.voltar a{
-  text-decoration:none;
-  color:var(--azul);
-  font-weight:bold;
+  margin-top:10px;
+  color:#555;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Cadastro de Prestador</h1>
-  <p>Cadastre-se gratuitamente na plataforma AJUDAAI</p>
-</header>
-
 <div class="container">
-  <form id="form">
+<h2>Cadastro de Prestador</h2>
 
-    <label>Nome completo</label>
-    <input name="nome" required>
+<form id="formCadastro">
 
-    <label>Serviço</label>
-    <input name="servico" required placeholder="Ex: Eletricista, Pedreiro">
+<input name="nome" placeholder="Seu nome" required>
+<input name="servico" placeholder="Serviço prestado" required>
+<input name="cidade" placeholder="Cidade" required>
+<input name="whatsapp" placeholder="WhatsApp com DDD" required>
 
-    <label>Cidade</label>
-    <input name="cidade" required>
+<!-- Campos ocultos GPS -->
+<input type="hidden" name="lat" id="lat">
+<input type="hidden" name="lng" id="lng">
 
-    <label>WhatsApp</label>
-    <input name="whatsapp" required placeholder="DDD + número">
+<button type="submit">Cadastrar</button>
 
-    <!-- Localização automática -->
-    <input type="hidden" name="lat">
-    <input type="hidden" name="lng">
+<div class="status" id="status">📍 Obtendo localização...</div>
 
-    <button id="btn" type="submit">Finalizar cadastro</button>
-
-    <div class="status" id="status"></div>
-  </form>
-
-  <div class="voltar">
-    <a href="index.html">← Voltar para o site</a>
-  </div>
+</form>
 </div>
 
 <script>
-// 🔑 WEBHOOK MAKE (já configurado)
-const WEBHOOK_URL = "https://hook.us2.make.com/rmdusinc4e6pg1akovep4zrd6rw1fpyw";
+const WEBHOOK = "https://hook.us2.make.com/rmdusinc4e6pg1akovep4zrd6rw1fpyw";
 
-// Captura localização automaticamente
+const statusTxt = document.getElementById("status");
+
+
+// 📍 CAPTURA GPS AUTOMÁTICO
 navigator.geolocation.getCurrentPosition(
-  pos => {
-    document.querySelector('[name="lat"]').value = pos.coords.latitude;
-    document.querySelector('[name="lng"]').value = pos.coords.longitude;
+  pos=>{
+    document.getElementById("lat").value = pos.coords.latitude;
+    document.getElementById("lng").value = pos.coords.longitude;
+
+    statusTxt.innerHTML = "✅ Localização capturada automaticamente";
   },
-  () => {
-    document.getElementById("status").innerText =
-      "⚠️ Permita a localização para aparecer no site.";
+  ()=>{
+    statusTxt.innerHTML = "⚠️ Não foi possível capturar localização (cadastro ainda funciona)";
   }
 );
 
-document.getElementById("form").addEventListener("submit", e => {
+
+// 🚀 ENVIO PARA MAKE
+document.getElementById("formCadastro").addEventListener("submit", async e=>{
   e.preventDefault();
 
-  const btn = document.getElementById("btn");
-  const status = document.getElementById("status");
+  const form = new FormData(e.target);
 
-  btn.disabled = true;
-  status.innerText = "⏳ Enviando cadastro...";
+  const dados = {};
+  form.forEach((v,k)=>dados[k]=v);
 
-  const data = Object.fromEntries(new FormData(e.target).entries());
-
-  fetch(WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  })
-  .then(() => {
-    status.innerText =
-      "✅ Cadastro enviado com sucesso! Em breve você aparecerá no site.";
-    e.target.reset();
-  })
-  .catch(() => {
-    status.innerText =
-      "❌ Erro ao enviar. Tente novamente.";
-    btn.disabled = false;
+  await fetch(WEBHOOK,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify(dados)
   });
+
+  statusTxt.innerHTML="✅ Cadastro enviado com sucesso!";
+  e.target.reset();
 });
 </script>
 
