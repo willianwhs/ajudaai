@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ajuda Aí — Serviços perto de você</title>
+<title>Ajuda Aí — Profissionais confiáveis perto de você</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -11,75 +11,44 @@
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:#f9fbfd;
+background:#fffdf7;
 color:#1c2b36;
 }
 
-/* MENU */
-header{
+/* NAVBAR */
+.navbar{
 position:fixed;
 top:0;
 width:100%;
 background:white;
-box-shadow:0 2px 12px rgba(0,0,0,0.05);
-z-index:999;
-}
-
-.nav{
-max-width:1200px;
-margin:auto;
+box-shadow:0 4px 20px rgba(0,0,0,0.06);
+padding:14px 40px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:14px 20px;
+z-index:999;
 }
 
-/* LOGO ORIGINAL */
 .logo{
 font-weight:700;
-font-size:26px;
-}
-
-.logo span.azul{
+font-size:22px;
 color:#2D9CDB;
 }
 
-.logo span.amarelo{
-color:#FFB800;
-}
-
-/* MENU */
 .menu a{
 margin-left:24px;
 text-decoration:none;
-color:#2F3A45;
-font-weight:500;
-}
-
-.btn-cadastrar{
-background:#FFB800;
 color:#1c2b36;
-padding:9px 18px;
-border-radius:10px;
-font-weight:700;
+font-weight:500;
 }
 
 /* HERO */
 .hero{
 padding-top:120px;
-padding-bottom:80px;
-background:linear-gradient(180deg,#eaf6fd,#ffffff);
+padding-bottom:100px;
+background:linear-gradient(135deg,#2D9CDB 0%,#56CCF2 100%);
 text-align:center;
-}
-
-.hero h1{
-font-size:38px;
-margin-bottom:10px;
-}
-
-.hero p{
-color:#5b6b76;
-margin-bottom:30px;
+color:white;
 }
 
 .search-box{
@@ -87,283 +56,318 @@ display:flex;
 justify-content:center;
 gap:10px;
 flex-wrap:wrap;
+background:white;
+padding:14px;
+border-radius:16px;
+box-shadow:0 12px 40px rgba(0,0,0,0.12);
+margin-top:30px;
 }
 
 .search-box input{
-padding:14px;
+padding:12px;
 border-radius:10px;
-border:1px solid #d9e4ec;
-width:260px;
+border:1px solid #e0e6ed;
+min-width:200px;
 }
 
-.search-box button{
-padding:14px 20px;
-border:none;
-border-radius:10px;
+.btn{
 background:#FFB800;
-color:#1c2b36;
-font-weight:700;
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
 cursor:pointer;
 }
 
-/* SEÇÕES */
+.btn:hover{
+background:#e0a700;
+}
+
+/* SECTIONS */
 .section{
 max-width:1200px;
 margin:auto;
-padding:70px 20px;
+padding:90px 20px;
 }
 
 h2{
-margin-bottom:24px;
+margin-bottom:30px;
 }
 
-/* CARDS */
-.cards{
+/* CATEGORIAS */
+.categorias-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:20px;
 }
 
-.card{
+.categoria{
 background:white;
 border-radius:16px;
 padding:20px;
+text-align:center;
 box-shadow:0 8px 20px rgba(0,0,0,0.05);
+cursor:pointer;
 transition:0.3s;
 }
 
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 12px 28px rgba(0,0,0,0.08);
-border:1px solid #FFB80033;
+.categoria:hover{
+transform:translateY(-5px);
+border:1px solid #FFB800;
 }
 
 /* FEED */
 .feed{
-background:#f3f8fc;
+background:linear-gradient(180deg,#f0f7fd,#e6f3fb);
 padding:30px;
-border-radius:20px;
+border-radius:24px;
+box-shadow:0 10px 30px rgba(0,0,0,0.06);
 }
 
-.feed-top{
-display:flex;
-justify-content:space-between;
-margin-bottom:16px;
-flex-wrap:wrap;
-gap:10px;
+.feed textarea{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #e0e6ed;
 }
 
-.feed-top button{
-background:#2D9CDB;
-border:none;
-color:white;
-padding:10px 16px;
-border-radius:8px;
-cursor:pointer;
-}
-
-.pedido{
+.post{
 background:white;
 padding:16px;
-border-radius:12px;
-margin-bottom:12px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+border-radius:14px;
+margin-top:14px;
+box-shadow:0 6px 18px rgba(0,0,0,0.06);
 }
 
-.pedido button{
-background:#FFB800;
-border:none;
-color:#1c2b36;
-padding:8px 14px;
-border-radius:8px;
-font-weight:700;
-}
-
-/* AVALIAÇÕES */
-.avaliacao{
-display:flex;
-align-items:center;
-gap:10px;
-margin-top:10px;
-}
-
-.stars{
-color:#FFB800;
-}
-
-/* COMO FUNCIONA */
-.passos{
+/* PROFISSIONAIS */
+.cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
 }
 
-.passo{
+.card{
 background:white;
-padding:20px;
-border-radius:16px;
-box-shadow:0 8px 20px rgba(0,0,0,0.05);
+border-radius:18px;
+padding:22px;
+box-shadow:0 10px 26px rgba(0,0,0,0.06);
+transition:0.3s;
+border:1px solid #f1f3f6;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 18px 40px rgba(0,0,0,0.12);
+border:1px solid #FFB80055;
+}
+
+.avaliacao{
+color:#FFB800;
+font-weight:600;
+}
+
+/* CTA */
+.cta{
+background:linear-gradient(135deg,#FFB800,#FFD54F);
+padding:50px;
+border-radius:24px;
+text-align:center;
+color:#1c2b36;
+box-shadow:0 12px 30px rgba(255,184,0,0.25);
 }
 
 /* SOBRE */
 .sobre{
-background:#fff8e6;
-border-radius:20px;
-padding:30px;
+background:#f4f7fa;
+border-radius:24px;
+padding:40px;
 }
 
-/* ANIMAÇÃO */
-.fade{
-opacity:0;
-transform:translateY(20px);
-transition:0.6s;
+/* FOOTER */
+footer{
+background:#0f2a3d;
+color:white;
+padding:50px 20px;
+margin-top:80px;
 }
 
-.fade.show{
-opacity:1;
-transform:translateY(0);
+footer .container{
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
 }
 
+footer h4{
+margin-bottom:12px;
+}
+
+footer a{
+color:#cfe7f7;
+text-decoration:none;
+display:block;
+margin-bottom:6px;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="nav">
-
-<div class="logo">
-<span class="azul">Ajuda</span> <span class="amarelo">Aí</span>
-</div>
-
+<!-- NAVBAR -->
+<div class="navbar">
+<div class="logo">Ajuda Aí</div>
 <div class="menu">
 <a href="#categorias">Categorias</a>
-<a href="#como">Como funciona</a>
-<a href="#prestadores">Prestadores</a>
+<a href="#feed">Pedidos</a>
+<a href="#profissionais">Profissionais</a>
+<a href="#cadastro">Cadastrar</a>
 <a href="#sobre">Sobre</a>
-<a href="#cadastro" class="btn-cadastrar">Cadastrar</a>
+</div>
 </div>
 
-</div>
-</header>
-
-<section class="hero fade">
+<!-- HERO -->
+<section class="hero">
 <h1>Encontre profissionais confiáveis perto de você</h1>
-<p>Rápido, seguro e sem complicação</p>
+<p>Prestadores verificados e avaliados na sua cidade</p>
 
 <div class="search-box">
-<input type="text" placeholder="Qual serviço você precisa?">
-<input type="text" id="local" placeholder="Sua localização">
-<button onclick="usarLocalizacao()">Perto de mim</button>
+<input id="cidade" placeholder="Digite sua cidade">
+<input id="servico" placeholder="Serviço (ex: encanador)">
+<button class="btn" onclick="buscar()">Buscar</button>
+<button class="btn" onclick="pertoDeMim()">Perto de mim</button>
 </div>
 </section>
 
-<section id="categorias" class="section fade">
+<!-- CATEGORIAS -->
+<section id="categorias" class="section">
 <h2>Categorias populares</h2>
-<div class="cards">
-<div class="card">Encanador</div>
-<div class="card">Eletricista</div>
-<div class="card">Diarista</div>
-<div class="card">Pintor</div>
+<div class="categorias-grid">
+<div class="categoria">Eletricista</div>
+<div class="categoria">Encanador</div>
+<div class="categoria">Faxina</div>
+<div class="categoria">Pedreiro</div>
+<div class="categoria">Pintor</div>
+<div class="categoria">Jardinagem</div>
 </div>
 </section>
 
-<section class="section fade">
-<h2>Pedidos próximos de você</h2>
+<!-- FEED -->
+<section id="feed" class="section">
+<h2>Pedidos na sua região</h2>
 
 <div class="feed">
+<textarea id="pedidoTexto" placeholder="Ex: Preciso de encanador urgente no centro"></textarea>
+<br><br>
+<button class="btn" onclick="postar()">Publicar pedido</button>
 
-<div class="feed-top">
-<button onclick="usarLocalizacao()">Minha localização</button>
-<button>Publicar pedido</button>
-</div>
-
-<div class="pedido">
-<span>Encanador — Centro</span>
-<button>Atender</button>
-</div>
-
-<div class="pedido">
-<span>Diarista — Vila Nova</span>
-<button>Atender</button>
-</div>
-
-<div class="pedido">
-<span>Pintura — Jardim Sul</span>
-<button>Atender</button>
-</div>
-
+<div id="listaPedidos"></div>
 </div>
 </section>
 
-<section id="prestadores" class="section fade">
-<h2>Profissionais bem avaliados</h2>
+<!-- PROFISSIONAIS -->
+<section id="profissionais" class="section">
+<h2>Profissionais disponíveis</h2>
+<div class="cards" id="cards"></div>
+</section>
 
-<div class="cards">
-
-<div class="card">
-<strong>João — Encanador</strong>
-<div class="avaliacao">
-<div class="stars">★★★★★</div>
-<span>48 avaliações</span>
-</div>
-</div>
-
-<div class="card">
-<strong>Maria — Diarista</strong>
-<div class="avaliacao">
-<div class="stars">★★★★★</div>
-<span>32 avaliações</span>
-</div>
-</div>
-
+<!-- CTA -->
+<section id="cadastro" class="section">
+<div class="cta">
+<h2>Você é prestador de serviços?</h2>
+<p>Cadastre-se gratuitamente e receba pedidos na sua região.</p>
+<a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScadastro">Cadastrar agora</a>
 </div>
 </section>
 
-<section id="como" class="section fade">
-<h2>Como funciona</h2>
-<div class="passos">
-<div class="passo"><strong>1.</strong> Cliente publica pedido</div>
-<div class="passo"><strong>2.</strong> Profissionais próximos veem</div>
-<div class="passo"><strong>3.</strong> Serviço realizado</div>
-<div class="passo"><strong>4.</strong> Avaliação gera confiança</div>
-</div>
-</section>
-
-<section id="sobre" class="section fade">
+<!-- SOBRE -->
+<section id="sobre" class="section">
 <div class="sobre">
 <h2>Sobre o Ajuda Aí</h2>
-<p>O Ajuda Aí conecta clientes e prestadores locais com confiança, rapidez e avaliações reais. Nossa missão é facilitar a contratação de serviços próximos com segurança e qualidade.</p>
+<p>O Ajuda Aí conecta clientes e profissionais locais com confiança, avaliações reais e proximidade. Nossa missão é facilitar serviços do dia a dia com segurança e rapidez.</p>
 </div>
 </section>
 
-<section id="cadastro" class="section fade">
-<h2>Cadastre-se</h2>
-<p>Entre para a rede Ajuda Aí e comece a receber pedidos na sua região.</p>
-</section>
+<!-- FOOTER -->
+<footer>
+<div class="container">
+
+<div>
+<h4>Ajuda Aí</h4>
+<p>Conectando clientes e profissionais locais com confiança.</p>
+</div>
+
+<div>
+<h4>Plataforma</h4>
+<a href="#categorias">Categorias</a>
+<a href="#feed">Pedidos</a>
+<a href="#profissionais">Profissionais</a>
+</div>
+
+<div>
+<h4>Profissionais</h4>
+<a href="#cadastro">Cadastrar</a>
+<a href="#">Benefícios</a>
+<a href="#">Planos futuros</a>
+</div>
+
+<div>
+<h4>Empresa</h4>
+<a href="#sobre">Sobre</a>
+<a href="#">Contato</a>
+<a href="#">Termos</a>
+</div>
+
+</div>
+</footer>
 
 <script>
-function usarLocalizacao(){
+
+/* GEO */
+function pertoDeMim(){
 if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(pos){
-document.getElementById("local").value="Localização detectada";
+navigator.geolocation.getCurrentPosition(pos=>{
+alert("Localização capturada!");
 });
 }else{
 alert("Geolocalização não suportada");
 }
 }
 
-/* animação */
-const fades=document.querySelectorAll(".fade");
-window.addEventListener("scroll",()=>{
-fades.forEach(el=>{
-const top=el.getBoundingClientRect().top;
-if(top<window.innerHeight-80){
-el.classList.add("show");
+/* BUSCA */
+function buscar(){
+alert("Busca realizada!");
+}
+
+/* FEED */
+function postar(){
+let txt=document.getElementById("pedidoTexto").value;
+if(!txt)return;
+let div=document.createElement("div");
+div.className="post";
+div.innerText=txt;
+document.getElementById("listaPedidos").prepend(div);
+document.getElementById("pedidoTexto").value="";
+}
+
+/* PROFISSIONAIS JSON */
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTLS8pi42xxH00b_hymc4W8Vu3zTrepr35Vt2rSLlyWe2QABWUWhQTdj7KChWMpAS79m7HPUfLITJRA/pub?output=csv")
+.then(r=>r.text())
+.then(csv=>{
+let linhas=csv.split("\n").slice(1);
+let html="";
+linhas.forEach(l=>{
+let c=l.split(",");
+if(c.length>3){
+html+=`
+<div class="card">
+<h3>${c[0]}</h3>
+<p>${c[1]} — ${c[2]}</p>
+<p class="avaliacao">⭐ ${c[3]||"Novo"}</p>
+</div>`;
 }
 });
+document.getElementById("cards").innerHTML=html;
 });
 </script>
 
