@@ -3,25 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ajuda Aí — Serviços perto de você</title>
+<title>Ajuda Aí — Conectando pessoas com confiança</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+
+/* ==============================
+   IDENTIDADE VISUAL SUPREMA
+============================== */
+
+:root{
+--azul:#1F3C88;
+--azul-claro:#2D9CDB;
+--amarelo:#FFB800;
+--fundo:#f4f8fb;
+--texto:#1c2b36;
+--cinza:#6b7c8a;
+--sucesso:#27ae60;
+--erro:#e74c3c;
+}
+
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:#f9fbfd;
-color:#1c2b36;
+background:var(--fundo);
+color:var(--texto);
 }
 
-/* MENU */
+/* ==============================
+   HEADER PREMIUM
+============================== */
+
 header{
 position:fixed;
 top:0;
 width:100%;
 background:white;
-box-shadow:0 2px 12px rgba(0,0,0,0.05);
+box-shadow:0 4px 20px rgba(0,0,0,0.05);
 z-index:999;
 }
 
@@ -31,82 +50,56 @@ margin:auto;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:14px 20px;
+padding:16px 24px;
 }
 
-/* LOGO ORIGINAL */
 .logo{
-font-weight:700;
 font-size:26px;
+font-weight:700;
 }
 
-.logo span.azul{
-color:#2D9CDB;
-}
+.logo span:first-child{ color:var(--azul-claro); }
+.logo span:last-child{ color:var(--amarelo); }
 
-.logo span.amarelo{
-color:#FFB800;
-}
-
-/* MENU */
 .menu a{
-margin-left:24px;
+margin-left:22px;
 text-decoration:none;
-color:#2F3A45;
+color:var(--texto);
 font-weight:500;
 }
 
-.btn-cadastrar{
-background:#FFB800;
-color:#1c2b36;
-padding:9px 18px;
-border-radius:10px;
+.btn{
+background:var(--amarelo);
+padding:10px 18px;
+border-radius:12px;
 font-weight:700;
 }
 
-/* HERO */
+/* ==============================
+   HERO
+============================== */
+
 .hero{
-padding-top:120px;
+padding-top:130px;
 padding-bottom:80px;
-background:linear-gradient(180deg,#eaf6fd,#ffffff);
 text-align:center;
+background:linear-gradient(180deg,#eaf4fc,#ffffff);
 }
 
 .hero h1{
-font-size:38px;
-margin-bottom:10px;
+font-size:42px;
+margin-bottom:12px;
 }
 
 .hero p{
-color:#5b6b76;
+color:var(--cinza);
 margin-bottom:30px;
 }
 
-.search-box{
-display:flex;
-justify-content:center;
-gap:10px;
-flex-wrap:wrap;
-}
+/* ==============================
+   SEÇÕES
+============================== */
 
-.search-box input{
-padding:14px;
-border-radius:10px;
-border:1px solid #d9e4ec;
-width:260px;
-}
-
-.search-box button{
-padding:14px 20px;
-border:none;
-border-radius:10px;
-background:#FFB800;
-color:#1c2b36;
-font-weight:700;
-cursor:pointer;
-}
-
-/* SEÇÕES */
 .section{
 max-width:1200px;
 margin:auto;
@@ -114,107 +107,96 @@ padding:70px 20px;
 }
 
 h2{
-margin-bottom:24px;
+margin-bottom:30px;
 }
 
-/* CARDS */
+/* ==============================
+   CARDS
+============================== */
+
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:22px;
 }
 
 .card{
 background:white;
-border-radius:16px;
-padding:20px;
-box-shadow:0 8px 20px rgba(0,0,0,0.05);
+padding:24px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.06);
 transition:0.3s;
 }
 
 .card:hover{
 transform:translateY(-6px);
-box-shadow:0 12px 28px rgba(0,0,0,0.08);
-border:1px solid #FFB80033;
 }
 
-/* FEED */
-.feed{
-background:#f3f8fc;
+/* ==============================
+   FEED PROFISSIONAL
+============================== */
+
+.feed-container{
+background:white;
 padding:30px;
-border-radius:20px;
+border-radius:22px;
+box-shadow:0 10px 30px rgba(0,0,0,0.06);
 }
 
 .feed-top{
 display:flex;
 justify-content:space-between;
-margin-bottom:16px;
+margin-bottom:20px;
 flex-wrap:wrap;
 gap:10px;
 }
 
 .feed-top button{
-background:#2D9CDB;
+background:var(--azul-claro);
 border:none;
 color:white;
-padding:10px 16px;
-border-radius:8px;
+padding:10px 18px;
+border-radius:10px;
 cursor:pointer;
 }
 
 .pedido{
-background:white;
-padding:16px;
-border-radius:12px;
-margin-bottom:12px;
+background:var(--fundo);
+padding:18px;
+border-radius:14px;
+margin-bottom:14px;
 display:flex;
 justify-content:space-between;
 align-items:center;
 }
 
 .pedido button{
-background:#FFB800;
+background:var(--amarelo);
 border:none;
-color:#1c2b36;
 padding:8px 14px;
-border-radius:8px;
+border-radius:10px;
 font-weight:700;
+cursor:pointer;
 }
 
-/* AVALIAÇÕES */
-.avaliacao{
-display:flex;
-align-items:center;
-gap:10px;
-margin-top:10px;
-}
+/* ==============================
+   STATUS BADGE
+============================== */
 
-.stars{
-color:#FFB800;
-}
-
-/* COMO FUNCIONA */
-.passos{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
-}
-
-.passo{
-background:white;
-padding:20px;
-border-radius:16px;
-box-shadow:0 8px 20px rgba(0,0,0,0.05);
-}
-
-/* SOBRE */
-.sobre{
-background:#fff8e6;
+.badge{
+padding:6px 10px;
 border-radius:20px;
-padding:30px;
+font-size:12px;
+font-weight:600;
 }
 
-/* ANIMAÇÃO */
+.aberto{ background:#d4f5e0; color:#0f7b3a; }
+.atendido{ background:#ffe5e5; color:#c0392b; }
+
+/* ==============================
+   ANIMAÇÃO
+============================== */
+
 .fade{
 opacity:0;
 transform:translateY(20px);
@@ -233,138 +215,163 @@ transform:translateY(0);
 
 <header>
 <div class="nav">
-
 <div class="logo">
-<span class="azul">Ajuda</span> <span class="amarelo">Aí</span>
+<span>Ajuda</span> <span>Aí</span>
 </div>
 
 <div class="menu">
-<a href="#categorias">Categorias</a>
-<a href="#como">Como funciona</a>
+<a href="#feed">Pedidos</a>
 <a href="#prestadores">Prestadores</a>
-<a href="#sobre">Sobre</a>
-<a href="#cadastro" class="btn-cadastrar">Cadastrar</a>
+<a href="#como">Como funciona</a>
+<a href="#sobre" class="btn">Cadastrar</a>
 </div>
-
 </div>
 </header>
 
 <section class="hero fade">
-<h1>Encontre profissionais confiáveis perto de você</h1>
-<p>Rápido, seguro e sem complicação</p>
-
-<div class="search-box">
-<input type="text" placeholder="Qual serviço você precisa?">
-<input type="text" id="local" placeholder="Sua localização">
-<button onclick="usarLocalizacao()">Perto de mim</button>
-</div>
+<h1>Conectando clientes e profissionais com confiança real</h1>
+<p>Pedidos públicos. Profissionais acessam gratuitamente.</p>
 </section>
 
-<section id="categorias" class="section fade">
-<h2>Categorias populares</h2>
-<div class="cards">
-<div class="card">Encanador</div>
-<div class="card">Eletricista</div>
-<div class="card">Diarista</div>
-<div class="card">Pintor</div>
-</div>
-</section>
+<section id="feed" class="section fade">
+<h2>Pedidos disponíveis</h2>
 
-<section class="section fade">
-<h2>Pedidos próximos de você</h2>
-
-<div class="feed">
+<div class="feed-container">
 
 <div class="feed-top">
-<button onclick="usarLocalizacao()">Minha localização</button>
-<button>Publicar pedido</button>
+<button onclick="carregarPedidos()">Atualizar</button>
+<button onclick="abrirFormulario()">Publicar pedido</button>
 </div>
 
-<div class="pedido">
-<span>Encanador — Centro</span>
-<button>Atender</button>
-</div>
-
-<div class="pedido">
-<span>Diarista — Vila Nova</span>
-<button>Atender</button>
-</div>
-
-<div class="pedido">
-<span>Pintura — Jardim Sul</span>
-<button>Atender</button>
-</div>
+<div id="feed"></div>
 
 </div>
 </section>
 
 <section id="prestadores" class="section fade">
 <h2>Profissionais bem avaliados</h2>
-
-<div class="cards">
-
-<div class="card">
-<strong>João — Encanador</strong>
-<div class="avaliacao">
-<div class="stars">★★★★★</div>
-<span>48 avaliações</span>
-</div>
-</div>
-
-<div class="card">
-<strong>Maria — Diarista</strong>
-<div class="avaliacao">
-<div class="stars">★★★★★</div>
-<span>32 avaliações</span>
-</div>
-</div>
-
-</div>
+<div class="cards" id="listaPrestadores"></div>
 </section>
 
 <section id="como" class="section fade">
 <h2>Como funciona</h2>
-<div class="passos">
-<div class="passo"><strong>1.</strong> Cliente publica pedido</div>
-<div class="passo"><strong>2.</strong> Profissionais próximos veem</div>
-<div class="passo"><strong>3.</strong> Serviço realizado</div>
-<div class="passo"><strong>4.</strong> Avaliação gera confiança</div>
+<div class="cards">
+<div class="card"><strong>1.</strong> Cliente publica pedido</div>
+<div class="card"><strong>2.</strong> Profissional pega o serviço</div>
+<div class="card"><strong>3.</strong> Serviço concluído</div>
+<div class="card"><strong>4.</strong> Avaliação obrigatória</div>
 </div>
 </section>
 
 <section id="sobre" class="section fade">
-<div class="sobre">
-<h2>Sobre o Ajuda Aí</h2>
-<p>O Ajuda Aí conecta clientes e prestadores locais com confiança, rapidez e avaliações reais. Nossa missão é facilitar a contratação de serviços próximos com segurança e qualidade.</p>
+<div class="card">
+<h2>Ajuda Aí 2026</h2>
+<p>Uma plataforma transparente, sem avaliações falsas, focada em reputação real e crescimento sustentável.</p>
 </div>
 </section>
 
-<section id="cadastro" class="section fade">
-<h2>Cadastre-se</h2>
-<p>Entre para a rede Ajuda Aí e comece a receber pedidos na sua região.</p>
-</section>
-
 <script>
-function usarLocalizacao(){
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(pos){
-document.getElementById("local").value="Localização detectada";
+
+/* ==============================
+   CONFIG JSON
+============================== */
+
+const URL_PEDIDOS = "https://raw.githubusercontent.com/willianwhs/ajudaai/main/pedidos.json";
+const URL_PRESTADORES = "https://raw.githubusercontent.com/willianwhs/ajudaai/main/prestadores.json";
+
+/* ==============================
+   FEED DINÂMICO
+============================== */
+
+async function carregarPedidos(){
+try{
+const resposta = await fetch(URL_PEDIDOS + "?t=" + new Date().getTime());
+const dados = await resposta.json();
+const container = document.getElementById("feed");
+container.innerHTML="";
+
+if(!dados.pedidos || dados.pedidos.length===0){
+container.innerHTML="<p>Nenhum pedido disponível.</p>";
+return;
+}
+
+dados.pedidos.forEach(p=>{
+const div=document.createElement("div");
+div.className="pedido";
+
+div.innerHTML=`
+<div>
+<strong>${p.servico}</strong><br>
+<small>${p.bairro}</small><br>
+<span class="badge ${p.status==="aberto"?"aberto":"atendido"}">
+${p.status}
+</span>
+</div>
+<button onclick="pegarServico('${p.id}')">
+${p.status==="aberto"?"Atender":"Finalizado"}
+</button>
+`;
+
+container.appendChild(div);
 });
-}else{
-alert("Geolocalização não suportada");
+
+}catch(e){
+console.log(e);
 }
 }
 
-/* animação */
+carregarPedidos();
+
+/* ==============================
+   PEGAR SERVIÇO (estrutura base)
+============================== */
+
+function pegarServico(id){
+alert("Você pegou o serviço ID: "+id+"\nApós concluir, o cliente será obrigado a avaliar.");
+}
+
+/* ==============================
+   PRESTADORES DINÂMICOS
+============================== */
+
+async function carregarPrestadores(){
+try{
+const resposta = await fetch(URL_PRESTADORES + "?t=" + new Date().getTime());
+const dados = await resposta.json();
+const lista = document.getElementById("listaPrestadores");
+lista.innerHTML="";
+
+dados.prestadores.forEach(p=>{
+const div=document.createElement("div");
+div.className="card";
+
+div.innerHTML=`
+<strong>${p.nome} — ${p.servico}</strong>
+<p>⭐ ${p.media} estrelas</p>
+`;
+
+lista.appendChild(div);
+});
+}catch(e){
+console.log(e);
+}
+}
+
+carregarPrestadores();
+
+/* ==============================
+   ANIMAÇÃO
+============================== */
+
 const fades=document.querySelectorAll(".fade");
 window.addEventListener("scroll",()=>{
 fades.forEach(el=>{
-const top=el.getBoundingClientRect().top;
-if(top<window.innerHeight-80){
+if(el.getBoundingClientRect().top<window.innerHeight-80){
 el.classList.add("show");
 }
 });
 });
+
 </script>
 
 </body>
