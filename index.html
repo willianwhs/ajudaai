@@ -5,23 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ajuda Aí — Serviços perto de você</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:#eef4f9;
+background:#f9fbfd;
 color:#1c2b36;
 }
 
-/* HEADER */
+/* MENU */
 header{
 position:fixed;
 top:0;
 width:100%;
 background:white;
-box-shadow:0 4px 20px rgba(0,0,0,0.08);
+box-shadow:0 2px 12px rgba(0,0,0,0.05);
 z-index:999;
 }
 
@@ -31,48 +31,56 @@ margin:auto;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:16px 20px;
+padding:14px 20px;
 }
 
 .logo{
-font-weight:800;
-font-size:28px;
+font-weight:700;
+font-size:26px;
 }
 
-.logo span.azul{ color:#1f4ed8; }
-.logo span.amarelo{ color:#FFB800; }
+.logo span.azul{
+color:#2D9CDB;
+}
+
+.logo span.amarelo{
+color:#FFB800;
+}
 
 .menu a{
 margin-left:24px;
 text-decoration:none;
 color:#2F3A45;
-font-weight:600;
+font-weight:500;
 }
 
 .btn-cadastrar{
 background:#FFB800;
 color:#1c2b36;
-padding:10px 20px;
-border-radius:12px;
+padding:9px 18px;
+border-radius:10px;
 font-weight:700;
 }
 
 /* HERO */
 .hero{
-padding-top:140px;
-padding-bottom:90px;
-background:linear-gradient(135deg,#1f4ed8,#3b82f6);
+padding-top:120px;
+padding-bottom:80px;
+background:linear-gradient(180deg,#eaf6fd,#ffffff);
 text-align:center;
-color:white;
 }
 
 .hero h1{
-font-size:42px;
-margin-bottom:12px;
+font-size:38px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#5b6b76;
+margin-bottom:30px;
 }
 
 .search-box{
-margin-top:30px;
 display:flex;
 justify-content:center;
 gap:10px;
@@ -81,35 +89,18 @@ flex-wrap:wrap;
 
 .search-box input{
 padding:14px;
-border-radius:12px;
-border:none;
+border-radius:10px;
+border:1px solid #d9e4ec;
 width:260px;
 }
 
 .search-box button{
 padding:14px 20px;
 border:none;
-border-radius:12px;
+border-radius:10px;
 background:#FFB800;
+color:#1c2b36;
 font-weight:700;
-cursor:pointer;
-}
-
-/* FILTROS DINÂMICOS */
-.filtros{
-margin-top:30px;
-display:flex;
-justify-content:center;
-gap:12px;
-flex-wrap:wrap;
-}
-
-.filtro{
-background:white;
-color:#1f4ed8;
-padding:8px 16px;
-border-radius:30px;
-font-weight:600;
 cursor:pointer;
 }
 
@@ -117,69 +108,99 @@ cursor:pointer;
 .section{
 max-width:1200px;
 margin:auto;
-padding:80px 20px;
+padding:70px 20px;
+}
+
+h2{
+margin-bottom:24px;
+}
+
+/* CARDS */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+border-radius:16px;
+padding:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.05);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 12px 28px rgba(0,0,0,0.08);
+border:1px solid #FFB80033;
 }
 
 /* FEED */
 .feed{
-background:white;
+background:#f3f8fc;
 padding:30px;
 border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.05);
 }
 
 .feed-top{
 display:flex;
 justify-content:space-between;
-margin-bottom:20px;
+margin-bottom:16px;
 flex-wrap:wrap;
 gap:10px;
 }
 
 .feed-top button{
-background:#1f4ed8;
-color:white;
+background:#2D9CDB;
 border:none;
-padding:10px 18px;
-border-radius:10px;
+color:white;
+padding:10px 16px;
+border-radius:8px;
 cursor:pointer;
-font-weight:600;
 }
 
 .pedido{
-background:#f3f8ff;
-padding:18px;
-border-radius:14px;
+background:white;
+padding:16px;
+border-radius:12px;
 margin-bottom:12px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+box-shadow:0 6px 16px rgba(0,0,0,0.05);
 }
 
 .pedido button{
 background:#FFB800;
 border:none;
+color:#1c2b36;
 padding:8px 14px;
 border-radius:8px;
 font-weight:700;
 cursor:pointer;
 }
 
-footer{
-background:#1c2b36;
-color:white;
-padding:50px 20px;
-text-align:center;
+.avaliacao{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:10px;
 }
 
-.cta-final{
-background:#FFB800;
-color:#1c2b36;
-padding:18px 40px;
-border-radius:16px;
-font-weight:800;
-display:inline-block;
-margin-top:20px;
+.stars{
+color:#FFB800;
+}
+
+.fade{
+opacity:0;
+transform:translateY(20px);
+transition:0.6s;
+}
+
+.fade.show{
+opacity:1;
+transform:translateY(0);
 }
 </style>
 </head>
@@ -192,49 +213,34 @@ margin-top:20px;
 <span class="azul">Ajuda</span> <span class="amarelo">Aí</span>
 </div>
 <div class="menu">
-<a href="#">Categorias</a>
-<a href="#">Prestadores</a>
-<a href="#">Pedidos</a>
-<a href="#">Sobre</a>
-<a href="#" class="btn-cadastrar">Cadastrar</a>
+<a href="#categorias">Categorias</a>
+<a href="#como">Como funciona</a>
+<a href="#prestadores">Prestadores</a>
+<a href="#sobre">Sobre</a>
+<a href="#cadastro" class="btn-cadastrar">Cadastrar</a>
 </div>
 </div>
 </header>
 
-<section class="hero">
+<section class="hero fade">
 <h1>Encontre profissionais confiáveis perto de você</h1>
+<p>Rápido, seguro e sem complicação</p>
 
 <div class="search-box">
 <input type="text" placeholder="Qual serviço você precisa?">
 <input type="text" id="local" placeholder="Sua localização">
 <button onclick="usarLocalizacao()">Perto de mim</button>
 </div>
-
-<div class="filtros">
-<div class="filtro">Eletricista</div>
-<div class="filtro">Diarista</div>
-<div class="filtro">Encanador</div>
-<div class="filtro">Pintor</div>
-</div>
 </section>
 
-<section class="section">
-<h2>Pedidos em aberto</h2>
+<section class="section fade">
+<h2>Pedidos próximos de você</h2>
 
 <div class="feed">
 
 <div class="feed-top">
 <button onclick="usarLocalizacao()">Minha localização</button>
-<button onclick="abrirPublicar()">Publicar pedido</button>
-</div>
-
-<div id="formPublicar" style="display:none; margin-top:20px;">
-<input type="text" id="cliente_nome" placeholder="Seu nome" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ddd;">
-<input type="text" id="cliente_whatsapp" placeholder="Seu WhatsApp" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ddd;">
-<input type="text" id="servico" placeholder="Serviço" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ddd;">
-<input type="text" id="cidade" placeholder="Cidade" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ddd;">
-<textarea id="descricao" placeholder="Descreva o problema" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:1px solid #ddd;"></textarea>
-<button onclick="publicarPedido()" style="background:#FFB800;border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;">Enviar Pedido</button>
+<button>Publicar pedido</button>
 </div>
 
 <div id="listaPedidos"></div>
@@ -242,64 +248,71 @@ margin-top:20px;
 </div>
 </section>
 
-<footer>
-<h2>Ajuda Aí — Conectando pessoas com confiança</h2>
-<a href="#" class="cta-final">Cadastrar como Prestador</a>
-</footer>
-
 <script>
 function usarLocalizacao(){
 if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(){
+navigator.geolocation.getCurrentPosition(function(pos){
 document.getElementById("local").value="Localização detectada";
 });
+}else{
+alert("Geolocalização não suportada");
 }
 }
 
-function abrirPublicar(){
-const form = document.getElementById("formPublicar");
-form.style.display = form.style.display === "none" ? "block" : "none";
+const fades=document.querySelectorAll(".fade");
+window.addEventListener("scroll",()=>{
+fades.forEach(el=>{
+const top=el.getBoundingClientRect().top;
+if(top<window.innerHeight-80){
+el.classList.add("show");
 }
-
-function publicarPedido(){
-const data = {
-cliente_nome: document.getElementById("cliente_nome").value,
-cliente_whatsapp: document.getElementById("cliente_whatsapp").value,
-servico: document.getElementById("servico").value,
-cidade: document.getElementById("cidade").value,
-descricao: document.getElementById("descricao").value,
-status:"aberto",
-data:new Date().toISOString()
-};
-
-fetch("https://hook.us2.make.com/ypef1r8ydqmibjw9hzqykntaltatqfgh",{
-method:"POST",
-headers:{ "Content-Type":"application/json"},
-body:JSON.stringify(data)
-}).then(()=>{ alert("Pedido publicado!"); });
-}
-
-const URL_PEDIDOS="https://raw.githubusercontent.com/willianwhs/ajudaai/main/pedidos.json";
-
-fetch(URL_PEDIDOS)
-.then(res=>res.json())
-.then(data=>{
-if(!data.pedidos) return;
-const container=document.getElementById("listaPedidos");
-
-data.pedidos.reverse().forEach(p=>{
-const div=document.createElement("div");
-div.className="pedido";
-div.innerHTML=`
-<div>
-<strong>${p.servico}</strong><br>
-${p.cidade}
-</div>
-<button onclick="window.open('https://wa.me/55${p.cliente_whatsapp}','_blank')">Prestar serviço</button>
-`;
-container.appendChild(div);
 });
 });
+
+async function carregarPedidos() {
+  try {
+    const resposta = await fetch("https://raw.githubusercontent.com/willianwhs/ajudaai/main/pedidos.json?nocache=" + Date.now());
+    const dados = await resposta.json();
+
+    const container = document.getElementById("listaPedidos");
+    container.innerHTML = "";
+
+    if (!dados.pedidos || dados.pedidos.length === 0) {
+      container.innerHTML = "<p>Nenhum pedido disponível no momento.</p>";
+      return;
+    }
+
+    dados.pedidos.reverse().forEach((pedido) => {
+      const div = document.createElement("div");
+      div.className = "pedido";
+
+      div.innerHTML = `
+        <div>
+          <strong>${pedido.servico}</strong><br>
+          ${pedido.descricao}<br>
+          📍 ${pedido.cidade}
+        </div>
+        <button onclick="pegarServico(this)">
+          Pegar serviço
+        </button>
+      `;
+
+      container.appendChild(div);
+    });
+
+  } catch (erro) {
+    console.error("Erro ao carregar pedidos:", erro);
+  }
+}
+
+function pegarServico(botao) {
+  botao.innerText = "Em atendimento";
+  botao.style.background = "#4CAF50";
+  botao.disabled = true;
+}
+
+carregarPedidos();
+setInterval(carregarPedidos, 30000);
 </script>
 
 </body>
