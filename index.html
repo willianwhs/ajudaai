@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html><html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ajuda Aí — Serviços perto de você</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><style>
 :root{
 --azul:#0B3C5D;
 --azul-claro:#1F5F8B;
@@ -16,327 +11,175 @@
 --laranja:#FF7A00;
 --prata:#E5E7EB;
 --fundo:#F7F9FC;
+--texto:#1f2937;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-
-body{
-background:var(--fundo);
-color:#1f2937;
-}
-
-.container{
-max-width:1200px;
-margin:auto;
-padding:0 20px;
-}
+body{background:var(--fundo);color:var(--texto)}
+.container{max-width:1200px;margin:auto;padding:0 20px}
 
 /* NAVBAR */
-
-nav{
-background:white;
-border-bottom:1px solid var(--prata);
-position:sticky;
-top:0;
-z-index:999;
-}
-
-.nav-inner{
-display:flex;
-align-items:center;
-justify-content:space-between;
-height:70px;
-}
-
-.logo{
-font-size:26px;
-font-weight:800;
-color:var(--azul);
-}
-
-.logo span{
-color:var(--amarelo);
-}
-
-.menu{
-display:flex;
-gap:28px;
-}
-
-.menu a{
-text-decoration:none;
-color:var(--azul);
-font-weight:600;
-}
-
-.menu a:hover{
-color:var(--laranja);
-}
-
-.btn-prestador{
-background:var(--amarelo);
-color:var(--azul);
-padding:10px 18px;
-border-radius:8px;
-font-weight:700;
-cursor:pointer;
-border:none;
-}
+nav{background:#fff;border-bottom:1px solid var(--prata);position:sticky;top:0;z-index:999}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{font-size:26px;font-weight:800;color:var(--azul)}
+.logo span{color:var(--amarelo)}
+.menu{display:flex;gap:28px}
+.menu a{text-decoration:none;color:var(--azul);font-weight:600}
+.menu a:hover{color:var(--laranja)}
+.btn-prestador{background:var(--amarelo);color:var(--azul);padding:10px 18px;border-radius:8px;font-weight:700;cursor:pointer;border:none}
 
 /* HERO */
-
-.hero{
-background:linear-gradient(135deg,var(--azul),var(--azul-claro));
-color:white;
-padding:70px 0;
-}
-
-.hero h1{
-font-size:38px;
-max-width:680px;
-line-height:1.2;
-}
-
-.search-box{
-margin-top:30px;
-background:white;
-padding:16px;
-border-radius:12px;
-display:flex;
-gap:10px;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-
-.search-box input{
-flex:1;
-padding:12px;
-border:1px solid #ddd;
-border-radius:8px;
-}
-
-.btn-buscar{
-background:var(--laranja);
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:8px;
-font-weight:700;
-cursor:pointer;
-}
+.hero{background:linear-gradient(135deg,var(--azul),var(--azul-claro));color:white;padding:80px 0}
+.hero h1{font-size:40px;max-width:700px;line-height:1.2}
+.hero p{margin-top:15px;opacity:.9;max-width:560px}
+.search-box{margin-top:30px;background:white;padding:16px;border-radius:12px;display:flex;gap:10px;box-shadow:0 10px 25px rgba(0,0,0,0.15)}
+.search-box input{flex:1;padding:12px;border:1px solid #ddd;border-radius:8px}
+.btn-buscar{background:var(--laranja);color:white;border:none;padding:12px 22px;border-radius:8px;font-weight:700;cursor:pointer}
 
 /* SECTIONS */
-
-section{
-padding:60px 0;
-}
-
-h2{
-font-size:28px;
-color:var(--azul);
-margin-bottom:25px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
-
-.card{
-background:white;
-padding:22px;
-border-radius:14px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-font-weight:600;
-color:var(--azul);
-cursor:pointer;
-transition:.25s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 12px 25px rgba(0,0,0,0.15);
-}
+section{padding:60px 0}
+h2{font-size:28px;color:var(--azul);margin-bottom:25px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:white;padding:22px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.08);font-weight:600;color:var(--azul);cursor:pointer;transition:.25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 12px 25px rgba(0,0,0,0.15)}
 
 /* FEED */
+.feed{background:white;padding:25px;border-radius:14px;box-shadow:0 8px 25px rgba(0,0,0,0.08)}
+.feed textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;resize:none;height:80px}
+.feed button{margin-top:10px;background:var(--azul);color:white;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:600}
+.pedido{border-bottom:1px solid #eee;padding:12px 0}
+.pedido:last-child{border:none}
 
-.feed{
-background:white;
-padding:25px;
-border-radius:14px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-}
+/* PROFISSIONAIS */
+.prof-card{display:flex;align-items:center;justify-content:space-between}
+.prof-info{display:flex;flex-direction:column}
+.badge{background:var(--amarelo);color:var(--azul);font-size:12px;padding:4px 8px;border-radius:6px;font-weight:700;margin-top:6px;width:max-content}
 
-.feed textarea{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1px solid #ddd;
-resize:none;
-height:80px;
-}
-
-.feed button{
-margin-top:10px;
-background:var(--azul);
-color:white;
-border:none;
-padding:10px 16px;
-border-radius:8px;
-cursor:pointer;
-font-weight:600;
-}
-
-.pedido{
-border-bottom:1px solid #eee;
-padding:12px 0;
-}
-
-.pedido:last-child{
-border:none;
-}
+/* CTA */
+.cta{background:linear-gradient(135deg,var(--laranja),#ff9a2f);color:white;text-align:center;padding:70px 20px;border-radius:18px}
+.cta h3{font-size:30px;margin-bottom:10px}
+.cta p{opacity:.95;margin-bottom:20px}
+.cta button{background:white;color:var(--laranja);border:none;padding:14px 26px;border-radius:10px;font-weight:800;cursor:pointer}
 
 /* FOOTER */
-
-footer{
-background:var(--azul);
-color:white;
-padding:40px 0;
-margin-top:60px;
-}
-
-footer p{
-opacity:.8;
-}
+footer{background:var(--azul);color:white;padding:40px 0;margin-top:60px}
+footer p{opacity:.8}
 
 /* RESPONSIVO */
-
 @media(max-width:768px){
-
-.menu{
-display:none;
+.menu{display:none}
+.hero h1{font-size:28px}
+.search-box{flex-direction:column}
 }
-
-.hero h1{
-font-size:28px;
-}
-
-}
-
-</style>
-</head>
-
-<body>
-
-<nav>
+</style></head><body><nav>
 <div class="container nav-inner">
 <div class="logo">Ajuda <span>Aí</span></div>
-
 <div class="menu">
 <a href="#categorias">Categorias</a>
 <a href="#feed">Pedidos</a>
 <a href="#profissionais">Profissionais</a>
 <a href="#sobre">Sobre</a>
 </div>
-
 <button class="btn-prestador" onclick="abrirCadastro()">Cadastrar Prestador</button>
 </div>
-</nav>
-
-<section class="hero">
+</nav><section class="hero">
 <div class="container">
-<h1>Encontre profissionais confiáveis perto de você em minutos</h1>
-
+<h1>Resolva qualquer serviço da sua casa com profissionais verificados</h1>
+<p>Rápido, seguro e perto de você. Publique grátis ou encontre especialistas confiáveis em minutos.</p>
 <div class="search-box">
 <input id="busca" placeholder="Qual serviço você precisa?">
-<input id="cidade" placeholder="Sua cidade ou bairro">
+<input id="cidade" placeholder="Cidade ou bairro">
 <button class="btn-buscar" onclick="buscar()">Buscar</button>
 </div>
-
 </div>
-</section>
-
-<section id="categorias">
+</section><section id="categorias">
 <div class="container">
-<h2>Categorias</h2>
-
+<h2>Categorias populares</h2>
 <div class="grid">
-<div class="card">Eletricista</div>
-<div class="card">Encanador</div>
-<div class="card">Diarista</div>
-<div class="card">Pedreiro</div>
-<div class="card">Montador</div>
-<div class="card">Pintor</div>
+<div class="card" onclick="selecionarCategoria('Eletricista')">Eletricista</div>
+<div class="card" onclick="selecionarCategoria('Encanador')">Encanador</div>
+<div class="card" onclick="selecionarCategoria('Diarista')">Diarista</div>
+<div class="card" onclick="selecionarCategoria('Pedreiro')">Pedreiro</div>
+<div class="card" onclick="selecionarCategoria('Montador')">Montador</div>
+<div class="card" onclick="selecionarCategoria('Pintor')">Pintor</div>
 </div>
 </div>
-</section>
-
-<section id="feed">
+</section><section id="feed">
 <div class="container">
-<h2>Pedidos próximos</h2>
-
+<h2>Pedidos próximos de você</h2>
 <div class="feed">
-<textarea id="pedidoTexto" placeholder="Descreva o serviço que você precisa..."></textarea>
+<textarea id="pedidoTexto" placeholder="Descreva o serviço, local e urgência..."></textarea>
 <button onclick="postar()">Publicar pedido</button>
-
 <div id="listaPedidos"></div>
 </div>
-
 </div>
-</section>
-
-<section id="profissionais">
+</section><section id="profissionais">
 <div class="container">
-<h2>Profissionais em destaque</h2>
-
-<div class="grid">
-<div class="card">João — Eletricista ⭐ 4.9</div>
-<div class="card">Carlos — Encanador ⭐ 4.8</div>
-<div class="card">Marcos — Pedreiro ⭐ 4.7</div>
+<h2>Profissionais verificados</h2>
+<div class="grid" id="listaProfissionais">
 </div>
 </div>
-</section>
-
-<section id="sobre">
+</section><section class="container">
+<div class="cta">
+<h3>Você é profissional?</h3>
+<p>Receba pedidos da sua região todos os dias e aumente sua renda.</p>
+<button onclick="abrirCadastro()">Quero me cadastrar</button>
+</div>
+</section><section id="sobre">
 <div class="container">
 <h2>Sobre o Ajuda Aí</h2>
-<p>
-O Ajuda Aí conecta clientes a profissionais locais confiáveis de forma rápida, simples e segura.
-Nossa missão é facilitar a resolução de problemas do dia a dia e gerar oportunidades para trabalhadores locais.
-</p>
+<p>O Ajuda Aí conecta clientes a profissionais locais confiáveis de forma rápida, simples e segura. Avaliações reais, proximidade e agilidade para resolver qualquer necessidade do dia a dia.</p>
 </div>
-</section>
-
-<footer>
+</section><footer>
 <div class="container">
 <p>© 2026 Ajuda Aí — Todos os direitos reservados</p>
 </div>
-</footer>
+</footer><script>
+const profissionais=[
+{nome:'João',servico:'Eletricista',rating:4.9},
+{nome:'Carlos',servico:'Encanador',rating:4.8},
+{nome:'Marcos',servico:'Pedreiro',rating:4.7}
+];
 
-<script>
+function renderProfissionais(lista){
+const el=document.getElementById('listaProfissionais');
+el.innerHTML='';
+lista.forEach(p=>{
+const div=document.createElement('div');
+div.className='card prof-card';
+div.innerHTML=`<div class="prof-info"><strong>${p.nome}</strong><span>${p.servico} ⭐ ${p.rating}</span><div class="badge">Verificado</div></div><button onclick="contatar('${p.nome}')">Contatar</button>`;
+el.appendChild(div);
+});
+}
+renderProfissionais(profissionais);
 
 function postar(){
-let texto=document.getElementById("pedidoTexto").value;
+let texto=document.getElementById('pedidoTexto').value.trim();
 if(!texto) return;
-
-let div=document.createElement("div");
-div.className="pedido";
+let div=document.createElement('div');
+div.className='pedido';
 div.innerText=texto;
-
-document.getElementById("listaPedidos").prepend(div);
-
-document.getElementById("pedidoTexto").value="";
-}
-
-function abrirCadastro(){
-alert("Cadastro de prestador será integrado ao formulário automático.");
+document.getElementById('listaPedidos').prepend(div);
+document.getElementById('pedidoTexto').value='';
 }
 
 function buscar(){
-alert("Busca será conectada aos profissionais próximos.");
+let termo=document.getElementById('busca').value.toLowerCase();
+let filtrados=profissionais.filter(p=>p.servico.toLowerCase().includes(termo));
+renderProfissionais(filtrados.length?filtrados:profissionais);
+window.location='#profissionais';
 }
 
-</script>
+function selecionarCategoria(cat){
+document.getElementById('busca').value=cat;
+buscar();
+}
 
-</body>
+function abrirCadastro(){
+window.open('https://docs.google.com/forms/d/e/FORM_ID/viewform','_blank');
+}
+
+function contatar(nome){
+alert('Contato com '+nome+' será integrado ao WhatsApp.');
+}
+</script></body>
 </html>
