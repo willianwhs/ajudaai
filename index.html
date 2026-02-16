@@ -1,159 +1,203 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!-- COLOQUE O ARQUIVO logo-ajudai.png NA MESMA PASTA -->
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ajudaí</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Inter,system-ui;background:#0f172a;color:#0f172a}
-header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:#020617;color:#fff}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:22px}
-.logo img{width:28px;height:28px}
-nav a{color:#cbd5e1;margin-left:24px;text-decoration:none;font-weight:500}
-.hero{padding:60px 20px;text-align:center;background:linear-gradient(180deg,#020617,#0f172a)}
-.hero h1{color:#fff;font-size:42px;margin-bottom:10px}
-.search{display:flex;justify-content:center;margin-top:20px}
-.search input{width:420px;padding:14px 16px;border-radius:12px;border:none;font-size:15px}
-.cta-section{padding:80px 20px;text-align:center;background:#020617;color:#fff}
-.cta-section h2{font-size:38px;margin-bottom:10px}
-.cta-section button{background:#facc15;color:#020617;border:none;padding:16px 28px;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer}
-.section{padding:50px 20px;max-width:1100px;margin:auto}
-.feed-card,.pro-card{background:#fff;border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
-.feed-card h4{margin:0 0 6px 0}
-.badge{padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
-.open{background:#e2e8f0}
-.progress{background:#fde68a}
-.done{background:#bbf7d0}
-button.small{padding:6px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
-.accept{background:#22c55e;color:#fff}
-.finish{background:#2563eb;color:#fff}
-.rate{color:#f59e0b;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center}
-.modal-content{background:#fff;padding:28px;border-radius:16px;width:320px}
-.modal-content input,select{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #e2e8f0}
-.modal-content button{width:100%;padding:12px;border:none;border-radius:10px;background:#facc15;font-weight:700}
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#0f172a;
+color:#fff;
+}
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:16px 24px;
+background:#020617;
+border-bottom:1px solid #1e293b;
+}
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:22px;
+font-weight:700;
+}
+.logo img{width:28px}
+.search{
+display:flex;
+gap:8px;
+padding:16px 24px;
+}
+.search input{
+flex:1;
+padding:14px;
+border-radius:10px;
+border:none;
+}
+.btn{
+padding:14px 18px;
+border-radius:10px;
+border:none;
+background:#facc15;
+font-weight:700;
+cursor:pointer;
+}
+.section{
+padding:32px 24px;
+}
+.categories{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+gap:16px;
+}
+.cat{
+background:#020617;
+padding:20px;
+border-radius:14px;
+text-align:center;
+border:1px solid #1e293b;
+}
+.feed-card{
+background:#020617;
+padding:18px;
+border-radius:14px;
+margin-bottom:12px;
+border:1px solid #1e293b;
+}
+.cta{
+background:linear-gradient(135deg,#facc15,#fde047);
+color:#000;
+padding:60px 24px;
+text-align:center;
+font-size:28px;
+font-weight:700;
+}
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.7);
+display:none;
+align-items:center;
+justify-content:center;
+}
+.modal-box{
+background:#020617;
+padding:24px;
+border-radius:16px;
+width:320px;
+}
+.modal input{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border-radius:8px;
+border:none;
+}
+.star{cursor:pointer}
 </style>
 </head>
 <body>
 <header>
-<div class="logo"><img src="logo-ajudai.png">Ajudaí</div>
-<nav>
-<a href="#feed">Pedidos</a>
-<a href="#prof">Profissionais</a>
-<a href="#">Quem somos</a>
-</nav>
-</header><section class="hero">
-<h1>Encontre profissionais perto de você</h1>
-<div class="search"><input placeholder="Buscar serviço ou profissional"></div>
-</section><section id="feed" class="section">
-<h2>Pedidos próximos</h2>
-<div id="feedList"></div>
-<button onclick="novoPedido()">+ Novo pedido</button>
-</section><section class="cta-section">
-<h2>Seja um profissional Ajudaí</h2>
-<p>Cadastre-se gratuitamente e receba clientes</p>
-<button onclick="abrirCadastro()">Cadastrar profissional</button>
-</section><section id="prof" class="section">
-<h2>Profissionais</h2>
-<div id="profList" class="grid"></div>
-</section><div id="modalProf" class="modal">
-<div class="modal-content">
-<h3>Cadastro profissional</h3>
-<input id="pNome" placeholder="Nome completo">
-<input id="pWhats" placeholder="WhatsApp">
-<input id="pServico" placeholder="Serviço">
-<input id="pCidade" placeholder="Cidade">
-<input id="pBairro" placeholder="Bairro">
-<button onclick="salvarProf()">Cadastrar</button>
+<div class="logo">
+<img src="logo-ajudai.png">
+Ajudaí
 </div>
-</div><div id="modalPedido" class="modal">
-<div class="modal-content">
-<h3>Novo pedido</h3>
-<input id="cNome" placeholder="Seu nome">
-<input id="cWhats" placeholder="WhatsApp">
-<input id="cDesc" placeholder="Descrição do serviço">
-<button onclick="salvarPedido()">Publicar pedido</button>
+<button class="btn" onclick="openCadastro()">Cadastrar prestador</button>
+</header>
+
+<div class="search">
+<input placeholder="Qual serviço você precisa?">
+<button class="btn" onclick="novoPedido()">Novo pedido</button>
 </div>
-</div><script>
-let pedidos=JSON.parse(localStorage.getItem('pedidos')||'[]')
-let profs=JSON.parse(localStorage.getItem('profs')||'[]')
+
+<div class="section">
+<h2>Categorias</h2>
+<div class="categories">
+<div class="cat">Reparos</div>
+<div class="cat">Limpeza</div>
+<div class="cat">Elétrica</div>
+<div class="cat">Pintura</div>
+</div>
+</div>
+
+<div class="section">
+<h2>Pedidos</h2>
+<div id="feed"></div>
+</div>
+
+<div class="cta" onclick="openCadastro()">
+Seja um profissional Ajudaí — Cadastre-se grátis
+</div>
+
+<div class="modal" id="cadastroModal">
+<div class="modal-box">
+<h3>Cadastro</h3>
+<input id="nome" placeholder="Nome">
+<input id="whats" placeholder="WhatsApp">
+<input id="servico" placeholder="Serviço">
+<button class="btn" onclick="salvarPrestador()">Salvar</button>
+</div>
+</div>
+
+<script>
+let feed = JSON.parse(localStorage.getItem("feed")||"[]")
+let pros = JSON.parse(localStorage.getItem("pros")||"[]")
 
 function render(){
-let feed=document.getElementById('feedList')
-feed.innerHTML=''
-pedidos.forEach((p,i)=>{
-let statusClass=p.status=='aberto'?'open':p.status=='andamento'?'progress':'done'
-let el=document.createElement('div')
-el.className='feed-card'
-el.innerHTML=`<h4>${p.desc}</h4>
-<small>${p.nome} • ${p.whats}</small><br>
-<span class="badge ${statusClass}">${p.status}</span><br><br>
-${p.status=='aberto'?`<button class="small accept" onclick="aceitar(${i})">Aceitar</button>`:''}
-${p.status=='andamento'?`<button class="small finish" onclick="concluir(${i})">Concluir</button>`:''}
-${p.status=='concluido'?`<span>Avaliar: ${renderStars(p)}</span>`:''}`
-feed.appendChild(el)
-})
-
-let prof=document.getElementById('profList')
-prof.innerHTML=''
-profs.forEach(pr=>{
-let el=document.createElement('div')
-el.className='pro-card'
-el.innerHTML=`<b>${pr.nome}</b><br>${pr.servico}<br>${pr.cidade} - ${pr.bairro}<br>⭐ ${pr.rating||'Novo'}`
-prof.appendChild(el)
+document.getElementById("feed").innerHTML=""
+feed.forEach((p,i)=>{
+let el=document.createElement("div")
+el.className="feed-card"
+el.innerHTML=`
+<b>${p.texto}</b><br>
+Status: ${p.status}<br>
+${p.status=="aberto"?`<button onclick="aceitar(${i})">Aceitar</button>`:""}
+${p.status=="andamento"?`<button onclick="concluir(${i})">Concluir</button>`:""}
+`
+document.getElementById("feed").appendChild(el)
 })
 }
 
-function renderStars(p){
-let stars=''
-for(let s=1;s<=5;s++){
-stars+=`<span class="rate" onclick="avaliar('${p.id}',${s})">★</span>`
-}
-return stars
-}
-
-function avaliar(id,val){
-let pr=profs.find(x=>x.id==id)
-if(pr){pr.rating=val;localStorage.setItem('profs',JSON.stringify(profs));render()}
+function novoPedido(){
+let t=prompt("Descreva o serviço")
+if(!t)return
+feed.push({texto:t,status:"aberto"})
+localStorage.setItem("feed",JSON.stringify(feed))
+render()
 }
 
 function aceitar(i){
-pedidos[i].status='andamento'
-pedidos[i].id=profs[0]?.id||''
-localStorage.setItem('pedidos',JSON.stringify(pedidos));render()
+feed[i].status="andamento"
+localStorage.setItem("feed",JSON.stringify(feed))
+render()
 }
 
 function concluir(i){
-pedidos[i].status='concluido'
-localStorage.setItem('pedidos',JSON.stringify(pedidos));render()
-}
-
-function abrirCadastro(){document.getElementById('modalProf').style.display='flex'}
-function novoPedido(){document.getElementById('modalPedido').style.display='flex'}
-
-function salvarProf(){
-let p={
-id:Date.now().toString(),
-nome:pNome.value,
-whats:pWhats.value,
-servico:pServico.value,
-cidade:pCidade.value,
-bairro:pBairro.value}
-profs.push(p)
-localStorage.setItem('profs',JSON.stringify(profs))
-document.getElementById('modalProf').style.display='none'
+feed[i].status="concluido"
+localStorage.setItem("feed",JSON.stringify(feed))
 render()
 }
 
-function salvarPedido(){
-let p={nome:cNome.value,whats:cWhats.value,desc:cDesc.value,status:'aberto'}
-pedidos.push(p)
-localStorage.setItem('pedidos',JSON.stringify(pedidos))
-document.getElementById('modalPedido').style.display='none'
-render()
+function openCadastro(){
+document.getElementById("cadastroModal").style.display="flex"
+}
+
+function salvarPrestador(){
+let n=document.getElementById("nome").value
+let w=document.getElementById("whats").value
+let s=document.getElementById("servico").value
+pros.push({n,w,s})
+localStorage.setItem("pros",JSON.stringify(pros))
+alert("Cadastro enviado")
+document.getElementById("cadastroModal").style.display="none"
 }
 
 render()
-</script></body>
+</script>
+</body>
 </html>
