@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ajuda Aí — Serviços perto de você</title>
+<title>Ajuda Aí — Profissionais confiáveis perto de você</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -11,73 +11,57 @@
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:#f9fbfd;
+background:#f7fafc;
 color:#1c2b36;
 }
 
-/* MENU */
-header{
+/* NAVBAR */
+.navbar{
 position:fixed;
 top:0;
 width:100%;
 background:white;
-box-shadow:0 2px 12px rgba(0,0,0,0.05);
-z-index:999;
-}
-
-.nav{
-max-width:1200px;
-margin:auto;
+box-shadow:0 4px 20px rgba(0,0,0,0.06);
+padding:14px 40px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:14px 20px;
+z-index:999;
 }
 
 .logo{
 font-weight:700;
-font-size:26px;
-}
-
-.logo span.azul{
+font-size:22px;
 color:#2D9CDB;
-}
-
-.logo span.amarelo{
-color:#FFB800;
 }
 
 .menu a{
 margin-left:24px;
 text-decoration:none;
-color:#2F3A45;
+color:#1c2b36;
 font-weight:500;
 }
 
-.btn-cadastrar{
-background:#FFB800;
-color:#1c2b36;
-padding:9px 18px;
-border-radius:10px;
-font-weight:700;
+.menu a:hover{
+color:#2D9CDB;
 }
 
 /* HERO */
 .hero{
 padding-top:120px;
-padding-bottom:80px;
-background:linear-gradient(180deg,#eaf6fd,#ffffff);
+padding-bottom:90px;
+background:linear-gradient(135deg,#2D9CDB 0%,#56CCF2 100%);
 text-align:center;
+color:white;
 }
 
 .hero h1{
-font-size:38px;
+font-size:34px;
 margin-bottom:10px;
 }
 
 .hero p{
-color:#5b6b76;
-margin-bottom:30px;
+opacity:0.95;
 }
 
 .search-box{
@@ -85,235 +69,282 @@ display:flex;
 justify-content:center;
 gap:10px;
 flex-wrap:wrap;
+background:white;
+padding:14px;
+border-radius:16px;
+box-shadow:0 12px 40px rgba(0,0,0,0.12);
+margin-top:30px;
 }
 
 .search-box input{
-padding:14px;
+padding:12px;
 border-radius:10px;
-border:1px solid #d9e4ec;
-width:260px;
+border:1px solid #e0e6ed;
+min-width:200px;
 }
 
-.search-box button{
-padding:14px 20px;
-border:none;
-border-radius:10px;
+.btn{
 background:#FFB800;
-color:#1c2b36;
-font-weight:700;
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
 cursor:pointer;
+color:#1c2b36;
 }
 
-/* SEÇÕES */
+.btn:hover{
+background:#e0a700;
+}
+
+/* SECTIONS */
 .section{
 max-width:1200px;
 margin:auto;
-padding:70px 20px;
+padding:80px 20px;
 }
 
 h2{
-margin-bottom:24px;
+margin-bottom:30px;
 }
 
-/* CARDS */
-.cards{
+/* CATEGORIAS */
+.categorias-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:20px;
 }
 
-.card{
+.categoria{
 background:white;
 border-radius:16px;
 padding:20px;
+text-align:center;
 box-shadow:0 8px 20px rgba(0,0,0,0.05);
+cursor:pointer;
 transition:0.3s;
 }
 
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 12px 28px rgba(0,0,0,0.08);
-border:1px solid #FFB80033;
+.categoria:hover{
+transform:translateY(-5px);
+border:1px solid #FFB800;
 }
 
 /* FEED */
 .feed{
-background:#f3f8fc;
+background:#f0f7fd;
 padding:30px;
-border-radius:20px;
+border-radius:24px;
+box-shadow:0 10px 30px rgba(0,0,0,0.06);
 }
 
-.feed-top{
-display:flex;
-justify-content:space-between;
-margin-bottom:16px;
-flex-wrap:wrap;
-gap:10px;
+.feed textarea{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #e0e6ed;
 }
 
-.feed-top button{
-background:#2D9CDB;
-border:none;
-color:white;
-padding:10px 16px;
-border-radius:8px;
-cursor:pointer;
-}
-
-.pedido{
+.post{
 background:white;
 padding:16px;
-border-radius:12px;
-margin-bottom:12px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 6px 16px rgba(0,0,0,0.05);
+border-radius:14px;
+margin-top:14px;
+box-shadow:0 6px 18px rgba(0,0,0,0.06);
 }
 
-.pedido button{
-background:#FFB800;
-border:none;
-color:#1c2b36;
-padding:8px 14px;
-border-radius:8px;
-font-weight:700;
-cursor:pointer;
+/* PROFISSIONAIS */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
+}
+
+.card{
+background:white;
+border-radius:18px;
+padding:22px;
+box-shadow:0 10px 26px rgba(0,0,0,0.06);
+transition:0.3s;
+border:1px solid #f1f3f6;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 18px 40px rgba(0,0,0,0.12);
+border:1px solid #FFB80055;
 }
 
 .avaliacao{
-display:flex;
-align-items:center;
-gap:10px;
-margin-top:10px;
-}
-
-.stars{
 color:#FFB800;
+font-weight:600;
 }
 
-.fade{
-opacity:0;
-transform:translateY(20px);
-transition:0.6s;
+/* CTA */
+.cta{
+background:linear-gradient(135deg,#FFB800,#FFD54F);
+padding:50px;
+border-radius:24px;
+text-align:center;
+color:#1c2b36;
+box-shadow:0 12px 30px rgba(255,184,0,0.25);
 }
 
-.fade.show{
-opacity:1;
-transform:translateY(0);
+/* SOBRE */
+.sobre{
+background:#f4f7fa;
+border-radius:24px;
+padding:40px;
+}
+
+/* FOOTER */
+footer{
+background:#0f2a3d;
+color:white;
+padding:50px 20px;
+margin-top:80px;
+}
+
+footer .container{
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+}
+
+footer h4{
+margin-bottom:12px;
+}
+
+footer a{
+color:#cfe7f7;
+text-decoration:none;
+display:block;
+margin-bottom:6px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="nav">
-<div class="logo">
-<span class="azul">Ajuda</span> <span class="amarelo">Aí</span>
-</div>
+<!-- NAVBAR -->
+<div class="navbar">
+<div class="logo">Ajuda Aí</div>
 <div class="menu">
 <a href="#categorias">Categorias</a>
-<a href="#como">Como funciona</a>
-<a href="#prestadores">Prestadores</a>
+<a href="#feed">Pedidos</a>
+<a href="#profissionais">Profissionais</a>
+<a href="#cadastro">Cadastrar</a>
 <a href="#sobre">Sobre</a>
-<a href="#cadastro" class="btn-cadastrar">Cadastrar</a>
 </div>
 </div>
-</header>
 
-<section class="hero fade">
+<!-- HERO -->
+<section class="hero">
 <h1>Encontre profissionais confiáveis perto de você</h1>
-<p>Rápido, seguro e sem complicação</p>
+<p>Prestadores verificados e avaliados na sua cidade</p>
 
 <div class="search-box">
-<input type="text" placeholder="Qual serviço você precisa?">
-<input type="text" id="local" placeholder="Sua localização">
-<button onclick="usarLocalizacao()">Perto de mim</button>
+<input placeholder="Digite sua cidade">
+<input placeholder="Serviço (ex: encanador)">
+<button class="btn">Buscar</button>
+<button class="btn">Perto de mim</button>
 </div>
 </section>
 
-<section class="section fade">
-<h2>Pedidos próximos de você</h2>
+<!-- CATEGORIAS -->
+<section id="categorias" class="section">
+<h2>Categorias populares</h2>
+<div class="categorias-grid">
+<div class="categoria">Eletricista</div>
+<div class="categoria">Encanador</div>
+<div class="categoria">Faxina</div>
+<div class="categoria">Pedreiro</div>
+<div class="categoria">Pintor</div>
+<div class="categoria">Jardinagem</div>
+</div>
+</section>
+
+<!-- FEED -->
+<section id="feed" class="section">
+<h2>Pedidos na sua região</h2>
 
 <div class="feed">
+<textarea placeholder="Ex: Preciso de encanador urgente no centro"></textarea>
+<br><br>
+<button class="btn">Publicar pedido</button>
 
-<div class="feed-top">
-<button onclick="usarLocalizacao()">Minha localização</button>
-<button>Publicar pedido</button>
-</div>
-
-<div id="listaPedidos"></div>
-
+<div class="post">Preciso de eletricista no bairro Centro</div>
+<div class="post">Faxineira para amanhã — Jardim Europa</div>
 </div>
 </section>
 
-<script>
-function usarLocalizacao(){
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(pos){
-document.getElementById("local").value="Localização detectada";
-});
-}else{
-alert("Geolocalização não suportada");
-}
-}
+<!-- PROFISSIONAIS -->
+<section id="profissionais" class="section">
+<h2>Profissionais disponíveis</h2>
+<div class="cards">
+<div class="card">
+<h3>João Silva</h3>
+<p>Eletricista — Nova Odessa</p>
+<p class="avaliacao">⭐ 4.9</p>
+</div>
 
-const fades=document.querySelectorAll(".fade");
-window.addEventListener("scroll",()=>{
-fades.forEach(el=>{
-const top=el.getBoundingClientRect().top;
-if(top<window.innerHeight-80){
-el.classList.add("show");
-}
-});
-});
+<div class="card">
+<h3>Maria Souza</h3>
+<p>Faxina — Americana</p>
+<p class="avaliacao">⭐ 5.0</p>
+</div>
+</div>
+</section>
 
-async function carregarPedidos() {
-  try {
-    const resposta = await fetch("https://raw.githubusercontent.com/willianwhs/ajudaai/main/pedidos.json?nocache=" + Date.now());
-    const dados = await resposta.json();
+<!-- CTA -->
+<section id="cadastro" class="section">
+<div class="cta">
+<h2>Você é prestador de serviços?</h2>
+<p>Cadastre-se gratuitamente e receba pedidos na sua região.</p>
+<button class="btn">Cadastrar agora</button>
+</div>
+</section>
 
-    const container = document.getElementById("listaPedidos");
-    container.innerHTML = "";
+<!-- SOBRE -->
+<section id="sobre" class="section">
+<div class="sobre">
+<h2>Sobre o Ajuda Aí</h2>
+<p>O Ajuda Aí conecta clientes e profissionais locais com confiança, avaliações reais e proximidade. Nossa missão é facilitar serviços do dia a dia com segurança e rapidez.</p>
+</div>
+</section>
 
-    if (!dados.pedidos || dados.pedidos.length === 0) {
-      container.innerHTML = "<p>Nenhum pedido disponível no momento.</p>";
-      return;
-    }
+<!-- FOOTER -->
+<footer>
+<div class="container">
 
-    dados.pedidos.reverse().forEach((pedido) => {
-      const div = document.createElement("div");
-      div.className = "pedido";
+<div>
+<h4>Ajuda Aí</h4>
+<p>Conectando clientes e profissionais locais com confiança.</p>
+</div>
 
-      div.innerHTML = `
-        <div>
-          <strong>${pedido.servico}</strong><br>
-          ${pedido.descricao}<br>
-          📍 ${pedido.cidade}
-        </div>
-        <button onclick="pegarServico(this)">
-          Pegar serviço
-        </button>
-      `;
+<div>
+<h4>Plataforma</h4>
+<a>Categorias</a>
+<a>Pedidos</a>
+<a>Profissionais</a>
+</div>
 
-      container.appendChild(div);
-    });
+<div>
+<h4>Profissionais</h4>
+<a>Cadastrar</a>
+<a>Benefícios</a>
+</div>
 
-  } catch (erro) {
-    console.error("Erro ao carregar pedidos:", erro);
-  }
-}
+<div>
+<h4>Empresa</h4>
+<a>Sobre</a>
+<a>Contato</a>
+</div>
 
-function pegarServico(botao) {
-  botao.innerText = "Em atendimento";
-  botao.style.background = "#4CAF50";
-  botao.disabled = true;
-}
-
-carregarPedidos();
-setInterval(carregarPedidos, 30000);
-</script>
+</div>
+</footer>
 
 </body>
 </html>
