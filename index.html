@@ -1,163 +1,238 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AJUDA AI — Marketplace de Serviços</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<style>
-:root{
-  --azul:#0B5FFF;
-  --azul-escuro:#002C5B;
-  --amarelo:#FFB400;
-  --cinza:#F5F7FA;
-  --borda:#E6E9EF;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,Arial;background:#fff;color:#333}
-.container{max-width:1200px;margin:auto;padding:0 16px}
-header{background:#fff;border-bottom:1px solid var(--borda);position:sticky;top:0;z-index:50}
-.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{display:flex;align-items:center;font-weight:700;font-size:20px;color:var(--azul)}
-.logo img{width:28px;margin-right:8px}
-.menu a{margin-left:20px;text-decoration:none;color:#333;font-weight:500}
-.btn{padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
-.btn-amarelo{background:var(--amarelo)}
-.hero{background:linear-gradient(135deg,var(--azul),var(--azul-escuro));color:#fff;padding:60px 0;text-align:center}
-.hero h1{font-size:36px;margin-bottom:10px}
-.hero p{opacity:.9;margin-bottom:30px}
-.search-box{display:flex;max-width:600px;margin:auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.12)}
-.search-box input{flex:1;border:none;padding:16px;font-size:16px}
-.search-box button{background:var(--amarelo);border:none;padding:0 24px;font-weight:700}
-.categories{padding:40px 0;background:var(--cinza)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:20px}
-.cat{background:#fff;border-radius:14px;padding:20px;text-align:center;border:1px solid var(--borda);transition:.2s}
-.cat:hover{transform:translateY(-3px);border-color:var(--azul)}
-.cat img{width:36px;margin-bottom:8px}
-.feed{padding:40px 0}
-.card{border:1px solid var(--borda);border-radius:14px;padding:16px;margin-bottom:16px}
-.card h3{margin:0 0 6px}
-.map-section{padding:40px 0;background:#fff}
-#map{height:380px;border-radius:16px;border:1px solid var(--borda)}
-.cta{background:var(--azul);color:#fff;padding:40px 0;text-align:center}
-footer{background:var(--azul-escuro);color:#fff;padding:40px 0;margin-top:40px}
-footer .grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:100}
-.modal{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:420px}
-.modal h2{margin-top:0}
-.modal input{width:100%;padding:10px;margin-bottom:10px;border:1px solid var(--borda);border-radius:8px}
-.close{float:right;cursor:pointer;font-weight:700}
-@media(max-width:768px){
-.hero h1{font-size:26px}
-.search-box{flex-direction:column}
-.search-box button{width:100%;padding:14px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJUDA AI - Serviços Locais</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root{ --azul:#0B5FFF; --azulEsc:#002C5B; --amarelo:#FFB400; --cinza:#F5F7FA; --borda:#E6E9EF; } 
+        *{box-sizing:border-box} 
+        body{margin:0;font-family:Inter,Arial,sans-serif;background:#fff;color:#333} 
+        .container{max-width:1200px;margin:auto;padding:0 16px} 
+        
+        /* NAV */ 
+        header{background:#fff;border-bottom:1px solid var(--borda);position:sticky;top:0;z-index:50} 
+        .nav{display:flex;align-items:center;justify-content:space-between;height:68px} 
+        .logo{font-size:22px;font-weight:800;color:var(--azul);text-decoration:none} 
+        .menu a{margin-left:24px;text-decoration:none;color:#333;font-weight:500} 
+        
+        /* HERO */ 
+        .hero{background:linear-gradient(135deg,var(--azul),var(--azulEsc));color:#fff;padding:70px 0;text-align:center} 
+        .hero h1{font-size:40px;margin:0 0 12px} 
+        .search{display:flex;max-width:680px;margin:28px auto;background:#fff;border-radius:14px;overflow:hidden} 
+        .search input{flex:1;border:none;padding:16px;font-size:16px;outline:none} 
+        .search button{background:var(--amarelo);border:none;padding:0 26px;font-weight:700;cursor:pointer} 
+        
+        /* CATEGORIAS */ 
+        .categories{background:var(--cinza);padding:50px 0} 
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:18px} 
+        .cat{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:18px;text-align:center;font-weight:600} 
+        
+        /* SECTIONS */
+        .how, .feed, .mapWrap, .cta, .about{padding:60px 0;text-align:center}
+        .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-top:30px}
+        .card{border:1px solid var(--borda);border-radius:14px;padding:16px;margin-bottom:14px;text-align:left}
+        #map{height:320px;border-radius:14px;border:1px solid var(--borda);margin-top:20px}
+        
+        /* BUTTONS */
+        .btn, .geoBtn{background:var(--amarelo);border:none;padding:14px 22px;border-radius:12px;font-weight:700;cursor:pointer;display:inline-block;text-decoration:none;color:#000}
+        .geoBtn{margin-top:12px;padding:10px 16px}
+
+        /* MODAL */ 
+        .modalBg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:9999} 
+        .modal{background:#fff;border-radius:16px;padding:24px;width:90%;max-width:420px;position:relative} 
+        .modal input{width:100%;padding:12px;margin-bottom:12px;border:1px solid var(--borda);border-radius:10px;outline:none}
+        .closeModal{position:absolute;top:10px;right:15px;cursor:pointer;font-size:20px;font-weight:bold}
+
+        footer{background:var(--azulEsc);color:#fff;padding:40px 0;margin-top:40px}
+        @media(max-width:768px){ .hero h1{font-size:28px} .search{flex-direction:column} }
+    </style>
 </head>
-<body><header>
-<div class="container nav">
-<div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png">AJUDA AI</div>
-<div class="menu">
-<a href="#">Serviços</a>
-<a href="#">Como funciona</a>
-<a href="#" onclick="openModal()">Cadastrar prestador</a>
-</div>
-</div>
-</header><section class="hero">
-<div class="container">
-<h1>Encontre profissionais perto de você</h1>
-<p>Solicite serviços e receba propostas rapidamente</p>
-<div class="search-box">
-<input placeholder="Qual serviço você precisa?">
-<button>Buscar</button>
-</div>
-</div>
-</section><section class="categories">
-<div class="container">
-<div class="grid">
-<div class="cat"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png"><div>Reformas</div></div>
-<div class="cat"><img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png"><div>Elétrica</div></div>
-<div class="cat"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png"><div>Limpeza</div></div>
-<div class="cat"><img src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png"><div>Eventos</div></div>
-<div class="cat"><img src="https://cdn-icons-png.flaticon.com/512/1998/1998610.png"><div>Aulas</div></div>
-</div>
-</div>
-</section><section class="feed">
-<div class="container">
-<h2>Profissionais disponíveis</h2>
-<div id="prestadores"></div>
-</div>
-</section><section class="map-section">
-<div class="container">
-<h2>Profissionais perto de você</h2>
-<div id="map"></div>
-</div>
-</section><section class="cta">
-<div class="container">
-<h2>É profissional?</h2>
-<button class="btn btn-amarelo" onclick="openModal()">Cadastre-se grátis</button>
-</div>
-</section><footer>
-<div class="container grid">
-<div><b>AJUDA AI</b><br>Marketplace de serviços locais</div>
-<div>Profissionais</div>
-<div>Ajuda</div>
-<div>Termos</div>
-</div>
-</footer><div class="modal-bg" id="modal">
-<div class="modal">
-<span class="close" onclick="closeModal()">×</span>
-<h2>Cadastro de prestador</h2>
-<form id="formPrestador" action="https://docs.google.com/forms/d/e/1FAIpQLSf8J459p0bqDGLWIOO7lEAYP4brd44-j-073lC4FJNxAgPjVA/formResponse" method="POST" target="hidden_iframe">
-<input name="entry.1030652642" placeholder="Nome" required>
-<input name="entry.564738291" placeholder="Serviço" required>
-<input name="entry.918273645" placeholder="Cidade" required>
-<input id="whatsapp" name="entry.192837465" placeholder="WhatsApp" required>
-<div id="waMsg" style="font-size:13px;margin:4px 0 10px"></div>
-<button class="btn btn-amarelo" type="submit">Enviar</button>
-</form>
-</div>
-</div>
-<iframe name="hidden_iframe" style="display:none"></iframe><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
-function openModal(){document.getElementById('modal').style.display='flex'}
-function closeModal(){document.getElementById('modal').style.display='none'}
+<body>
 
-const map=L.map('map').setView([-23.55,-46.63],11)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map)
+<header>
+    <div class="container nav">
+        <a href="#" class="logo">AJUDA AI</a>
+        <div class="menu">
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#quem-somos">Quem somos</a>
+            <button onclick="openModal()" class="btn" style="padding:8px 15px; font-size:14px">Cadastrar prestador</button>
+        </div>
+    </div>
+</header>
 
-async function carregarPrestadores()
+<section class="hero">
+    <div class="container">
+        <h1>Contrate profissionais confiáveis perto de você</h1>
+        <p>Solicite serviços, compare e contrate com segurança</p>
+        <div class="search">
+            <input type="text" placeholder="O que você precisa?">
+            <button>Buscar</button>
+        </div>
+    </div>
+</section>
 
-/* WHATSAPP MASK + VALIDACAO PREMIUM */
+<section class="categories">
+    <div class="container grid">
+        <div class="cat">Reformas</div>
+        <div class="cat">Elétrica</div>
+        <div class="cat">Limpeza</div>
+        <div class="cat">Eventos</div>
+        <div class="cat">Aulas</div>
+        <div class="cat">Assistência</div>
+    </div>
+</section>
+
+<section id="como-funciona" class="how container">
+    <h2>Como funciona</h2>
+    <div class="steps">
+        <div class="step"><h3>1.</h3><p>Descreva o serviço</p></div>
+        <div class="step"><h3>2.</h3><p>Receba contatos</p></div>
+        <div class="step"><h3>3.</h3><p>Escolha o profissional</p></div>
+        <div class="step"><h3>4.</h3><p>Avalie após o serviço</p></div>
+    </div>
+</section>
+
+<section class="mapWrap">
+    <div class="container">
+        <h2>Profissionais perto de você</h2>
+        <button class="geoBtn" onclick="irParaMinhaLocalizacao()">📍 Perto de mim</button>
+        <div id="map"></div>
+        <div id="prestadores" style="margin-top:30px"></div>
+    </div>
+</section>
+
+<section class="cta">
+    <h2>Você é profissional?</h2>
+    <p>Cadastre-se gratuitamente e receba clientes</p>
+    <button class="btn" onclick="openModal()">Cadastrar como profissional</button>
+</section>
+
+<section id="quem-somos" class="about container">
+    <h2>Quem é o AJUDA AI</h2>
+    <p>O AJUDA AI nasceu para conectar pessoas a profissionais confiáveis de forma simples, segura e rápida. Nossa missão é facilitar a contratação de serviços locais.</p>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="logo" style="color:#fff;margin-bottom:20px">AJUDA AI</div>
+        <p>Marketplace de serviços locais</p>
+    </div>
+</footer>
+
+<div id="modal" class="modalBg">
+    <div class="modal">
+        <span class="closeModal" onclick="closeModal()">&times;</span>
+        <h3>Cadastro de prestador</h3>
+        
+        <form id="formPrestador" 
+              action="https://docs.google.com/forms/d/e/1FAIpQLSf8J459p0bqDGLWIOO7lEAYP4brd44-j-073lC4FJNxAgPjVA/formResponse" 
+              method="POST" 
+              target="hidden_iframe">
+            
+            <input name="entry.1030652642" placeholder="Nome" required>
+            <input name="entry.564738291" placeholder="Serviço" required>
+            <input name="entry.918273645" placeholder="Cidade" required>
+            
+            <input id="whatsapp" name="entry.192837465" placeholder="WhatsApp" required>
+            <div id="waMsg" style="font-size:13px;margin:4px 0 10px"></div>
+            
+            <button class="btn" type="submit" style="width:100%">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){alert('Cadastro enviado com sucesso!'); closeModal();}"></iframe>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+let submitted = false;
+const modal = document.getElementById('modal');
+const formPrestador = document.getElementById('formPrestador');
+
+function openModal(){ modal.style.display="flex"; }
+function closeModal(){ modal.style.display="none"; }
+
+/* SCRIPT WHATSAPP PREMIUM INTEGRADO */
 (function(){
-const wa=document.getElementById('whatsapp');
-const msg=document.getElementById('waMsg');
-const form=document.getElementById('formPrestador');
-if(!wa||!form) return;
-function digits(v){return (v||'').replace(/\D/g,'');}
-function mask(v){let d=digits(v).slice(0,11);
-if(d.length<=10){return d.replace(/(\d{2})(\d{4})(\d{0,4})/,function(_,a,b,c){return '('+a+') '+b+(c?'-'+c:'');});}
-else{return d.replace(/(\d{2})(\d{5})(\d{0,4})/,function(_,a,b,c){return '('+a+') '+b+(c?'-'+c:'');});}}
-function valid(v){const d=digits(v); if(!(d.length===10||d.length===11))return false; const ddd=parseInt(d.slice(0,2)); if(ddd<11||ddd>99)return false; if(d.length===11&&d[2]!=='9')return false; return true;}
-function paint(){ if(!wa.value){wa.style.borderColor='';msg.textContent='';return;} if(valid(wa.value)){wa.style.borderColor='#22c55e';msg.style.color='#16a34a';msg.textContent='WhatsApp válido ✓';} else{wa.style.borderColor='#ef4444';msg.style.color='#dc2626';msg.textContent='Número inválido (ex: (19) 97161-9877)';}}
-wa.addEventListener('input',function(){wa.value=mask(wa.value);paint();});
-wa.addEventListener('blur',paint);
-form.addEventListener('submit',function(e){if(!valid(wa.value)){e.preventDefault();paint();wa.focus();}});
-})();{
-// URL JSON vindo do Make ou Sheets publicado
-const url='https://opensheet.elk.sh/1ImYSb5Cih3eGu7jqU3zjLTbvNvGTuhGjeTKSTo5_j7M/Página1'
-try{
-const res=await fetch(url)
-const data=await res.json()
-const box=document.getElementById('prestadores')
-box.innerHTML=''
-data.forEach(p=>{
-const el=document.createElement('div')
-el.className='card'
-el.innerHTML=`<h3>${p.nome}</h3><div>${p.servico} • ${p.cidade}</div>`
-box.appendChild(el)
-if(p.lat && p.lng){L.marker([p.lat,p.lng]).addTo(map).bindPopup(p.nome)}
-})
-}catch(e){console.log(e)}
+    const wa = document.getElementById('whatsapp');
+    const msg = document.getElementById('waMsg');
+    const form = document.getElementById('formPrestador');
+    if(!wa) return;
+    function digits(v){ return (v||'').replace(/\D/g,''); }
+    function mask(v){
+        let d = digits(v).slice(0,11);
+        if(d.length <= 10){
+            return d.replace(/(\d{2})(\d{4})(\d{0,4})/, (_,a,b,c)=>`(${a}) ${b}${c?'-'+c:''}`);
+        }else{
+            return d.replace(/(\d{2})(\d{5})(\d{0,4})/, (_,a,b,c)=>`(${a}) ${b}${c?'-'+c:''}`);
+        }
+    }
+    function valid(v){
+        const d = digits(v);
+        if(!(d.length===10 || d.length===11)) return false;
+        const ddd = parseInt(d.slice(0,2));
+        if(ddd < 11 || ddd > 99) return false;
+        if(d.length===11 && d[2] !== '9') return false;
+        return true;
+    }
+    function paint(){
+        if(!wa.value){ wa.style.borderColor=""; msg.textContent=""; return; }
+        if(valid(wa.value)){
+            wa.style.borderColor="#22c55e"; msg.style.color="#16a34a"; msg.textContent="WhatsApp válido ✓";
+        }else{
+            wa.style.borderColor="#ef4444"; msg.style.color="#dc2626"; msg.textContent="Número inválido (ex: (19) 97161-9877)";
+        }
+    }
+    wa.addEventListener("input",()=>{ wa.value = mask(wa.value); paint(); });
+    wa.addEventListener("blur",paint);
+    form.addEventListener("submit",e=>{
+        if(!valid(wa.value)){
+            e.preventDefault();
+            paint();
+            wa.focus();
+        } else {
+            submitted = true;
+        }
+    });
+})();
+
+/* LOGICA DO MAPA E DADOS */
+const map = L.map('map').setView([-22.75,-47.33], 10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+async function carregar(){
+    const url="https://opensheet.elk.sh/1ImYSb5Cih3eGu7jqU3zjLTbvNvGTuhGjeTKSTo5_j7M/Página1";
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const container = document.getElementById("prestadores");
+        container.innerHTML = "";
+        data.forEach(p => {
+            const lat = parseFloat(p.lat);
+            const lng = parseFloat(p.lng);
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `<b>${p.nome || "Sem nome"}</b><br>${p.servico || ""} • ${p.cidade || ""}`;
+            container.appendChild(card);
+            if(!isNaN(lat) && !isNaN(lng)){
+                L.marker([lat, lng]).addTo(map).bindPopup(`<b>${p.nome}</b><br>${p.servico}`);
+            }
+        });
+    } catch(e) { console.error("Erro ao carregar dados", e); }
 }
-carregarPrestadores()
-</script></body>
+
+function irParaMinhaLocalizacao(){
+    if(!navigator.geolocation){alert("Geolocalização não suportada");return}
+    navigator.geolocation.getCurrentPosition(pos=>{
+        const lat=pos.coords.latitude; const lng=pos.coords.longitude;
+        map.setView([lat,lng],13);
+        L.marker([lat,lng]).addTo(map).bindPopup("Você está aqui").openPopup();
+    });
+}
+carregar();
+</script>
+
+</body>
 </html>
