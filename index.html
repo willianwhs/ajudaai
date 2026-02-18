@@ -2,45 +2,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AJUDA AI</title>  <!-- Leaflet (mapa gratuito) -->  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <title>AJUDA AI — Marketplace de Serviços</title>  <!-- Google Fonts -->  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">  <!-- Leaflet Map -->  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>  <style>
     :root{
-      --azul:#0B5CFF;
-      --amarelo:#FFD500;
-      --bg:#F7F9FC;
-      --texto:#1A1A1A;
-      --card:#FFFFFF;
+      --azul:#0B3C5D;
+      --amarelo:#F2B705;
+      --bg:#F9FAFB;
+      --cinza:#E5E7EB;
+      --texto:#1F2937;
     }
 
+    *{box-sizing:border-box;margin:0;padding:0}
+
     body{
-      margin:0;
-      font-family:Inter,Arial,Helvetica,sans-serif;
+      font-family:'Inter',sans-serif;
       background:var(--bg);
       color:var(--texto);
     }
 
     header{
       background:white;
-      box-shadow:0 2px 8px rgba(0,0,0,0.06);
-      padding:12px 20px;
+      border-bottom:1px solid var(--cinza);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:auto;
+      padding:16px;
+    }
+
+    .nav{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      position:sticky;
-      top:0;
-      z-index:10;
+      gap:16px;
     }
 
     .logo{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:10px;
       font-weight:700;
-      font-size:20px;
+      font-size:22px;
       color:var(--azul);
     }
-
-    .logo img{height:28px}
 
     .btn{
       background:var(--amarelo);
@@ -52,231 +60,154 @@
     }
 
     .hero{
-      padding:40px 20px;
-      text-align:center;
+      background:linear-gradient(135deg,var(--azul),#124E78);
+      color:white;
+      padding:60px 20px;
     }
 
-    .search{
-      max-width:520px;
-      margin:20px auto;
+    .hero h1{
+      font-size:36px;
+      margin-bottom:20px;
+    }
+
+    .search-box{
       display:flex;
+      gap:10px;
       background:white;
-      border-radius:14px;
-      box-shadow:0 4px 16px rgba(0,0,0,0.08);
-      overflow:hidden;
+      border-radius:12px;
+      padding:10px;
+      max-width:600px;
     }
 
-    .search input{
-      flex:1;
+    .search-box input{
       border:none;
-      padding:14px;
+      flex:1;
       font-size:16px;
       outline:none;
     }
 
-    .search button{
-      background:var(--azul);
-      color:white;
-      border:none;
-      padding:0 18px;
-      cursor:pointer;
+    .categorias{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:16px;
+      margin-top:30px;
+    }
+
+    .cat{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      text-align:center;
+      box-shadow:0 4px 10px rgba(0,0,0,0.05);
+      font-weight:600;
     }
 
     .section{
-      padding:30px 20px;
-      max-width:1100px;
-      margin:auto;
+      padding:50px 20px;
     }
 
-    .grid{
+    .cards{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:16px;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:20px;
+      margin-top:20px;
     }
 
     .card{
-      background:var(--card);
-      border-radius:16px;
-      padding:16px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.06);
-    }
-
-    #map{
-      width:100%;
-      height:380px;
-      border-radius:16px;
-    }
-
-    /* MODAL */
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.4);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:20;
-    }
-
-    .modal-content{
       background:white;
-      border-radius:16px;
-      padding:24px;
-      width:95%;
-      max-width:420px;
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.06);
     }
 
-    .modal-content h3{margin-top:0}
-
-    .modal-content input{
-      width:100%;
-      padding:10px;
-      margin:6px 0 12px;
-      border-radius:8px;
-      border:1px solid #ddd;
+    .map{
+      height:420px;
+      border-radius:14px;
+      overflow:hidden;
     }
 
-    .stars span{
-      font-size:22px;
-      cursor:pointer;
-      color:#ccc;
+    footer{
+      background:white;
+      border-top:1px solid var(--cinza);
+      margin-top:40px;
+      padding:30px;
+      text-align:center;
+      font-size:14px;
+      color:#6B7280;
     }
 
-    .stars span.active{color:#FFD500}
-
-    @media(max-width:700px){
-      .hero{padding:30px 16px}
-      header{padding:10px 14px}
+    /* Mobile */
+    @media(max-width:768px){
+      .hero h1{font-size:26px}
+      .search-box{flex-direction:column}
     }
   </style></head>
 <body><header>
-  <div class="logo">
-    <img src="logo.png" alt="AJUDA AI">
-    AJUDA AI
+  <div class="container nav">
+    <div class="logo">
+      <img src="logo.png" width="28" />
+      AJUDA AI
+    </div>
+    <button class="btn" onclick="abrirCadastro()">Cadastrar prestador</button>
   </div>
-  <button class="btn" onclick="abrirCadastro()">Cadastrar prestador</button>
 </header><section class="hero">
-  <h1>Encontre profissionais confiáveis perto de você</h1>
-  <div class="search">
-    <input placeholder="Qual serviço você precisa?" />
-    <button>Buscar</button>
+  <div class="container">
+    <h1>Encontre profissionais confiáveis perto de você</h1><div class="search-box">
+  <input placeholder="Qual serviço você precisa?" />
+  <button class="btn">Buscar</button>
+  <button class="btn" onclick="pertoDeMim()">Perto de mim</button>
+</div>
+
+<div class="categorias">
+  <div class="cat">Eletricista</div>
+  <div class="cat">Encanador</div>
+  <div class="cat">Diarista</div>
+  <div class="cat">Montador</div>
+  <div class="cat">Pintor</div>
+  <div class="cat">Jardinagem</div>
+</div>
+
   </div>
-  <button class="btn" onclick="pertoDeMim()">📍 Perto de mim</button>
 </section><section class="section">
-  <h2>Profissionais próximos</h2>
-  <div id="map"></div>
-</section><section class="section">
-  <h2>Prestadores</h2>
-  <div id="lista" class="grid"></div>
-</section><!-- MODAL CADASTRO --><div id="modalCadastro" class="modal">
-  <div class="modal-content">
-    <h3>Cadastrar prestador</h3>
-    <input id="nome" placeholder="Nome" />
-    <input id="servico" placeholder="Serviço" />
-    <input id="cidade" placeholder="Cidade" />
-    <input id="whatsapp" placeholder="WhatsApp" />
-    <button class="btn" onclick="enviarCadastro()">Enviar</button>
+  <div class="container">
+    <h2>Prestadores próximos</h2><div class="cards" id="prestadores">
+  <!-- preenchido via JSON futuramente -->
+</div>
+
   </div>
-</div><!-- MODAL AVALIAÇÃO --><div id="modalAvaliacao" class="modal">
-  <div class="modal-content">
-    <h3>Avalie o prestador</h3>
-    <div id="nomePrestador"></div>
-    <div class="stars" id="stars"></div>
-    <button class="btn" onclick="enviarAvaliacao()">Enviar avaliação</button>
+</section><section class="section">
+  <div class="container">
+    <h2>Profissionais no mapa</h2>
+    <div id="map" class="map"></div>
+  </div>
+</section><footer>
+  © 2026 AJUDA AI — Marketplace de Serviços
+</footer><!-- Modal Cadastro --><div id="modalCadastro" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center">
+  <div style="background:white;padding:30px;border-radius:14px;max-width:420px;width:90%">
+    <h3>Cadastro de Prestador</h3>
+    <input placeholder="Nome" style="width:100%;margin-top:10px;padding:10px">
+    <input placeholder="Serviço" style="width:100%;margin-top:10px;padding:10px">
+    <input placeholder="Cidade" style="width:100%;margin-top:10px;padding:10px">
+    <input placeholder="WhatsApp" style="width:100%;margin-top:10px;padding:10px">
+    <button class="btn" style="margin-top:14px;width:100%">Enviar</button>
   </div>
 </div><script>
-const SHEET_JSON = "https://opensheet.elk.sh/1ImYSb5Cih3eGu7jqU3zjLTbvNvGTuhGjeTKSTo5_j7M/Página1";
+  function abrirCadastro(){
+    document.getElementById('modalCadastro').style.display='flex'
+  }
 
-let map = L.map('map').setView([-22.73,-47.65],11);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-
-async function carregarPrestadores(){
-  const res = await fetch(SHEET_JSON);
-  const data = await res.json();
-
-  const lista = document.getElementById('lista');
-  lista.innerHTML='';
-
-  data.forEach(p=>{
-    if(p.lat && p.lng){
-      L.marker([p.lat,p.lng]).addTo(map)
-        .bindPopup(`<b>${p.nome}</b><br>${p.servico}`);
+  function pertoDeMim(){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(pos=>{
+        map.setView([pos.coords.latitude,pos.coords.longitude],13)
+      })
     }
+  }
 
-    lista.innerHTML += `
-      <div class="card">
-        <b>${p.nome}</b><br>
-        ${p.servico}<br>
-        ⭐ ${p.media || 0}
-      </div>`;
-  });
-}
+  const map=L.map('map').setView([-23.55,-46.63],11)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map)
 
-carregarPrestadores();
-
-function abrirCadastro(){
-  document.getElementById('modalCadastro').style.display='flex';
-}
-
-async function enviarCadastro(){
-  const nome=document.getElementById('nome').value;
-  const servico=document.getElementById('servico').value;
-  const cidade=document.getElementById('cidade').value;
-  const whatsapp=document.getElementById('whatsapp').value;
-
-  navigator.geolocation.getCurrentPosition(async pos=>{
-    const lat=pos.coords.latitude;
-    const lng=pos.coords.longitude;
-
-    await fetch("https://hook.us2.make.com/1851637",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({nome,servico,cidade,whatsapp,lat,lng})
-    });
-
-    alert("Cadastro enviado!");
-    location.reload();
-  });
-}
-
-function pertoDeMim(){
-  navigator.geolocation.getCurrentPosition(pos=>{
-    map.setView([pos.coords.latitude,pos.coords.longitude],13);
-  });
-}
-
-// Avaliação pós-serviço via link ?avaliar=Nome
-const urlParams=new URLSearchParams(location.search);
-const avaliar=urlParams.get('avaliar');
-
-if(avaliar){
-  document.getElementById('modalAvaliacao').style.display='flex';
-  document.getElementById('nomePrestador').innerText=avaliar;
-}
-
-let nota=0;
-const starsDiv=document.getElementById('stars');
-for(let i=1;i<=5;i++){
-  const s=document.createElement('span');
-  s.innerText='★';
-  s.onclick=()=>{nota=i;renderStars()};
-  starsDiv.appendChild(s);
-}
-
-function renderStars(){
-  [...starsDiv.children].forEach((s,i)=>{
-    s.classList.toggle('active',i<nota);
-  });
-}
-
-async function enviarAvaliacao(){
-  const prestador=avaliar;
-  await fetch("https://hook.us2.make.com/avaliacao",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({prestador,nota})
-  });
-  alert("Avaliação enviada");
-}
+  // exemplo pino
+  L.marker([-23.55,-46.63]).addTo(map).bindPopup('Prestador exemplo')
 </script></body>
 </html>
