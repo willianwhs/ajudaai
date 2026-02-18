@@ -3,72 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJUDA AI | Inteligência em Serviços & Fintech</title>
+    <title>AJUDA AI | Inteligência em Serviços</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
         :root {
-            --brand-blue: #0A1931;       
-            --brand-blue-light: #185ADB; 
-            --brand-yellow: #FFB400;     
-            --bg-site: #F8FAFC;          
+            --brand-blue: #061121;       /* Azul Fintech Profundo */
+            --brand-blue-accent: #102A43; /* Azul Secundário */
+            --brand-yellow: #FFB400;     /* Amarelo Ouro */
+            --brand-yellow-hover: #FFC433;
+            --bg-site: #F4F7FB;          
             --card-white: #FFFFFF;
-            --text-dark: #0A1931;
-            --text-muted: #64748B;
-            --star-gold: #FFD700;
+            --text-dark: #102A43;
+            --text-muted: #627D98;
         }
 
-        * { box-sizing: border-box; transition: all 0.2s ease; scroll-behavior: smooth; }
+        * { box-sizing: border-box; transition: all 0.3s ease; scroll-behavior: smooth; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-site); color: var(--text-dark); }
         .container { max-width: 1200px; margin: auto; padding: 0 20px; }
 
-        /* HEADER */
+        /* NAVBAR */
         header { 
-            background: var(--brand-blue); padding: 15px 0; 
-            position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--brand-yellow);
+            background: var(--brand-blue); padding: 15px 0; position: sticky; top: 0; z-index: 1000;
+            border-bottom: 2px solid var(--brand-yellow);
         }
         .nav { display: flex; align-items: center; justify-content: space-between; }
-        .logo { font-size: 24px; font-weight: 800; color: var(--brand-yellow); text-decoration: none; }
-        .logo span { color: white; }
+        .logo { font-size: 26px; font-weight: 800; color: var(--brand-yellow); text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 600; font-size: 14px; }
 
-        /* HERO SECTON */
+        /* HERO - FOCO EM CONVERSÃO */
         .hero { 
-            background: linear-gradient(135deg, var(--brand-blue) 0%, #061121 100%); 
-            color: white; padding: 70px 0; text-align: center; border-radius: 0 0 50px 50px;
+            background: radial-gradient(circle at top right, var(--brand-blue-accent), var(--brand-blue));
+            color: white; padding: 100px 0; text-align: center; border-radius: 0 0 80px 80px;
         }
-        .hero h1 { font-size: clamp(32px, 7vw, 55px); margin: 0 0 20px; letter-spacing: -2px; line-height: 1.1; }
-        .hero h1 mark { background: none; color: var(--brand-yellow); }
-        .hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto 30px; }
+        .hero h1 { font-size: clamp(36px, 8vw, 64px); margin: 0 0 20px; letter-spacing: -3px; line-height: 1; }
+        .hero h1 span { color: var(--brand-yellow); }
+        .hero p { font-size: 20px; opacity: 0.9; max-width: 700px; margin: 0 auto 40px; }
 
-        .action-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 16px 28px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px; }
-        .btn-yellow { background: var(--brand-yellow); color: var(--brand-blue); }
-        .btn-outline { background: transparent; border: 2px solid white; color: white; }
+        .cta-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .btn-premium { 
+            background: var(--brand-yellow); color: var(--brand-blue); 
+            padding: 22px 45px; border-radius: 20px; font-weight: 800; 
+            font-size: 18px; border: none; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 180, 0, 0.3);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-premium:hover { transform: scale(1.05); background: var(--brand-yellow-hover); }
 
-        /* MAPA */
-        #map { height: 350px; border-radius: 30px; margin: 40px 0; border: 6px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        /* SEÇÃO PASSO A PASSO */
+        .how-it-works { padding: 80px 0; text-align: center; }
+        .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 50px; }
+        .step-card { background: white; padding: 40px; border-radius: 30px; border: 1px solid #E4E7EB; }
+        .step-num { 
+            width: 50px; height: 50px; background: var(--brand-yellow); color: var(--brand-blue); 
+            border-radius: 15px; display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; margin: 0 auto 20px; font-size: 20px;
+        }
 
-        /* MURAL DE PEDIDOS (FEED) */
-        .section-title { font-size: 26px; font-weight: 800; margin: 40px 0 20px; color: var(--brand-blue); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        
-        .card { background: var(--card-white); border-radius: 25px; padding: 25px; border: 1px solid #E2E8F0; position: relative; }
-        .tag { font-size: 10px; font-weight: 800; color: var(--brand-blue-light); background: #E0E7FF; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; }
-        .stars { color: var(--star-gold); margin: 10px 0; display: block; }
+        /* QUEM SOMOS */
+        .about-section { padding: 100px 0; background: var(--brand-blue); color: white; border-radius: 80px; margin: 40px 0; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; text-align: center; } }
 
-        /* COMENTÁRIOS DOS CLIENTES (FEED ESTILO REDE SOCIAL) */
-        .comment-section { background: #EEF2FF; padding: 60px 0; margin-top: 60px; border-radius: 50px; }
-        .comment-form { background: white; padding: 25px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .comment-form textarea { width: 100%; border: 1px solid #E2E8F0; padding: 15px; border-radius: 12px; resize: none; margin-bottom: 10px; font-family: inherit; }
-        
-        /* MODAIS */
-        .modal { position: fixed; inset: 0; background: rgba(10, 25, 49, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-content { background: white; padding: 35px; border-radius: 30px; width: 100%; max-width: 450px; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #E2E8F0; background: #F8FAFC; outline: none; }
-
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        /* MURAL E MAPA */
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin: 60px 0 30px; }
+        #map { height: 450px; border-radius: 40px; border: 10px solid white; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -76,97 +78,85 @@
 <header>
     <div class="container nav">
         <a href="#" class="logo">AJUDA<span>AI</span></a>
-        <button onclick="openModal('modalPrestador')" class="btn-yellow" style="padding: 10px 18px; border-radius: 12px; border:none; font-weight:800; cursor:pointer;">SOU PRESTADOR</button>
+        <div class="nav-links">
+            <a href="#como-funciona">Como Funciona</a>
+            <a href="#quem-somos">Quem Somos</a>
+            <button onclick="openModal('modalPrestador')" style="background:var(--brand-yellow); border:none; padding:10px 20px; border-radius:10px; font-weight:800; cursor:pointer;">SOU PRESTADOR</button>
+        </div>
     </div>
 </header>
 
 <section class="hero">
     <div class="container">
-        <h1>Onde problemas encontram<br><mark>soluções inteligentes.</mark></h1>
-        <p>A primeira fintech de serviços locais com mural de pedidos em tempo real e avaliações 100% reais.</p>
-        <div class="action-btns">
-            <button onclick="openModal('modalPedido')" class="btn btn-yellow">📢 POSTAR UM SERVIÇO</button>
-            <button onclick="document.getElementById('mural').scrollIntoView()" class="btn btn-outline">🔍 VER OPORTUNIDADES</button>
-        </div>
-    </div>
-</section>
-
-<div class="container">
-    <div id="map"></div>
-
-    <h2 class="section-title" id="mural">🎯 Mural de Pedidos</h2>
-    <div class="grid" id="jobFeed">
-        <div class="card">
-            <span class="tag">Elétrica</span>
-            <h3 style="margin:15px 0 5px;">Troca de Chuveiro</h3>
-            <p style="color:var(--text-muted); font-size:14px;">Bairro: Jd. Ipê. O chuveiro queimou e preciso da troca da resistência ou do aparelho.</p>
-            <button class="btn btn-yellow" style="width:100%; margin-top:15px; justify-content:center;" onclick="alert('Solicitando contato do cliente...')">PEGAR SERVIÇO</button>
-        </div>
-    </div>
-
-    <h2 class="section-title">⭐ Prestadores Bem Avaliados</h2>
-    <div class="grid" id="providerFeed">
-        <div class="card">
-            <div class="stars">⭐⭐⭐⭐⭐ <b style="color:var(--text-dark)">5.0</b></div>
-            <h3 style="margin:5px 0;">Marcos Silva</h3>
-            <p class="tag">Reformas e Pintura</p>
-            <p style="font-size:13px; color:var(--text-muted); margin-top:10px;">"Excelente profissional, muito pontual." - Avaliação Real</p>
-            <button class="btn btn-outline" style="width:100%; border-color:var(--brand-blue-light); color:var(--brand-blue-light); margin-top:15px; justify-content:center;">CHAMAR AGORA</button>
-        </div>
-    </div>
-</div>
-
-<section class="comment-section">
-    <div class="container">
-        <h2 class="section-title" style="margin-top:0;">O que dizem sobre o AJUDA AI</h2>
+        <h1>Conectamos Problemas a <span>Soluções.</span></h1>
+        <p>A fintech que organiza o mercado de serviços locais em Sumaré e região com segurança e inteligência.</p>
         
-        <div class="comment-form">
-            <h4 style="margin-top:0">Poste sua experiência:</h4>
-            <form id="formDepoimento">
-                <input type="text" id="depo_nome" placeholder="Seu nome" required style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #DDD;">
-                <textarea id="depo_texto" rows="3" placeholder="Como o Ajuda Ai te ajudou hoje?" required></textarea>
-                <button type="submit" class="btn btn-yellow">PUBLICAR COMENTÁRIO</button>
-            </form>
+        <div class="cta-container">
+            <button onclick="openModal('modalPrestador')" class="btn-premium">🚀 QUERO ME CADASTRAR COMO PRESTADOR</button>
+            <a href="#mural" style="color:white; font-weight:600;">Ou veja o que os clientes estão precisando ↓</a>
         </div>
+    </div>
+</section>
 
-        <div id="feedDepoimentos" class="grid">
-            <div class="card">
-                <p><b>"Sistema de mural é genial. Consegui um encanador em 5 minutos aqui em Sumaré!"</b></p>
-                <small>— Ricardo Oliveira</small>
+<section id="como-funciona" class="how-it-works">
+    <div class="container">
+        <h2>Como o AJUDA AI funciona?</h2>
+        <p style="color:var(--text-muted)">Transparência total para quem contrata e para quem trabalha.</p>
+        
+        <div class="step-grid">
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <h3>Para o Cliente</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">Você posta sua necessidade no Mural. Prestadores avaliados veem seu pedido e entram em contato via WhatsApp para orçar.</p>
             </div>
-            <div class="card">
-                <p><b>"Como prestador, o Ajuda Ai virou minha principal fonte de renda. Muito seguro."</b></p>
-                <small>— Ana Paula (Limpeza)</small>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <h3>Para o Prestador</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">Você cria seu perfil premium, aparece no mapa e tem acesso ao Feed de Pedidos em tempo real para nunca ficar sem trabalho.</p>
+            </div>
+            <div class="step-card" style="border: 2px solid var(--brand-yellow);">
+                <div class="step-num">03</div>
+                <h3>O Diferencial</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">Após o serviço, o sistema gera um link de avaliação único. Só avalia quem realmente contratou. Sem fakes.</p>
             </div>
         </div>
     </div>
 </section>
 
-<div class="modal" id="modalPedido">
-    <div class="modal-content">
-        <h3>O que você precisa?</h3>
-        <form id="formPedido">
-            <input name="titulo" placeholder="Ex: Conserto de Geladeira" required>
-            <input name="categoria" placeholder="Categoria (ex: Mecânico)" required>
-            <input name="bairro" placeholder="Seu Bairro" required>
-            <textarea name="descricao" placeholder="Descreva o problema..." rows="4" required></textarea>
-            <input name="whatsapp" placeholder="Seu WhatsApp" required>
-            <button type="submit" class="btn btn-yellow" style="width:100%; justify-content:center;">LANÇAR NO MURAL</button>
-            <button type="button" onclick="closeModal('modalPedido')" style="width:100%; border:none; background:none; margin-top:10px; cursor:pointer;">Cancelar</button>
-        </form>
+<section id="quem-somos" class="about-section">
+    <div class="container about-grid">
+        <div>
+            <h4 style="color:var(--brand-yellow)">SOBRE NÓS</h4>
+            <h2 style="font-size: 40px;">Mais que um site,<br>uma inteligência local.</h2>
+            <p style="opacity: 0.8; line-height: 1.8;">O <b>AJUDA AI</b> nasceu para resolver o caos da busca por profissionais de confiança. Unimos a tecnologia de geolocalização com o DNA de uma fintech para criar um ecossistema onde o bom profissional é valorizado e o cliente tem a paz de espírito de saber quem está colocando dentro de casa.</p>
+        </div>
+        <div style="background:var(--brand-blue-accent); padding:40px; border-radius:40px;">
+            <h3 style="color:var(--brand-yellow)">Nossa Missão</h3>
+            <p>Transformar a economia local facilitando conexões rápidas, seguras e auditadas por avaliações reais.</p>
+            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:20px 0;">
+            <p><b>+ de 500</b> Profissionais Cadastrados<br><b>Média 4.9</b> de satisfação</p>
+        </div>
     </div>
+</section>
+
+<div class="container" id="mural">
+    <div class="section-header">
+        <h2>📍 Mural e Mapa de Atuação</h2>
+        <button onclick="openModal('modalPedido')" class="btn-premium" style="padding:12px 25px; font-size:14px;">POSTAR PEDIDO</button>
+    </div>
+    <div id="map"></div>
 </div>
 
 <div class="modal" id="modalPrestador">
-    <div class="modal-content">
-        <h3>Cadastro de Parceiro</h3>
+    <div class="modal-content" style="max-width:600px; text-align:center;">
+        <h2 style="font-size:32px; margin-bottom:10px;">Seja um Parceiro <span style="color:var(--brand-yellow)">AJUDA AI</span></h2>
+        <p style="color:var(--text-muted); margin-bottom:30px;">Aumente seu faturamento e tenha uma agenda cheia com clientes qualificados.</p>
         <form id="formPrestador">
-            <input name="nome" placeholder="Nome / Empresa" required>
-            <input name="servico" placeholder="Sua Especialidade" required>
-            <input name="cidade" placeholder="Sua Cidade" required>
-            <input name="whatsapp" placeholder="WhatsApp" required>
-            <button type="submit" class="btn btn-yellow" style="width:100%; justify-content:center;">CADASTRAR PERFIL</button>
-            <button type="button" onclick="closeModal('modalPrestador')" style="width:100%; border:none; background:none; margin-top:10px; cursor:pointer;">Cancelar</button>
+            <input name="nome" placeholder="Nome do Profissional ou Empresa" required>
+            <input name="servico" placeholder="Sua Especialidade (ex: Marceneiro)" required>
+            <input name="whatsapp" placeholder="Seu WhatsApp com DDD" required>
+            <button type="submit" class="btn-premium" style="width:100%;">QUERO COMEÇAR AGORA</button>
+            <p style="font-size:12px; margin-top:15px; color:var(--text-muted);">Ao se cadastrar, você concorda com nossos termos de segurança.</p>
         </form>
     </div>
 </div>
@@ -178,22 +168,11 @@
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    // Envio de Depoimento da Plataforma
-    document.getElementById('formDepoimento').onsubmit = (e) => {
-        e.preventDefault();
-        const nome = document.getElementById('depo_nome').value;
-        const texto = document.getElementById('depo_texto').value;
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<p><b>"${texto}"</b></p><small>— ${nome}</small>`;
-        document.getElementById('feedDepoimentos').prepend(card);
-        e.target.reset();
-        alert("Obrigado pelo seu depoimento!");
-    };
-
-    // Aqui você conectará seus Webhooks do Make.com conforme as funções abaixo
+    
+    // Fechar modal ao clicar fora
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') { event.target.style.display = "none"; }
+    }
 </script>
 </body>
 </html>
-    
