@@ -149,7 +149,6 @@
         .modal-content { background: var(--brand-blue); padding: 40px 30px; border-radius: 40px; width: 100%; max-width: 550px; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; }
         input, textarea { width: 100%; padding: 16px; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; margin-top: 10px; outline: none; }
         
-        /* Estilo do texto Jurídico */
         .legal-text { color: var(--text-muted); text-align: left; font-size: 14px; line-height: 1.6; }
         .legal-text h4 { color: var(--brand-yellow); margin-top: 20px; }
     </style>
@@ -233,16 +232,7 @@
     <section id="feed">
         <h2 style="font-size: clamp(24px, 5vw, 32px); text-align: center; margin: 40px 0;">Mural de Oportunidades</h2>
         <div class="mural-grid" id="muralGrid">
-            <div class="job-card">
-                <span style="color: var(--brand-yellow); font-size: 11px; font-weight: 800; text-transform: uppercase;">Exemplo de Pedido</span>
-                <h3 style="margin: 10px 0;">Instalação de Varal de Teto</h3>
-                <p style="color: var(--text-muted); font-size: 14px;">"Preciso de alguém com furadeira para instalar um varal na área de serviço..."</p>
-                <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 12px; color: var(--brand-yellow);">📍 Americana, SP</span>
-                    <button class="btn-yellow" style="padding: 8px 15px; border-radius: 8px; border: none; font-weight: 800; font-size: 12px;">AJUDAR</button>
-                </div>
             </div>
-        </div>
     </section>
 
     <section id="quem-somos" class="about-section">
@@ -270,54 +260,25 @@
     </div>
 </footer>
 
-<div class="modal" id="modalPrivacidade">
+<div class="modal" id="modalPedido">
     <div class="modal-content">
-        <h2 style="color: var(--brand-yellow);">Política de <span>Privacidade</span></h2>
-        <div class="legal-text">
-            <p>A sua privacidade é importante para nós. Esta política descreve como o <b>Ajuda Aí</b> coleta e utiliza seus dados.</p>
-            
-            <h4>1. Coleta de Dados</h4>
-            <p>Coletamos seu nome, WhatsApp, localização (GPS) e profissão apenas para viabilizar a conexão entre prestadores e clientes. Não coletamos dados bancários ou documentos sensíveis através do front-end.</p>
-            
-            <h4>2. Uso da Localização</h4>
-            <p>O Ajuda Aí utiliza a sua localização geográfica para mostrar serviços próximos a você. Ao clicar em "Usar meu GPS", você autoriza esse acesso em tempo real.</p>
-            
-            <h4>3. Compartilhamento</h4>
-            <p>Seus dados de contato (WhatsApp) só ficam visíveis quando você publica um serviço ou se cadastra como prestador, permitindo o contato direto entre as partes.</p>
-            
-            <h4>4. Seus Direitos</h4>
-            <p>A qualquer momento, você pode solicitar a exclusão de seus dados de nossa base entrando em contato com o suporte.</p>
-        </div>
-        <button onclick="closeModal('modalPrivacidade')" class="btn-yellow" style="width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-weight:800; cursor:pointer;">LI E CONCORDO</button>
-    </div>
-</div>
-
-<div class="modal" id="modalTermos">
-    <div class="modal-content">
-        <h2 style="color: var(--brand-yellow);">Termos de <span>Uso</span></h2>
-        <div class="legal-text">
-            <p>Ao utilizar o <b>Ajuda Aí</b>, você concorda integralmente com as seguintes condições:</p>
-            
-            <h4>1. Natureza do Serviço</h4>
-            <p>O Ajuda Aí é exclusivamente uma <b>plataforma de anúncios e conexão</b>. Não somos agência de empregos, nem empregadores. Atuamos apenas como a ponte tecnológica entre as partes.</p>
-            
-            <h4>2. Isenção de Responsabilidade</h4>
-            <p>O Ajuda Aí <b>não se responsabiliza</b> pela qualidade, prazos, pagamentos ou conduta moral dos usuários. Toda negociação é feita diretamente via WhatsApp, fora da plataforma.</p>
-            
-            <h4>3. Conduta do Usuário</h4>
-            <p>É proibido postar conteúdos falsos, ilícitos ou discriminatórios. Perfis que violarem a boa convivência serão banidos permanentemente sem aviso prévio.</p>
-            
-            <h4>4. Segurança</h4>
-            <p>Recomendamos que, ao contratar ou prestar um serviço, os usuários tomem medidas de segurança, como informar familiares sobre o local do serviço e verificar referências.</p>
-        </div>
-        <button onclick="closeModal('modalTermos')" class="btn-yellow" style="width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-weight:800; cursor:pointer;">ACEITAR TERMOS</button>
+        <h2>O que você <span>precisa?</span></h2>
+        <form onsubmit="postarPedido(event)">
+            <input type="text" id="ped_nome" placeholder="Seu Nome" required>
+            <input type="tel" id="ped_whatsapp" placeholder="WhatsApp (DDD + Número)" required>
+            <input type="text" id="ped_titulo" placeholder="Título (Ex: Conserto de Geladeira)" required>
+            <input type="text" id="ped_cidade" placeholder="Sua Cidade/Bairro" required>
+            <textarea id="ped_descricao" placeholder="Descreva brevemente o que precisa ser feito..." style="resize: none; height: 100px;" required></textarea>
+            <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">POSTAR NO MURAL</button>
+            <button type="button" onclick="closeModal('modalPedido')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer;">Cancelar</button>
+        </form>
     </div>
 </div>
 
 <div class="modal" id="modalPrestador">
     <div class="modal-content">
         <h2>Cadastro de <span>Parceiro</span></h2>
-        <form onsubmit="validarCadastro(event, 'prestador')">
+        <form>
             <input type="text" placeholder="Nome completo" required>
             <input type="tel" placeholder="WhatsApp (DDD + Número)" required>
             <input type="text" placeholder="Sua Profissão" required>
@@ -326,6 +287,15 @@
             <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">FINALIZAR</button>
             <button type="button" onclick="closeModal('modalPrestador')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer;">Voltar</button>
         </form>
+    </div>
+</div>
+
+<div class="modal" id="modalAvaliacao">
+    <div class="modal-content">
+        <h2>Avaliar <span>Prestador</span></h2>
+        <p>Seu pedido foi atendido? Deixe sua avaliação:</p>
+        <div style="font-size: 30px; margin: 20px 0; cursor: pointer;">⭐⭐⭐⭐⭐</div>
+        <button onclick="closeModal('modalAvaliacao')" class="btn-yellow" style="width:100%; padding:15px; border-radius:15px; border:none; font-weight:800;">ENVIAR AVALIAÇÃO</button>
     </div>
 </div>
 
@@ -339,14 +309,100 @@
     const map = L.map('map', { zoomControl: false }).setView([-23.88, -47.26], 13); 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png').addTo(map);
 
-    document.getElementById('muralSearch').addEventListener('input', function(e) {
-        const term = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.job-card');
-        cards.forEach(card => {
-            const content = card.innerText.toLowerCase();
-            card.style.display = content.includes(term) ? 'block' : 'none';
+    // DADOS SIMULADOS (Enquanto não cria a tabela no Supabase)
+    let pedidosNoMural = [];
+
+    async function postarPedido(e) {
+        e.preventDefault();
+        const novoPedido = {
+            id: Date.now(),
+            nome: document.getElementById('ped_nome').value,
+            whatsapp: document.getElementById('ped_whatsapp').value,
+            titulo: document.getElementById('ped_titulo').value,
+            cidade: document.getElementById('ped_cidade').value,
+            descricao: document.getElementById('ped_descricao').value,
+            status: 'aberto'
+        };
+
+        pedidosNoMural.push(novoPedido);
+        renderizarMural();
+        closeModal('modalPedido');
+        alert("Sua ajuda foi postada no mural!");
+        
+        // Simulação de notificação após 1 minuto (para teste)
+        setTimeout(() => {
+            if(confirm("Sua solicitação no Ajuda Aí foi atendida?")) {
+                openModal('modalAvaliacao');
+            } else {
+                alert("Seu pedido continua aguardando ajuda no mural.");
+            }
+        }, 60000); 
+    }
+
+    function renderizarMural() {
+        const grid = document.getElementById('muralGrid');
+        grid.innerHTML = '';
+        
+        pedidosNoMural.filter(p => p.status === 'aberto').forEach(pedido => {
+            const card = document.createElement('div');
+            card.className = 'job-card';
+            card.innerHTML = `
+                <span style="color: var(--brand-yellow); font-size: 11px; font-weight: 800; text-transform: uppercase;">Pedido de Ajuda</span>
+                <h3 style="margin: 10px 0;">${pedido.titulo}</h3>
+                <p style="color: var(--text-muted); font-size: 14px;">"${pedido.descricao}"</p>
+                <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 12px; color: var(--brand-yellow);">📍 ${pedido.cidade}</span>
+                    <button onclick="ajudarCliente(${pedido.id}, '${pedido.whatsapp}')" class="btn-yellow" style="padding: 8px 15px; border-radius: 8px; border: none; font-weight: 800; font-size: 12px;">AJUDAR</button>
+                </div>
+            `;
+            grid.appendChild(card);
         });
+    }
+
+    function ajudarCliente(id, whatsapp) {
+        // Muda o status para sumir do mural
+        const index = pedidosNoMural.findIndex(p => p.id === id);
+        if(index !== -1) {
+            pedidosNoMural[index].status = 'em_atendimento';
+            renderizarMural();
+            
+            // Abre o WhatsApp
+            const msg = window.encodeURIComponent("Olá, vi seu pedido no Ajuda Aí e posso te ajudar!");
+            window.open(`https://wa.me/55${whatsapp.replace(/\D/g,'')}?text=${msg}`, '_blank');
+            
+            // Lógica de Retorno: Se em 30 min não for avaliado, volta ao mural
+            setTimeout(() => {
+                if(pedidosNoMural[index].status === 'em_atendimento') {
+                    pedidosNoMural[index].status = 'aberto';
+                    renderizarMural();
+                }
+            }, 1800000); // 30 minutos
+        }
+    }
+
+    // --- REUTILIZANDO SUAS FUNÇÕES ORIGINAIS ---
+    function toggleMenu(event) {
+        if (event) event.stopPropagation();
+        document.getElementById('navActions').classList.toggle('active');
+    }
+
+    function closeMenu() {
+        document.getElementById('navActions').classList.remove('active');
+    }
+
+    document.addEventListener('click', function(event) {
+        const menu = document.getElementById('navActions');
+        const btn = document.getElementById('hamburgerBtn');
+        if (menu && menu.classList.contains('active')) {
+            if (!menu.contains(event.target) && !btn.contains(event.target)) {
+                closeMenu();
+            }
+        }
     });
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function getGPS() { navigator.geolocation.getCurrentPosition(p => map.setView([p.coords.latitude, p.coords.longitude], 15)); }
 
     window.addEventListener('load', () => {
         if (navigator.geolocation) {
@@ -357,30 +413,6 @@
             });
         }
     });
-
-    function toggleMenu(event) {
-        if (event) event.stopPropagation();
-        document.getElementById('navActions').classList.toggle('active');
-    }
-
-    function closeMenu() {
-        document.getElementById('navActions').classList.remove('active');
-    }
-
-    // Upgrade: Fechamento automático ao clicar fora
-    document.addEventListener('click', function(event) {
-        const menu = document.getElementById('navActions');
-        const btn = document.getElementById('hamburgerBtn');
-        if (menu.classList.contains('active')) {
-            if (!menu.contains(event.target) && !btn.contains(event.target)) {
-                closeMenu();
-            }
-        }
-    });
-
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function getGPS() { navigator.geolocation.getCurrentPosition(p => map.setView([p.coords.latitude, p.coords.longitude], 15)); }
 </script>
 </body>
 </html>
