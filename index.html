@@ -39,7 +39,6 @@
         .nav-actions { display: flex; gap: 12px; align-items: center; }
         .nav-link-top { color: white; text-decoration: none; font-weight: 700; font-size: 11px; text-transform: uppercase; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; }
 
-        /* Botão Hambúrguer */
         .menu-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; background: none; border: none; padding: 5px; z-index: 1002; }
         .menu-hamburger span { width: 25px; height: 3px; background: var(--brand-yellow); border-radius: 2px; }
 
@@ -50,7 +49,7 @@
                 flex-direction: column; background: var(--brand-blue); 
                 padding: 20px; border-radius: 20px; border: 1px solid var(--brand-yellow); 
                 box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 220px;
-                z-index: 1001;
+                z-index: 1001; /* Garante que fique acima de tudo */
             }
             .nav-actions.active { display: flex; }
         }
@@ -87,8 +86,7 @@
 
         .mural-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; margin-top: 30px; }
         .job-card { background: var(--brand-blue); border-radius: 30px; padding: 25px; border: 1px solid var(--border); text-align: left; transition: 0.4s; }
-        .job-card h3 { margin: 15px 0 10px; font-size: 20px; }
-        .job-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+        .job-card:hover { transform: translateY(-5px); border-color: var(--brand-yellow); }
 
         /* --- QUEM SOMOS (NOVO DESIGN) --- */
         .about-section { 
@@ -110,11 +108,8 @@
         /* --- MODAIS --- */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .modal-content { background: var(--brand-blue); padding: 40px 30px; border-radius: 40px; width: 100%; max-width: 550px; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; }
-        .modal-content h2 { font-size: 28px; margin-bottom: 10px; }
-        .modal-content h2 span { color: var(--brand-yellow); }
         
         input, textarea, select { width: 100%; padding: 16px; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; margin-top: 10px; outline: none; font-family: inherit; }
-        textarea { height: 120px; resize: none; }
 
         /* --- BANNER DE COOKIES --- */
         .cookie-consent {
@@ -125,7 +120,8 @@
         }
         .cookie-consent.active { transform: translateY(0); }
 
-        .step-card { background: rgba(255,255,255,0.03); padding: 25px; border-radius: 25px; border: 1px solid var(--border); }
+        /* DEPOIMENTOS */
+        .step-card { background: rgba(255,255,255,0.03); padding: 25px; border-radius: 25px; border: 1px solid var(--border); text-align: left; }
     </style>
 </head>
 <body>
@@ -143,9 +139,9 @@
         </a>
         
         <div class="nav-actions" id="navActions">
-            <a href="#" class="nav-link-top">Home</a>
-            <a href="#quem-somos" class="nav-link-top">Quem Somos</a>
-            <button onclick="openModal('modalPrestador')" class="btn-yellow" style="padding:10px 18px; border-radius:10px; border:none; font-weight:800; cursor:pointer;">CADASTRAR PRESTADOR</button>
+            <a href="#" class="nav-link-top" onclick="closeMenu()">Home</a>
+            <a href="#quem-somos" class="nav-link-top" onclick="closeMenu()">Quem Somos</a>
+            <button onclick="openModal('modalPrestador'); closeMenu();" class="btn-yellow" style="padding:10px 18px; border-radius:10px; border:none; font-weight:800; cursor:pointer;">CADASTRAR PRESTADOR</button>
         </div>
 
         <button class="menu-hamburger" onclick="toggleMenu(event)">
@@ -251,10 +247,16 @@
 <div class="modal" id="modalPrivacidade">
     <div class="modal-content">
         <h2>Privacidade <span>e Dados</span></h2>
-        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
-            O Ajuda Aí coleta apenas os dados necessários para a conexão entre as partes. Seus dados de localização são usados apenas para encontrar serviços próximos. Não vendemos suas informações para terceiros.
-        </p>
-        <button onclick="closeModal('modalPrivacidade')" class="btn-yellow" style="width:100%; padding:15px; border:none; border-radius:12px; font-weight:800; margin-top:20px; cursor:pointer;">ENTENDI</button>
+        <p style="color:var(--text-muted); line-height:1.6;">O Ajuda Aí coleta apenas os dados necessários para a conexão direta. Não vendemos suas informações.</p>
+        <button onclick="closeModal('modalPrivacidade')" class="btn-yellow" style="width:100%; padding:15px; border:none; border-radius:12px; font-weight:800; margin-top:20px; cursor:pointer;">FECHAR</button>
+    </div>
+</div>
+
+<div class="modal" id="modalTermos">
+    <div class="modal-content">
+        <h2>Termos de <span>Uso</span></h2>
+        <p style="color:var(--text-muted); line-height:1.6;">Ao usar o Ajuda Aí, você concorda em agir com honestidade e respeito. Somos uma ponte de conexão.</p>
+        <button onclick="closeModal('modalTermos')" class="btn-yellow" style="width:100%; padding:15px; border:none; border-radius:12px; font-weight:800; margin-top:20px; cursor:pointer;">FECHAR</button>
     </div>
 </div>
 
@@ -280,43 +282,51 @@
         }
     }
 
-    /* --- INTERFACE --- */
+    /* --- MENU HAMBÚRGUER --- */
     function toggleMenu(e) { 
         if(e) e.stopPropagation();
         document.getElementById('navActions').classList.toggle('active'); 
     }
     function closeMenu() { document.getElementById('navActions').classList.remove('active'); }
+
+    /* --- MODAIS --- */
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function acceptCookies() { localStorage.setItem('ajudaAi_cookies', 'true'); document.getElementById('cookieBanner').classList.remove('active'); }
 
-    // Fechar ao clicar fora (Hambúrguer e Modais)
+    /* --- CLIQUE FORA PARA FECHAR --- */
     document.addEventListener('click', function(event) {
-        const nav = document.getElementById('navActions');
-        const btn = document.querySelector('.menu-hamburger');
-        if (nav.classList.contains('active') && !nav.contains(event.target) && !btn.contains(event.target)) {
-            closeMenu();
+        const navActions = document.getElementById('navActions');
+        const menuHamburger = document.querySelector('.menu-hamburger');
+        // Fecha menu se clicar fora
+        if (navActions.classList.contains('active')) {
+            if (!navActions.contains(event.target) && !menuHamburger.contains(event.target)) {
+                closeMenu();
+            }
         }
+        // Fecha modais se clicar no fundo escuro
         if (event.target.classList.contains('modal')) {
             event.target.style.display = 'none';
         }
     });
 
-    /* --- MÁSCARA DINÂMICA WHATSAPP --- */
+    /* --- COOKIES --- */
+    function acceptCookies() { localStorage.setItem('ajudaAi_cookies', 'true'); document.getElementById('cookieBanner').classList.remove('active'); }
+
+    /* --- MÁSCARA WHATSAPP --- */
     document.querySelectorAll('.whatsapp-mask').forEach(input => {
         input.addEventListener('input', (e) => {
-            let value = e.target.value.replace(/\D/g, "");
-            if (value.length > 11) value = value.slice(0, 11);
-            if (value.length > 2) {
-                value = `(${value.slice(0, 2)}) ${value.slice(2, 3)} ${value.slice(3)}`;
-            } else if (value.length > 0) {
-                value = `(${value}`;
+            let v = e.target.value.replace(/\D/g, "");
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 2) {
+                v = `(${v.slice(0, 2)}) ${v.slice(2, 3)} ${v.slice(3)}`;
+            } else if (v.length > 0) {
+                v = `(${v}`;
             }
-            e.target.value = value;
+            e.target.value = v;
         });
     });
 
-    /* --- LOGICA MURAL (CONEXÃO SUPABASE) --- */
+    /* --- LÓGICA DO MURAL (SUMIR AO AJUDAR) --- */
     async function carregarMural() {
         const { data: pedidos, error } = await _supabase
             .from('pedidos')
@@ -354,17 +364,17 @@
         }
     }
 
-    // ENVIO DE PEDIDO
+    // FORMULÁRIO DE PEDIDO
     document.getElementById('formPedido').onsubmit = async (e) => {
         e.preventDefault();
         const btn = e.target.querySelector('button');
         btn.innerText = "PUBLICANDO...";
         
         await _supabase.from('pedidos').insert([{ 
-            titulo: pedTitulo.value, 
-            whatsapp: pedWhatsapp.value, 
-            cidade: pedCidade.value, 
-            descricao: pedDesc.value,
+            titulo: document.getElementById('pedTitulo').value, 
+            whatsapp: document.getElementById('pedWhatsapp').value, 
+            cidade: document.getElementById('pedCidade').value, 
+            descricao: document.getElementById('pedDesc').value,
             status: 'aberto' 
         }]);
 
@@ -383,6 +393,7 @@
         getGPS();
     });
 
+    /* --- BUSCA --- */
     document.getElementById('muralSearch').addEventListener('input', function(e) {
         const term = e.target.value.toLowerCase();
         document.querySelectorAll('.job-card').forEach(card => {
