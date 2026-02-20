@@ -7,6 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
         :root {
@@ -84,6 +85,7 @@
         .status-pill { font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: 800; text-transform: uppercase; float: right; }
         .status-open { background: rgba(255, 180, 0, 0.2); color: var(--brand-yellow); }
         .status-progress { background: rgba(24, 90, 219, 0.3); color: #7cb9ff; }
+
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
         .about-section { padding: 100px 0; background: linear-gradient(to bottom, var(--brand-dark), #0A1931); border-radius: 60px; margin: 60px 0; border: 1px solid var(--border); text-align: center; }
@@ -93,6 +95,7 @@
 
         .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 40px 0; }
         .testimonial-card { background: rgba(255,255,255,0.03); padding: 30px; border-radius: 25px; border: 1px solid var(--border); }
+        
         footer { padding: 80px 0 40px; border-top: 1px solid var(--border); background: #03070C; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: left; margin-bottom: 40px; }
         .footer-col h4 { color: white; margin-bottom: 20px; font-size: 18px; }
@@ -103,9 +106,7 @@
             background: var(--brand-blue); padding: 40px 30px; border-radius: 45px; 
             width: 100%; max-width: 550px; border: 1px solid var(--border); text-align: center; 
             max-height: 90vh; overflow-y: hidden;
-            scrollbar-width: none; -ms-overflow-style: none;
         }
-        .modal-content::-webkit-scrollbar { display: none; }
         
         input, textarea { width: 100%; padding: 16px; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; margin-top: 10px; outline: none; }
     </style>
@@ -120,7 +121,7 @@
         </a>
         
         <div style="display: flex; align-items: center; gap: 15px;">
-            <button onclick="openModal('modalPrestador')" class="btn-yellow btn-work-top" style="padding:10px 14px; border-radius:10px; border:none; font-weight:800; cursor:pointer; font-size: 10px;">QUERO TRABALHAR</button>
+            <button onclick="openModal('modalPrestador')" class="btn-yellow" style="padding:10px 14px; border-radius:10px; border:none; font-weight:800; cursor:pointer; font-size: 10px;">QUERO TRABALHAR</button>
             <button class="menu-hamburger" onclick="toggleMenu()">
                 <span></span><span></span><span></span>
             </button>
@@ -160,10 +161,6 @@
         <div class="filter-tag" data-category="Elétrica">⚡ Elétrica</div>
         <div class="filter-tag" data-category="Hidráulica">🚰 Hidráulica</div>
         <div class="filter-tag" data-category="Limpeza">🧼 Limpeza</div>
-        <div class="filter-tag" data-category="Carretos">📦 Carretos</div>
-        <div class="filter-tag" data-category="Pet">🐾 Pet Walker</div>
-        <div class="filter-tag" data-category="Técnica">💻 Assistência Técnica</div>
-        <div class="filter-tag" data-category="Design">🎨 Design & Social Media</div>
     </div>
 
     <section id="feed">
@@ -174,8 +171,7 @@
     <section id="quem-somos" class="about-section">
         <div class="about-content">
             <h2>A Identidade do <span>AJUDA AI</span></h2>
-            <p>O <b>Ajuda Aí</b> não é apenas um site de classificados; é um ecossistema de confiança projetado para eliminar as barreiras entre a necessidade e a solução.</p>
-            <p>Nossa proposta é clara: <b>"Problema postado, solução encontrada"</b>.</p>
+            <p>O <b>Ajuda Aí</b> elimina as barreiras entre a necessidade e a solução. Criamos uma vitrine transparente onde a sua localização é a chave para uma economia colaborativa mais justa.</p>
         </div>
     </section>
 </div>
@@ -185,14 +181,18 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <div class="logo-text">AJUDA<span>AI</span></div>
+                <p style="color:var(--text-muted); font-size: 14px; margin-top: 15px;">Conectando talentos e necessidades em tempo real.</p>
             </div>
             <div class="footer-col">
                 <h4>Navegação</h4>
                 <a href="#">Home</a>
+                <a href="#como-funciona">Como Funciona</a>
                 <a href="#quem-somos">Sobre Nós</a>
             </div>
         </div>
-        <div style="text-align: center; opacity: 0.2; font-size: 12px; padding-top: 20px;">© 2026 AJUDA AI</div>
+        <div style="border-top: 1px solid var(--border); padding-top: 20px; color: rgba(255,255,255,0.2); font-size: 12px; text-align: center;">
+            © 2026 AJUDA AI - Todos os direitos reservados.
+        </div>
     </div>
 </footer>
 
@@ -200,106 +200,75 @@
     <div class="modal-content">
         <h2>Seja um <span>Parceiro</span></h2>
         <form onsubmit="validarCadastro(event, 'prestador')">
-            <input type="text" name="nome" placeholder="Nome completo" required>
-            <input type="tel" name="whatsapp" class="whatsapp-mask" placeholder="WhatsApp (apenas números)" required pattern="[0-9]{10,11}">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="text" name="profissao" placeholder="Profissão" required>
-            <input type="text" name="cidade" placeholder="Cidade" required>
-            <textarea name="servicos" placeholder="Descreva seus serviços" style="resize: none;"></textarea>
+            <input type="text" placeholder="Nome completo" required>
+            <input type="tel" placeholder="WhatsApp (apenas números)" required>
+            <input type="text" placeholder="Profissão" required>
+            <input type="text" placeholder="Cidade" required>
+            <textarea placeholder="Serviços" style="resize: none;"></textarea>
             <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px;">FINALIZAR</button>
             <button type="button" onclick="closeModal('modalPrestador')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer;">Voltar</button>
         </form>
     </div>
 </div>
 
-<div class="modal" id="modalPedido">
-    <div class="modal-content">
-        <h2>O que você <span>precisa</span>?</h2>
-        <form onsubmit="validarCadastro(event, 'cliente')">
-            <input name="titulo" placeholder="Ex: Conserto de torneira" required id="ped_titulo">
-            <input type="tel" name="whatsapp" class="whatsapp-mask" placeholder="WhatsApp (apenas números)" required pattern="[0-9]{10,11}">
-            <textarea name="descricao" placeholder="Detalhes do pedido" style="resize: none;" id="ped_desc"></textarea>
-            <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px;">LANÇAR NO MURAL</button>
-            <button type="button" onclick="closeModal('modalPedido')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer;">Cancelar</button>
-        </form>
-    </div>
-</div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    let userLat = ""; let userLng = "";
-    let servicosDB = [
-        { id: 1, categoria: "Elétrica", titulo: "Instalação de Chuveiro", desc: "Preciso trocar a resistência.", status: "aberto" }
-    ];
+    // --- CONEXÃO SUPABASE (SUBSTITUIU O MAKE) ---
+    const SUPABASE_URL = 'https://vhoiwkndxmmajwoskxdl.supabase.co';
+    const SUPABASE_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZob2l3a25keG1tYWp3b3NreGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1ODA5NTcsImV4cCI6MjA4NzE1Njk1N30.ieQQz4158eWEaHkC5yMjMIIFg-FBabbwUz-vpXyo1c8';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const map = L.map('map', { zoomControl: false }).setView([-15.78, -47.92], 4); 
+    let userLat = "";
+    let userLng = "";
+
+    const map = L.map('map', { zoomControl: false }).setView([-23.88, -47.26], 13); 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png').addTo(map);
 
     window.addEventListener('load', () => {
-        renderizarMural("Todos");
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(p => {
-                userLat = p.coords.latitude; userLng = p.coords.longitude;
+                userLat = p.coords.latitude;
+                userLng = p.coords.longitude;
                 map.flyTo([userLat, userLng], 14);
-                L.marker([userLat, userLng]).addTo(map).bindPopup('Você está aqui!').openPopup();
+                L.marker([userLat, userLng]).addTo(map).bindPopup('Você está aqui!');
             });
         }
     });
 
-    // --- FUNÇÃO DE ENVIO PARA O MAKE (CORRIGIDA) ---
-    function validarCadastro(e, tipo) {
+    async function validarCadastro(e, tipo) {
         e.preventDefault();
         const btnSubmit = e.target.querySelector('button[type="submit"]');
-        const originalText = btnSubmit.innerHTML;
-        
-        const formData = new FormData(e.target);
-        const payload = Object.fromEntries(formData.entries());
-        
-        // ADICIONANDO O CAMPO 'TIPO' PARA O ROUTER DO MAKE
-        payload.tipo = tipo; 
-        payload.lat = userLat;
-        payload.lng = userLng;
-
         btnSubmit.innerHTML = "ENVIANDO...";
         btnSubmit.disabled = true;
 
-        fetch("https://hook.us2.make.com/rmdusinc4e6pg1akovep4zrd6rw1fpyw", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        })
-        .then(res => {
-            alert("Sucesso! Seus dados foram sincronizados.");
-            closeModal(tipo === 'cliente' ? 'modalPedido' : 'modalPrestador');
-            e.target.reset();
-            if(tipo === 'cliente') {
-                servicosDB.unshift({ id: Date.now(), categoria: "Pedido", titulo: payload.titulo, desc: payload.descricao, status: "aberto" });
-                renderizarMural("Todos");
-            }
-        })
-        .catch(err => alert("Erro ao enviar."))
-        .finally(() => {
-            btnSubmit.innerHTML = originalText;
-            btnSubmit.disabled = false;
-        });
-    }
+        const inputs = e.target.querySelectorAll('input');
+        const payload = {
+            nome: inputs[0].value,
+            whatsapp: inputs[1].value,
+            servico: inputs[2].value + " - " + e.target.querySelector('textarea').value,
+            cidade: inputs[3].value,
+            lat: userLat,
+            lng: userLng,
+            tipo: tipo
+        };
 
-    function renderizarMural(filtro) {
-        const grid = document.getElementById('muralGrid');
-        grid.innerHTML = "";
-        const filtrados = filtro === "Todos" ? servicosDB : servicosDB.filter(s => s.categoria === filtro);
-        filtrados.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'job-card';
-            card.innerHTML = `<span class="status-pill status-open">Aberto</span><h3>${item.titulo}</h3><p>${item.desc}</p>`;
-            grid.appendChild(card);
-        });
+        const { error } = await _supabase.from('prestadores').insert([payload]);
+
+        if (error) {
+            alert("Erro ao enviar: " + error.message);
+        } else {
+            alert("Cadastro realizado com sucesso no Supabase!");
+            closeModal(e.target.closest('.modal').id);
+            e.target.reset();
+        }
+        btnSubmit.innerHTML = "FINALIZAR";
+        btnSubmit.disabled = false;
     }
 
     function toggleMenu() { document.getElementById('navActions').classList.toggle('active'); }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function getGPS() { if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(p => map.setView([p.coords.latitude, p.coords.longitude], 15)); } }
+    function getGPS() { navigator.geolocation.getCurrentPosition(p => map.setView([p.coords.latitude, p.coords.longitude], 15)); }
 </script>
 </body>
 </html>
