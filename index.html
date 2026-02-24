@@ -354,7 +354,7 @@
             <h4>2. Isenção de Responsabilidade</h4>
             <p>O Ajuda Aí <b>não se responsabiliza</b> pela qualidade, prazos, pagamentos ou conduta moral dos usuários. Toda negociação é feita diretamente via WhatsApp, fora da plataforma.</p>
             
-            <h4>3. Conduca do Usuário</h4>
+            <h4>3. Conduta do Usuário</h4>
             <p>É proibido postar conteúdos falsos, ilícitos ou discriminatórios. Perfis que violarem a boa convivência serão banidos permanentemente sem aviso prévio.</p>
             
             <h4>4. Segurança</h4>
@@ -387,7 +387,7 @@
             <input type="tel" id="ped_whatsapp" placeholder="Seu WhatsApp (com DDD)" required>
             <input type="text" id="ped_titulo" placeholder="Ex: Consertar torneira, Aula de violão..." required>
             <input type="text" id="ped_cidade" placeholder="Sua Cidade" required>
-            <textarea id="ped_descricao" placeholder="Detalhes da ajuda que precisa..." rows="4" style="width: 100%; padding: 16px; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; margin-top: 10px; outline: none; resize: none;"></textarea>
+            <textarea id="ped_descricao" placeholder="Detalhes da ajuda que precisa..." style="resize: none;"></textarea>
             <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">POSTAR NO MURAL</button>
             <button type="button" onclick="closeModal('modalPedido')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Cancelar</button>
         </form>
@@ -426,8 +426,6 @@
                     </div>
                 </div>
             `).join('');
-        } else {
-            grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">Aguardando novos pedidos no mural...</p>';
         }
     }
 
@@ -442,9 +440,7 @@
             descricao: document.getElementById('ped_descricao').value
         };
         const { error } = await _supabase.from('pedidos_ajuda').insert([dados]);
-        if (error) {
-            alert("Erro ao postar: " + error.message);
-        } else {
+        if (!error) {
             alert("Sua ajuda foi postada com sucesso!");
             closeModal('modalPedido');
             document.getElementById('formPedido').reset();
@@ -457,7 +453,7 @@
         const { error } = await _supabase.from('pedidos_ajuda').update({ status: 'em_atendimento' }).eq('id', id);
         if (!error) {
             const numLimpo = whatsapp.replace(/\D/g, '');
-            const msg = encodeURIComponent("Olá! Vi seu pedido no Ajuda Aí e estou disponível para te ajudar. Podemos conversar?");
+            const msg = encodeURIComponent("Olá! Vi seu pedido no Ajuda Aí e estou disponível para te ajudar.");
             window.open(`https://wa.me/55${numLimpo}?text=${msg}`, '_blank');
             carregarMural();
         }
@@ -470,7 +466,7 @@
     }
 
     window.addEventListener('load', () => {
-        carregarMural();
+        carregarMural(); // Carrega o mural dinâmico ao iniciar
         if (!localStorage.getItem('ajudaAi_cookies')) {
             setTimeout(() => {
                 document.getElementById('cookieBanner').classList.add('active');
@@ -486,10 +482,10 @@
         }
     });
 
-    /* --- MÁSCARA DE WHATSAPP --- */
+    /* --- VALIDADOR DE WHATSAPP (MÁSCARA DINÂMICA) --- */
     const whatsappInput = document.getElementById('whatsappInput');
     whatsappInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, "");
+        let value = e.target.value.replace(/\D/g, ""); 
         if (value.length > 11) value = value.slice(0, 11);
         if (value.length > 2) {
             value = `(${value.slice(0, 2)}) ${value.slice(2, 3)} ${value.slice(3)}`;
@@ -499,7 +495,6 @@
         e.target.value = value;
     });
 
-    /* --- BUSCA NO MURAL --- */
     document.getElementById('muralSearch').addEventListener('input', function(e) {
         const term = e.target.value.toLowerCase();
         const cards = document.querySelectorAll('.job-card');
