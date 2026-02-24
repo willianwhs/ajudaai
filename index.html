@@ -494,11 +494,12 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+    // CREDENCIAIS ATUALIZADAS E VALIDIDAS
     const SUPABASE_URL = 'https://vhoiwkndxmmajwoskxdl.supabase.co';
-    const SUPABASE_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZob2l3a25keG1tYWp3b3NreGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1ODA5NTcsImV4cCI6MjA4NzE1Njk1N30.ieQQz4158eWEaHkC5yMjMIIFg-FBabbwUz-vpXyo1c8';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZob2l3a25keG1tYWp3b3NreGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1ODA5NTcsImV4cCI6MjA4NzE1Njk1N30.ieQQz4158eWEaHkC5yMjMIIFg-FBabbwUz-vpXyo1c8';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let userLat = ""; let userLng = ""; let currentCity = "";
+    let userLat = null; let userLng = null; let currentCity = "";
     let selectedStar = 0;
 
     const map = L.map('map', { zoomControl: false }).setView([-23.88, -47.26], 13); 
@@ -649,7 +650,7 @@
             whatsapp: document.getElementById('whatsappInput').value,
             servico: document.getElementById('pres_servico').value,
             cidade: document.getElementById('pres_cidade').value,
-            lat: userLat, lng: userLng
+            lat: userLat || null, lng: userLng || null
         }]);
         
         if (error) {
@@ -718,13 +719,20 @@
         }
     });
 
-    // CORREÇÃO: MÁSCARA APLICADA A TODOS OS CAMPOS COM A CLASSE MASK-WHATSAPP
+    // MÁSCARA APLICADA A TODOS OS CAMPOS COM A CLASSE MASK-WHATSAPP (INCLUINDO PEDIDOS)
     document.querySelectorAll('.mask-whatsapp').forEach(input => {
         input.addEventListener('input', (e) => {
             let value = e.target.value.replace(/\D/g, ""); 
             if (value.length > 11) value = value.slice(0, 11);
-            if (value.length > 2) value = `(${value.slice(0, 2)}) ${value.slice(2, 3)} ${value.slice(3)}`;
-            else if (value.length > 0) value = `(${value}`;
+            if (value.length > 2) {
+                if (value.length > 7) {
+                    value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+                } else {
+                    value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+                }
+            } else if (value.length > 0) {
+                value = `(${value}`;
+            }
             e.target.value = value;
         });
     });
