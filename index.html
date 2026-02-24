@@ -33,7 +33,6 @@
             overflow: hidden;
             min-height: 90px;
         }
-        /* Estilo sutil para o AdSense não chocar o visual */
         .adsbygoogle {
             background: rgba(255,255,255,0.02);
             border-radius: 12px;
@@ -111,7 +110,16 @@
         .filter-tag.active { border-color: var(--brand-yellow); color: var(--brand-yellow); background: rgba(255, 180, 0, 0.1); }
 
         .mural-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; margin-top: 30px; }
-        .job-card { background: var(--brand-blue); border-radius: 30px; padding: 25px; border: 1px solid var(--border); text-align: left; }
+        .job-card { background: var(--brand-blue); border-radius: 30px; padding: 25px; border: 1px solid var(--border); text-align: left; position: relative; }
+
+        /* Estilo da Vitrine de Prestadores */
+        .prestador-card { 
+            background: linear-gradient(145deg, #0A1931, #050B14);
+            border-radius: 25px; padding: 20px; border: 1px solid var(--border);
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .prestador-header { display: flex; align-items: center; gap: 12px; }
+        .prestador-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--brand-blue-light); display: flex; align-items: center; justify-content: center; font-weight: 800; border: 2px solid var(--brand-yellow); }
 
         .step-card { 
             background: rgba(255,255,255,0.03); 
@@ -185,24 +193,27 @@
 
         .cookie-consent {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: var(--brand-blue);
-            border: 1px solid var(--brand-yellow);
-            padding: 20px;
-            border-radius: 20px;
-            z-index: 10001;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            bottom: 20px; left: 20px; right: 20px;
+            background: var(--brand-blue); border: 1px solid var(--brand-yellow);
+            padding: 20px; border-radius: 20px; z-index: 10001;
+            display: flex; align-items: center; justify-content: space-between;
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            transform: translateY(150%);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(150%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .cookie-consent.active { transform: translateY(0); }
         .cookie-text { font-size: 14px; color: white; max-width: 70%; }
         .cookie-text b { color: var(--brand-yellow); }
+
+        /* Notificação de Feedback do Cliente */
+        .feedback-banner {
+            position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
+            background: var(--brand-yellow); color: var(--brand-blue);
+            padding: 15px 25px; border-radius: 50px; font-weight: 800;
+            z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none; align-items: center; gap: 15px; border: none;
+            width: 90%; max-width: 500px;
+        }
+
         @media (max-width: 600px) {
             .cookie-consent { flex-direction: column; text-align: center; gap: 15px; }
             .cookie-text { max-width: 100%; }
@@ -210,6 +221,14 @@
     </style>
 </head>
 <body>
+
+<div id="feedbackBanner" class="feedback-banner">
+    <span>Seu pedido foi atendido?</span>
+    <div style="display: flex; gap: 8px;">
+        <button onclick="confirmarAtendimento('finalizado')" style="background: #050B14; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-weight: 800;">SIM</button>
+        <button onclick="confirmarAtendimento('aberto')" style="background: rgba(0,0,0,0.2); color: #050B14; border: 1px solid #050B14; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-weight: 800;">NÃO / LIBERAR</button>
+    </div>
+</div>
 
 <div class="cookie-consent" id="cookieBanner">
     <div class="cookie-text">
@@ -281,6 +300,12 @@
             <div id="map"></div>
             <button class="btn-near" onclick="getGPS()">📍 USAR MEU GPS</button>
         </div>
+    </section>
+
+    <section id="vitrine" style="padding: 40px 0;">
+        <h2 style="font-size: clamp(22px, 4vw, 28px); text-align: center; margin-bottom: 30px;">Profissionais <span style="color: var(--brand-yellow);">Disponíveis</span></h2>
+        <div class="mural-grid" id="vitrineGrid">
+            </div>
     </section>
 
     <div class="ads-container">
@@ -409,13 +434,13 @@
 <div class="modal" id="modalPrestador">
     <div class="modal-content">
         <h2>Cadastro de <span>Parceiro</span></h2>
-        <form onsubmit="validarCadastro(event, 'prestador')">
-            <input type="text" placeholder="Nome completo" required>
+        <form onsubmit="registrarPrestador(event)">
+            <input type="text" id="pres_nome" placeholder="Nome completo" required>
             <input type="tel" id="whatsappInput" placeholder="WhatsApp (19) 9 71531281" maxlength="16" required>
-            <input type="text" placeholder="Sua Profissão" required>
-            <input type="text" placeholder="Sua Cidade" required>
-            <textarea placeholder="Fale brevemente sobre seus serviços" style="resize: none;"></textarea>
-            <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">FINALIZAR</button>
+            <input type="text" id="pres_servico" placeholder="Sua Profissão" required>
+            <input type="text" id="pres_cidade" placeholder="Sua Cidade" required>
+            <textarea id="pres_bio" placeholder="Fale brevemente sobre seus serviços" style="resize: none;"></textarea>
+            <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">FINALIZAR CADASTRO</button>
             <button type="button" onclick="closeModal('modalPrestador')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Voltar</button>
         </form>
     </div>
@@ -446,6 +471,31 @@
     const map = L.map('map', { zoomControl: false }).setView([-23.88, -47.26], 13); 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png').addTo(map);
 
+    // FUNÇÃO: CARREGAR VITRINE DE PRESTADORES
+    async function carregarVitrine() {
+        const { data, error } = await _supabase.from('prestadores').select('*').order('created_at', { ascending: false });
+        const grid = document.getElementById('vitrineGrid');
+        if (data && data.length > 0) {
+            grid.innerHTML = data.map(p => `
+                <div class="prestador-card">
+                    <div class="prestador-header">
+                        <div class="prestador-avatar">${p.nome.charAt(0)}</div>
+                        <div>
+                            <h4 style="margin:0; color:var(--brand-yellow);">${p.nome}</h4>
+                            <span style="font-size:12px; color:var(--text-muted);">${p.sevico || p.servico || 'Profissional'}</span>
+                        </div>
+                    </div>
+                    <p style="font-size:13px; color:var(--text-main); margin:10px 0;">${p.bio || 'Disponível para ajudar em sua região.'}</p>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:11px; color:var(--text-muted);">📍 ${p.cidade}</span>
+                        <button onclick="window.open('https://wa.me/55${p.whatsapp.replace(/\D/g,'')}', '_blank')" class="btn-yellow" style="padding:5px 12px; font-size:11px; border-radius:8px; border:none; cursor:pointer; font-weight:800;">CONTATO</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // FUNÇÃO: CARREGAR MURAL DE PEDIDOS (APENAS ABERTOS)
     async function carregarMural() {
         const { data, error } = await _supabase
             .from('pedidos_ajuda')
@@ -454,8 +504,8 @@
             .order('created_at', { ascending: false });
 
         const grid = document.getElementById('muralGrid');
-        if (data && data.length > 0) {
-            grid.innerHTML = data.map(pedido => `
+        if (data) {
+            grid.innerHTML = data.length > 0 ? data.map(pedido => `
                 <div class="job-card">
                     <span style="color: var(--brand-yellow); font-size: 11px; font-weight: 800; text-transform: uppercase;">PRECISA-SE DE AJUDA</span>
                     <h3 style="margin: 10px 0;">${pedido.titulo_ajuda}</h3>
@@ -466,10 +516,30 @@
                         style="padding: 8px 15px; border-radius: 8px; border: none; font-weight: 800; font-size: 12px; cursor:pointer;">AJUDAR</button>
                     </div>
                 </div>
-            `).join('');
+            `).join('') : '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted);">Nenhum pedido aberto no momento.</p>';
         }
     }
 
+    // REGISTRAR PRESTADOR NA VITRINE
+    async function registrarPrestador(e) {
+        e.preventDefault();
+        const dados = {
+            nome: document.getElementById('pres_nome').value,
+            whatsapp: document.getElementById('whatsappInput').value,
+            sevico: document.getElementById('pres_servico').value,
+            cidade: document.getElementById('pres_cidade').value,
+            bio: document.getElementById('pres_bio').value,
+            lat: userLat, lng: userLng
+        };
+        const { error } = await _supabase.from('prestadores').insert([dados]);
+        if (!error) {
+            alert("Cadastro realizado! Você já aparece na vitrine.");
+            closeModal('modalPrestador');
+            carregarVitrine();
+        }
+    }
+
+    // POSTAR PEDIDO E SALVAR NO LOCALSTORAGE PARA FEEDBACK
     document.getElementById('formPedido').addEventListener('submit', async (e) => {
         e.preventDefault();
         const dados = {
@@ -477,10 +547,12 @@
             cliente_whatsapp: document.getElementById('ped_whatsapp').value,
             titulo_ajuda: document.getElementById('ped_titulo').value,
             cidade: document.getElementById('ped_cidade').value,
-            descricao: document.getElementById('ped_descricao').value
+            descricao: document.getElementById('ped_descricao').value,
+            status: 'aberto'
         };
-        const { error } = await _supabase.from('pedidos_ajuda').insert([dados]);
-        if (!error) {
+        const { data, error } = await _supabase.from('pedidos_ajuda').insert([dados]).select();
+        if (!error && data) {
+            localStorage.setItem('meu_ajudaai_id', data[0].id);
             alert("Sua ajuda foi postada com sucesso!");
             closeModal('modalPedido');
             document.getElementById('formPedido').reset();
@@ -488,12 +560,45 @@
         }
     });
 
+    // ATENDER PEDIDO (LÓGICA DE EXCLUSIVIDADE)
     async function atenderPedido(id, whatsapp) {
-        const { error } = await _supabase.from('pedidos_ajuda').update({ status: 'em_atendimento' }).eq('id', id);
+        const { error } = await _supabase.from('pedidos_ajuda').update({ 
+            status: 'em_atendimento',
+            data_atendimento: new Date()
+        }).eq('id', id);
+
         if (!error) {
             const numLimpo = whatsapp.replace(/\D/g, '');
             const msg = encodeURIComponent("Olá! Vi seu pedido no Ajuda Aí e estou disponível para te ajudar.");
             window.open(`https://wa.me/55${numLimpo}?text=${msg}`, '_blank');
+            carregarMural();
+        }
+    }
+
+    // VERIFICAR SE O CLIENTE JÁ TEVE O PEDIDO ATENDIDO
+    async function verificarFeedbackCliente() {
+        const meuId = localStorage.getItem('meu_ajudaai_id');
+        if (!meuId) return;
+
+        const { data } = await _supabase.from('pedidos_ajuda').select('status').eq('id', meuId).single();
+        if (data && data.status === 'em_atendimento') {
+            document.getElementById('feedbackBanner').style.display = 'flex';
+        } else {
+            document.getElementById('feedbackBanner').style.display = 'none';
+        }
+    }
+
+    async function confirmarAtendimento(novoStatus) {
+        const meuId = localStorage.getItem('meu_ajudaai_id');
+        const { error } = await _supabase.from('pedidos_ajuda').update({ status: novoStatus }).eq('id', meuId);
+        if (!error) {
+            if (novoStatus === 'finalizado') {
+                localStorage.removeItem('meu_ajudaai_id');
+                alert("Ficamos felizes em ajudar!");
+            } else {
+                alert("Pedido liberado. Outros prestadores entrarão em contato.");
+            }
+            document.getElementById('feedbackBanner').style.display = 'none';
             carregarMural();
         }
     }
@@ -505,6 +610,8 @@
 
     window.addEventListener('load', () => {
         carregarMural();
+        carregarVitrine();
+        verificarFeedbackCliente();
         if (!localStorage.getItem('ajudaAi_cookies')) {
             setTimeout(() => { document.getElementById('cookieBanner').classList.add('active'); }, 2000);
         }
@@ -531,7 +638,7 @@
 
     document.getElementById('muralSearch').addEventListener('input', function(e) {
         const term = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.job-card');
+        const cards = document.querySelectorAll('.job-card, .prestador-card');
         cards.forEach(card => {
             const content = card.innerText.toLowerCase();
             card.style.display = content.includes(term) ? 'block' : 'none';
