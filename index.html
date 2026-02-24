@@ -121,10 +121,17 @@
         .prestador-card { 
             background: linear-gradient(145deg, #0A1931, #050B14);
             border-radius: 25px; padding: 20px; border: 1px solid var(--border);
-            display: flex; flex-direction: column; gap: 10px;
+            display: flex; flex-direction: column; gap: 10px; position: relative;
         }
         .prestador-header { display: flex; align-items: center; gap: 12px; }
         .prestador-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--brand-blue-light); display: flex; align-items: center; justify-content: center; font-weight: 800; border: 2px solid var(--brand-yellow); }
+
+        /* REPUTAÇÃO E ESTRELAS */
+        .stars-container { color: var(--brand-yellow); display: flex; gap: 2px; font-size: 12px; margin-top: 4px; }
+        .rating-selection { display: flex; gap: 10px; justify-content: center; margin: 20px 0; font-size: 30px; }
+        .star-clickable { cursor: pointer; color: #444; transition: 0.2s; }
+        .star-clickable.active { color: var(--brand-yellow); }
+        .badge-premium { position: absolute; top: 10px; right: 10px; background: var(--brand-yellow); color: var(--brand-blue); font-size: 10px; font-weight: 900; padding: 4px 8px; border-radius: 5px; }
 
         .step-card { 
             background: rgba(255,255,255,0.03); 
@@ -212,11 +219,11 @@
         /* Notificação de Feedback do Cliente */
         .feedback-banner {
             position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
-            background: var(--brand-yellow); color: var(--brand-blue);
+            background: #FFFFFF; color: #050B14;
             padding: 15px 25px; border-radius: 50px; font-weight: 800;
             z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: none; align-items: center; gap: 15px; border: none;
-            width: 90%; max-width: 500px;
+            display: none; align-items: center; gap: 15px; border: 3px solid var(--brand-yellow);
+            width: 90%; max-width: 500px; flex-direction: column; text-align: center;
         }
 
         @media (max-width: 600px) {
@@ -228,10 +235,10 @@
 <body>
 
 <div id="feedbackBanner" class="feedback-banner">
-    <span>Seu pedido foi atendido?</span>
+    <span id="feedbackMessage">Seu pedido foi atendido?</span>
     <div style="display: flex; gap: 8px;">
-        <button onclick="confirmarAtendimento('finalizado')" style="background: #050B14; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-weight: 800;">SIM</button>
-        <button onclick="confirmarAtendimento('aberto')" style="background: rgba(0,0,0,0.2); color: #050B14; border: 1px solid #050B14; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-weight: 800;">NÃO / LIBERAR</button>
+        <button onclick="abrirModalAvaliacao()" style="background: var(--brand-yellow); color: var(--brand-blue); border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: 800;">SIM, AVALIAR</button>
+        <button onclick="confirmarAtendimento('aberto')" style="background: #eee; color: #050B14; border: 1px solid #ccc; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: 800;">NÃO / LIBERAR</button>
     </div>
 </div>
 
@@ -337,9 +344,6 @@
     <section id="feed">
         <h2 style="font-size: clamp(24px, 5vw, 32px); text-align: center; margin: 40px 0;">Mural de Oportunidades <span style="color: var(--brand-yellow);">Locais</span></h2>
         <div class="mural-grid" id="muralGrid">
-            <div class="job-card" style="display: flex; align-items: center; justify-content: center; border-style: dashed;">
-                <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">Publicidade Nativa</div>
-            </div>
         </div>
     </section>
 
@@ -403,6 +407,26 @@
         <p style="margin-top: 30px; font-size: 11px; color: rgba(255,255,255,0.2);">© 2026 AJUDA AI - CONEXÃO HUMANA E DIRETA.</p>
     </div>
 </footer>
+
+<div class="modal" id="modalAvaliacao">
+    <div class="modal-content" style="text-align: center;">
+        <div id="evalAvatar" class="prestador-avatar" style="margin: 0 auto 15px; width: 70px; height: 70px; font-size: 24px;">?</div>
+        <h2>Avalie o atendimento de <span id="evalNome" style="color: var(--brand-yellow);">...</span></h2>
+        <p>Sua avaliação é essencial para a comunidade.</p>
+        
+        <div class="rating-selection">
+            <span class="star-clickable" onclick="setStar(1)">★</span>
+            <span class="star-clickable" onclick="setStar(2)">★</span>
+            <span class="star-clickable" onclick="setStar(3)">★</span>
+            <span class="star-clickable" onclick="setStar(4)">★</span>
+            <span class="star-clickable" onclick="setStar(5)">★</span>
+        </div>
+
+        <textarea id="evalComentario" placeholder="Conte como foi o serviço (opcional)..." style="height: 80px;"></textarea>
+        
+        <button onclick="enviarAvaliacaoFinal()" class="btn-yellow" style="width: 100%; margin-top: 20px; padding: 18px;">FINALIZAR E AVALIAR</button>
+    </div>
+</div>
 
 <div class="modal" id="modalPrivacidade">
     <div class="modal-content">
@@ -477,10 +501,24 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let userLat = ""; let userLng = ""; let currentCity = "";
+    let selectedStar = 0; let prestadorAtendendoId = null; let prestadorAtendendoNome = "";
+
     const map = L.map('map', { zoomControl: false }).setView([-23.88, -47.26], 13); 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // FUNÇÃO: CARREGAR NOME DA CIDADE PELAS COORDENADAS (REVERSE GEOCODING)
+    // Ícones customizados para o mapa (Pino Dourado para Premium)
+    const goldIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+    });
+
+    const blueIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+    });
+
     async function getCityName(lat, lng) {
         try {
             const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
@@ -490,167 +528,182 @@
                 currentCity = city;
                 document.getElementById('regionBadge').style.display = 'block';
                 document.getElementById('cityNameDisplay').innerText = city;
-                // Preenche automaticamente os campos de cidade nos formulários
                 document.getElementById('pres_cidade').value = city;
                 document.getElementById('ped_cidade').value = city;
-                // Carrega Mural e Vitrine filtrando pela cidade detectada
                 carregarMural(city);
                 carregarVitrine(city);
             }
-        } catch (e) { console.error("Erro ao detectar cidade", e); }
+        } catch (e) { console.error("Erro GPS", e); }
     }
 
-    // FUNÇÃO: CARREGAR VITRINE DE PRESTADORES (COM FILTRO DE CIDADE)
     async function carregarVitrine(filtroCidade = "") {
         let query = _supabase.from('prestadores').select('*');
-        if (filtroCidade) {
-            query = query.ilike('cidade', `%${filtroCidade}%`);
-        }
-        const { data, error } = await query.order('created_at', { ascending: false });
+        if (filtroCidade) query = query.ilike('cidade', `%${filtroCidade}%`);
+        
+        const { data: prestadores } = await query.order('created_at', { ascending: false });
         const grid = document.getElementById('vitrineGrid');
         
-        if (data && data.length > 0) {
-            grid.innerHTML = data.map(p => `
-                <div class="prestador-card">
-                    <div class="prestador-header">
-                        <div class="prestador-avatar">${p.nome.charAt(0)}</div>
-                        <div>
-                            <h4 style="margin:0; color:var(--brand-yellow);">${p.nome}</h4>
-                            <span style="font-size:12px; color:var(--text-muted);">${p.sevico || p.servico || 'Profissional'}</span>
+        if (prestadores) {
+            // Limpar markers antigos do mapa (exceto o do usuário)
+            map.eachLayer((layer) => { if (layer instanceof L.Marker && layer.getPopup()?.getContent() !== 'Você está aqui!') map.removeLayer(layer); });
+
+            let html = "";
+            for (let p of prestadores) {
+                // Adicionar no mapa se tiver coordenadas
+                if (p.lat && p.lng) {
+                    L.marker([p.lat, p.lng], {icon: p.is_premium ? goldIcon : blueIcon})
+                     .addTo(map)
+                     .bindPopup(`<b>${p.nome}</b><br>${p.sevico || p.servico}`);
+                }
+
+                // Cálculo de Reputação
+                const { data: avs } = await _supabase.from('avaliacoes').select('nota').eq('prestador_id', p.id);
+                const media = avs && avs.length > 0 ? (avs.reduce((a, b) => a + b.nota, 0) / avs.length).toFixed(1) : "Novo";
+                const estrelas = media !== "Novo" ? "★".repeat(Math.round(media)) + "☆".repeat(5 - Math.round(media)) : "☆☆☆☆☆";
+
+                html += `
+                    <div class="prestador-card">
+                        ${p.is_premium ? '<div class="badge-premium">DESTAQUE</div>' : ''}
+                        <div class="prestador-header">
+                            <div class="prestador-avatar">${p.nome.charAt(0)}</div>
+                            <div>
+                                <h4 style="margin:0; color:var(--brand-yellow);">${p.nome}</h4>
+                                <div class="stars-container">
+                                    ${estrelas} <span style="font-size:10px; color:var(--text-muted); margin-left:5px;">(${media})</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size:13px; color:var(--text-main); margin:10px 0;">${p.bio || 'Disponível para ajudar.'}</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:11px; color:var(--text-muted);">📍 ${p.cidade}</span>
+                            <button onclick="window.open('https://wa.me/55${p.whatsapp.replace(/\D/g,'')}', '_blank')" class="btn-yellow" style="padding:5px 12px; font-size:11px; border-radius:8px; border:none; cursor:pointer; font-weight:800;">CONTATO</button>
                         </div>
                     </div>
-                    <p style="font-size:13px; color:var(--text-main); margin:10px 0;">${p.bio || 'Disponível para ajudar agora.'}</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:11px; color:var(--text-muted);">📍 ${p.cidade}</span>
-                        <button onclick="window.open('https://wa.me/55${p.whatsapp.replace(/\D/g,'')}', '_blank')" class="btn-yellow" style="padding:5px 12px; font-size:11px; border-radius:8px; border:none; cursor:pointer; font-weight:800;">CONTATO</button>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Nenhum prestador encontrado em ${filtroCidade || 'sua região'}.</p>`;
+                `;
+            }
+            grid.innerHTML = html || `<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Nenhum prestador encontrado.</p>`;
         }
     }
 
-    // FUNÇÃO: CARREGAR MURAL DE PEDIDOS (COM FILTRO DE CIDADE)
     async function carregarMural(filtroCidade = "") {
         let query = _supabase.from('pedidos_ajuda').select('*').eq('status', 'aberto');
-        if (filtroCidade) {
-            query = query.ilike('cidade', `%${filtroCidade}%`);
-        }
-        const { data, error } = await query.order('created_at', { ascending: false });
-
+        if (filtroCidade) query = query.ilike('cidade', `%${filtroCidade}%`);
+        const { data } = await query.order('created_at', { ascending: false });
         const grid = document.getElementById('muralGrid');
         if (data) {
-            grid.innerHTML = data.length > 0 ? data.map(pedido => `
+            grid.innerHTML = data.map(pedido => `
                 <div class="job-card">
-                    <span style="color: var(--brand-yellow); font-size: 11px; font-weight: 800; text-transform: uppercase;">PEDIDO LOCAL</span>
+                    <span style="color: var(--brand-yellow); font-size: 11px; font-weight: 800;">PEDIDO LOCAL</span>
                     <h3 style="margin: 10px 0;">${pedido.titulo_ajuda}</h3>
                     <p style="color: var(--text-muted); font-size: 14px;">"${pedido.descricao}"</p>
                     <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-size: 12px; color: var(--brand-yellow);">📍 ${pedido.cidade}</span>
                         <button class="btn-yellow" onclick="atenderPedido('${pedido.id}', '${pedido.cliente_whatsapp}')" 
-                        style="padding: 8px 15px; border-radius: 8px; border: none; font-weight: 800; font-size: 12px; cursor:pointer;">AJUDAR</button>
+                        style="padding: 8px 15px; border-radius: 8px; cursor:pointer;">AJUDAR</button>
                     </div>
                 </div>
-            `).join('') : `<p style="text-align:center; grid-column:1/-1; color:var(--text-muted);">Nenhum pedido aberto em ${filtroCidade || 'sua região'}.</p>`;
+            `).join('');
         }
     }
 
-    // REGISTRAR PRESTADOR NA VITRINE
+    // Lógica de Atendimento: Agora tenta identificar quem atende (no futuro via login, agora via clique)
+    async function atenderPedido(id, whatsapp) {
+        // Para o MVP, assumimos que o prestador que clicou é o "atendente"
+        const { error } = await _supabase.from('pedidos_ajuda').update({ 
+            status: 'em_atendimento',
+            atendido_por_nome: 'Prestador Local' // No futuro puxar do login
+        }).eq('id', id);
+
+        if (!error) {
+            window.open(`https://wa.me/55${whatsapp.replace(/\D/g,'')}?text=Vi seu pedido no Ajuda Aí!`, '_blank');
+            carregarMural(currentCity);
+        }
+    }
+
+    // AVALIAÇÃO FORÇADA
+    function setStar(n) {
+        selectedStar = n;
+        document.querySelectorAll('.star-clickable').forEach((s, i) => s.classList.toggle('active', i < n));
+    }
+
+    function abrirModalAvaliacao() {
+        document.getElementById('modalAvaliacao').style.display = 'flex';
+        document.getElementById('feedbackBanner').style.display = 'none';
+    }
+
+    async function enviarAvaliacaoFinal() {
+        if (selectedStar === 0) return alert("Por favor, selecione as estrelas.");
+        const meuId = localStorage.getItem('meu_ajudaai_id');
+        
+        // Registrar a nota
+        await _supabase.from('avaliacoes').insert([{
+            pedido_id: meuId,
+            nota: selectedStar,
+            comentario: document.getElementById('evalComentario').value
+            // prestador_id seria vinculado aqui se tivéssemos o login do prestador salvo no pedido
+        }]);
+
+        await _supabase.from('pedidos_ajuda').update({ status: 'finalizado' }).eq('id', meuId);
+        localStorage.removeItem('meu_ajudaai_id');
+        closeModal('modalAvaliacao');
+        alert("Obrigado pela sua avaliação!");
+        location.reload();
+    }
+
     async function registrarPrestador(e) {
         e.preventDefault();
-        const dados = {
+        const { error } = await _supabase.from('prestadores').insert([{
             nome: document.getElementById('pres_nome').value,
             whatsapp: document.getElementById('whatsappInput').value,
             sevico: document.getElementById('pres_servico').value,
             cidade: document.getElementById('pres_cidade').value,
             bio: document.getElementById('pres_bio').value,
-            lat: userLat, lng: userLng
-        };
-        const { error } = await _supabase.from('prestadores').insert([dados]);
-        if (!error) {
-            alert("Cadastro realizado! Você já aparece na vitrine.");
-            closeModal('modalPrestador');
-            carregarVitrine(currentCity);
-        }
+            lat: userLat, lng: userLng // Salva local para o pino no mapa
+        }]);
+        if (!error) { alert("Cadastro realizado!"); closeModal('modalPrestador'); carregarVitrine(currentCity); }
     }
 
-    // POSTAR PEDIDO E SALVAR NO LOCALSTORAGE PARA FEEDBACK
-    document.getElementById('formPedido').addEventListener('submit', async (e) => {
+    document.getElementById('formPedido').onsubmit = async (e) => {
         e.preventDefault();
-        const dados = {
+        const { data, error } = await _supabase.from('pedidos_ajuda').insert([{
             cliente_nome: document.getElementById('ped_nome').value,
             cliente_whatsapp: document.getElementById('ped_whatsapp').value,
             titulo_ajuda: document.getElementById('ped_titulo').value,
             cidade: document.getElementById('ped_cidade').value,
             descricao: document.getElementById('ped_descricao').value,
             status: 'aberto'
-        };
-        const { data, error } = await _supabase.from('pedidos_ajuda').insert([dados]).select();
-        if (!error && data) {
-            localStorage.setItem('meu_ajudaai_id', data[0].id);
-            alert("Sua ajuda foi postada com sucesso!");
-            closeModal('modalPedido');
-            document.getElementById('formPedido').reset();
-            carregarMural(currentCity);
-        }
-    });
-
-    // ATENDER PEDIDO (LÓGICA DE EXCLUSIVIDADE)
-    async function atenderPedido(id, whatsapp) {
-        const { error } = await _supabase.from('pedidos_ajuda').update({ 
-            status: 'em_atendimento',
-            data_atendimento: new Date()
-        }).eq('id', id);
-
+        }]).select();
         if (!error) {
-            const numLimpo = whatsapp.replace(/\D/g, '');
-            const msg = encodeURIComponent("Olá! Vi seu pedido no Ajuda Aí e estou disponível para te ajudar.");
-            window.open(`https://wa.me/55${numLimpo}?text=${msg}`, '_blank');
+            localStorage.setItem('meu_ajudaai_id', data[0].id);
+            alert("Pedido postado!");
+            closeModal('modalPedido');
             carregarMural(currentCity);
         }
-    }
+    };
 
-    // VERIFICAR SE O CLIENTE JÁ TEVE O PEDIDO ATENDIDO
     async function verificarFeedbackCliente() {
         const meuId = localStorage.getItem('meu_ajudaai_id');
         if (!meuId) return;
-
-        const { data } = await _supabase.from('pedidos_ajuda').select('status').eq('id', meuId).single();
+        const { data } = await _supabase.from('pedidos_ajuda').select('status, atendido_por_nome').eq('id', meuId).single();
         if (data && data.status === 'em_atendimento') {
+            document.getElementById('feedbackMessage').innerText = `O ${data.atendido_por_nome || 'profissional'} está te ajudando?`;
+            document.getElementById('evalNome').innerText = data.atendido_por_nome || 'profissional';
             document.getElementById('feedbackBanner').style.display = 'flex';
-        } else {
-            document.getElementById('feedbackBanner').style.display = 'none';
         }
     }
 
     async function confirmarAtendimento(novoStatus) {
         const meuId = localStorage.getItem('meu_ajudaai_id');
-        const { error } = await _supabase.from('pedidos_ajuda').update({ status: novoStatus }).eq('id', meuId);
-        if (!error) {
-            if (novoStatus === 'finalizado') {
-                localStorage.removeItem('meu_ajudaai_id');
-                alert("Ficamos felizes em ajudar!");
-            } else {
-                alert("Pedido liberado. Outros prestadores entrarão em contato.");
-            }
-            document.getElementById('feedbackBanner').style.display = 'none';
-            carregarMural(currentCity);
-        }
+        await _supabase.from('pedidos_ajuda').update({ status: novoStatus }).eq('id', meuId);
+        document.getElementById('feedbackBanner').style.display = 'none';
+        if (novoStatus === 'aberto') alert("Seu pedido foi liberado para outros profissionais.");
     }
 
-    function acceptCookies() {
-        localStorage.setItem('ajudaAi_cookies', 'true');
-        document.getElementById('cookieBanner').classList.remove('active');
-    }
+    function acceptCookies() { localStorage.setItem('ajudaAi_cookies', 'true'); document.getElementById('cookieBanner').classList.remove('active'); }
 
     window.addEventListener('load', () => {
-        carregarMural();
-        carregarVitrine();
-        verificarFeedbackCliente();
-        if (!localStorage.getItem('ajudaAi_cookies')) {
-            setTimeout(() => { document.getElementById('cookieBanner').classList.add('active'); }, 2000);
-        }
+        carregarMural(); carregarVitrine(); verificarFeedbackCliente();
+        if (!localStorage.getItem('ajudaAi_cookies')) setTimeout(() => document.getElementById('cookieBanner').classList.add('active'), 2000);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(p => {
                 userLat = p.coords.latitude; userLng = p.coords.longitude;
@@ -665,20 +718,15 @@
     whatsappInput.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, ""); 
         if (value.length > 11) value = value.slice(0, 11);
-        if (value.length > 2) {
-            value = `(${value.slice(0, 2)}) ${value.slice(2, 3)} ${value.slice(3)}`;
-        } else if (value.length > 0) {
-            value = `(${value}`;
-        }
+        if (value.length > 2) value = `(${value.slice(0, 2)}) ${value.slice(2, 3)} ${value.slice(3)}`;
+        else if (value.length > 0) value = `(${value}`;
         e.target.value = value;
     });
 
     document.getElementById('muralSearch').addEventListener('input', function(e) {
         const term = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.job-card, .prestador-card');
-        cards.forEach(card => {
-            const content = card.innerText.toLowerCase();
-            card.style.display = content.includes(term) ? 'block' : 'none';
+        document.querySelectorAll('.job-card, .prestador-card').forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(term) ? 'block' : 'none';
         });
     });
 
@@ -686,12 +734,7 @@
     function closeMenu() { document.getElementById('navActions').classList.remove('active'); }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function getGPS() { 
-        navigator.geolocation.getCurrentPosition(p => {
-            map.setView([p.coords.latitude, p.coords.longitude], 15);
-            getCityName(p.coords.latitude, p.coords.longitude);
-        }); 
-    }
+    function getGPS() { navigator.geolocation.getCurrentPosition(p => { map.setView([p.coords.latitude, p.coords.longitude], 15); getCityName(p.coords.latitude, p.coords.longitude); }); }
 </script>
 </body>
 </html>
