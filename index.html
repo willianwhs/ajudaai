@@ -21,8 +21,9 @@
             --fb-card: #242526;
         }
 
-        /* CORREÇÃO DE TRAVAMENTO: Removido transition de '*' para não pesar no processamento ao digitar */
-        * { box-sizing: border-box; scroll-behavior: smooth; }
+        /* OCULTA BARRAS DE ROLAGEM GLOBALMENTE PARA VISUAL DE APP NATIVO E LIMPO */
+        ::-webkit-scrollbar { display: none; }
+        * { -ms-overflow-style: none; scrollbar-width: none; box-sizing: border-box; scroll-behavior: smooth; }
         
         /* Transições suaves apenas em elementos de interação */
         a, button, .fb-card, .filter-tag { transition: background 0.3s, transform 0.2s, border-color 0.3s; }
@@ -145,7 +146,7 @@
         #map { height: 400px; width: 100%; }
         .btn-near { position: absolute; bottom: 20px; right: 20px; z-index: 500; background: var(--brand-yellow); border: none; padding: 12px 20px; border-radius: 50px; font-weight: 800; cursor: pointer; }
 
-        .filter-wrapper { display: flex; gap: 10px; overflow-x: auto; padding: 20px 0; scrollbar-width: none; justify-content: center; }
+        .filter-wrapper { display: flex; gap: 10px; overflow-x: auto; padding: 20px 0; justify-content: center; }
         .filter-tag { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 10px 20px; border-radius: 50px; color: white; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
         .filter-tag.active { border-color: var(--brand-yellow); color: var(--brand-yellow); background: rgba(255, 180, 0, 0.1); }
 
@@ -314,7 +315,9 @@
             <a href="#" class="nav-link-top" onclick="closeMenu()">Home</a>
             <a href="#como-funciona" class="nav-link-top" onclick="closeMenu()">Como Funciona</a>
             <a href="#quem-somos" class="nav-link-top" onclick="closeMenu()">Quem Somos</a>
+            
             <button id="btnLogin" onclick="openModal('modalLogin'); closeMenu();" class="nav-link-top" style="background:none; border: 1px solid var(--brand-yellow); cursor:pointer;">ENTRAR</button>
+            <button id="btnPerfil" onclick="abrirPerfil()" class="nav-link-top" style="background:none; border: 1px solid var(--brand-yellow); color: var(--brand-yellow); cursor:pointer; display:none;">MEU PERFIL</button>
             <button id="btnSair" onclick="logout()" class="nav-link-top" style="background:none; cursor:pointer; display:none; border-color:red; color:red;">SAIR</button>
             <button onclick="openModal('modalPrestador'); closeMenu();" class="btn-yellow" style="padding:10px 18px; border-radius:10px; border:none; font-weight:800; cursor:pointer;">CADASTRAR PRESTADOR</button>
         </div>
@@ -468,9 +471,28 @@
     </div>
 </footer>
 
+<div class="modal" id="modalPerfil">
+    <div class="modal-content" style="text-align: center;">
+        <h2 style="margin-bottom: 5px;">Meu <span>Perfil</span></h2>
+        <p id="perfilNome" style="color: var(--text-main); font-size: 18px; font-weight: 800; margin-top: 0; text-transform: uppercase;"></p>
+        
+        <div id="perfilPlanoCard" style="background: rgba(255,255,255,0.05); border: 2px solid var(--brand-yellow); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px;">
+                <h3 style="margin: 0; color: var(--brand-yellow);" id="perfilPlanoNome">Plano</h3>
+                <span id="perfilPlanoValor" style="font-weight: 800; font-size: 16px; color: white;">R$ 0,00</span>
+            </div>
+            <ul id="perfilPlanoBeneficios" style="color: var(--text-muted); font-size: 13px; padding-left: 20px; line-height: 1.8; margin: 0;">
+                </ul>
+        </div>
+
+        <button class="btn-yellow" style="width:100%; padding:18px; border-radius:15px; border:none; font-weight:800; cursor:not-allowed; opacity: 0.6; margin-bottom: 10px;" disabled>💳 MEUS RECEBIMENTOS (EM BREVE)</button>
+        <button type="button" onclick="closeModal('modalPerfil')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Fechar</button>
+    </div>
+</div>
+
 <div class="modal" id="modalAvaliacao">
     <div class="modal-content" style="text-align: center;">
-        <div id="evalAvatar" class="prestador-avatar" style="margin: 0 auto 15px; width: 70px; height: 70px; font-size: 24px;">?</div>
+        <div id="evalAvatar" class="prestador-avatar" style="margin: 0 auto 15px; width: 70px; height: 70px; font-size: 24px; border-radius: 50%; background: var(--brand-yellow); color: var(--brand-blue); display: flex; align-items: center; justify-content: center; font-weight: 800;">?</div>
         <h2>Avalie o atendimento de <span id="evalNome" style="color: var(--brand-yellow);">...</span></h2>
         <p>Sua avaliação gera <b>segurança e confiança</b> para toda a comunidade.</p>
         
@@ -482,7 +504,7 @@
             <span class="star-clickable" onclick="setStar(5)">★</span>
         </div>
 
-        <textarea id="evalComentario" placeholder="Conte como foi o serviço (opcional)..." style="height: 80px; resize: none;"></textarea>
+        <textarea id="evalComentario" placeholder="Conte como foi o serviço (opcional)..." style="height: 80px;"></textarea>
         
         <button onclick="enviarAvaliacaoFinal()" class="btn-yellow" style="width: 100%; margin-top: 20px; padding: 18px;">FINALIZAR E AVALIAR</button>
     </div>
@@ -494,7 +516,7 @@
         <form onsubmit="login(event)">
             <input type="email" id="login_email" placeholder="Seu e-mail" required>
             <input type="password" id="login_senha" placeholder="Sua senha" required>
-            <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border-radius:15px; border:none; font-weight:800; margin-top:15px; cursor:pointer;">ACESSAR PAINEL</button>
+            <button type="submit" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">ACESSAR PAINEL</button>
             <button type="button" onclick="closeModal('modalLogin')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Voltar</button>
         </form>
     </div>
@@ -550,7 +572,7 @@
             <input type="tel" class="mask-whatsapp" id="whatsappInput" placeholder="WhatsApp (DDD)" maxlength="16" required>
             <input type="text" id="pres_servico" placeholder="Sua Profissão (Ex: Pintor, Diarista...)" required>
             <input type="text" id="pres_cidade" placeholder="Sua Cidade" required>
-            <textarea id="pres_bio" placeholder="Fale brevemente sobre sua experiência" style="resize: none;"></textarea>
+            <textarea id="pres_bio" placeholder="Fale brevemente sobre sua experiência"></textarea>
             <button type="submit" id="btnSalvarPrestador" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">FINALIZAR CADASTRO</button>
             <button type="button" onclick="closeModal('modalPrestador')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Voltar</button>
         </form>
@@ -566,7 +588,7 @@
             <input type="tel" class="mask-whatsapp" id="ped_whatsapp" placeholder="Seu WhatsApp (com DDD)" maxlength="16" required>
             <input type="text" id="ped_titulo" placeholder="Ex: Consertar torneira, Limpeza pesada..." required>
             <input type="text" id="ped_cidade" placeholder="Sua Cidade" required>
-            <textarea id="ped_descricao" placeholder="Detalhes do que você precisa..." style="resize: none;"></textarea>
+            <textarea id="ped_descricao" placeholder="Detalhes do que você precisa..."></textarea>
             <button type="submit" id="btnPostarPedido" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">POSTAR NO MURAL</button>
             <button type="button" onclick="closeModal('modalPedido')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Cancelar</button>
         </form>
@@ -602,14 +624,45 @@
         if (logado) {
             document.getElementById('btnLogin').style.display = 'none';
             document.getElementById('btnSair').style.display = 'block';
+            document.getElementById('btnPerfil').style.display = 'block';
             document.getElementById('userBadge').style.display = 'block';
             document.getElementById('userBadge').innerText = `OLÁ, ${logado.nome.split(' ')[0].toUpperCase()}`;
             ativarRadar();
         } else {
             document.getElementById('btnLogin').style.display = 'block';
             document.getElementById('btnSair').style.display = 'none';
+            document.getElementById('btnPerfil').style.display = 'none';
             document.getElementById('userBadge').style.display = 'none';
         }
+    }
+
+    function abrirPerfil() {
+        if (!logado) return;
+        document.getElementById('perfilNome').innerText = logado.nome;
+        
+        let nomePlano = "Plano Gratuito"; let valorPlano = "R$ 0,00";
+        let beneficios = "<li><b>Pino Azul</b> básico no mapa</li><li>Acesso padrão ao mural de pedidos</li>";
+        let corDestaque = "#FFFFFF";
+
+        if (logado.plano === 'ouro') {
+            nomePlano = "Plano Ouro VIP";
+            valorPlano = logado.radar_ativo ? "Gratuito (Fundador)" : "R$ 49,90/mês";
+            beneficios = "<li><b>Pino Dourado</b> com máximo destaque no mapa</li><li><b>Prioridade Absoluta</b> no topo das buscas</li><li><b>Radar VIP:</b> Alerta sonoro de novos pedidos em tempo real</li>";
+            corDestaque = "#FFD700";
+        } else if (logado.plano === 'prata') {
+            nomePlano = "Plano Prata"; valorPlano = "R$ 24,90/mês";
+            beneficios = "<li><b>Pino Prateado</b> de destaque no mapa</li><li>Posicionamento superior nas buscas de clientes</li>";
+            corDestaque = "#C0C0C0";
+        }
+
+        document.getElementById('perfilPlanoNome').innerText = nomePlano;
+        document.getElementById('perfilPlanoNome').style.color = corDestaque;
+        document.getElementById('perfilPlanoCard').style.borderColor = corDestaque;
+        document.getElementById('perfilPlanoValor').innerText = valorPlano;
+        document.getElementById('perfilPlanoBeneficios').innerHTML = beneficios;
+
+        openModal('modalPerfil');
+        closeMenu();
     }
 
     async function login(e) {
@@ -712,7 +765,10 @@
         const { data } = await query.order('created_at', { ascending: false });
         const grid = document.getElementById('muralGrid');
         if (data) {
-            grid.innerHTML = data.map(pedido => `
+            grid.innerHTML = data.map(pedido => {
+                // Prevenção de erro caso o título contenha aspas simples (ex: "conserto d'água")
+                const safeTitulo = pedido.titulo_ajuda.replace(/'/g, "\\'");
+                return `
                 <div class="fb-card">
                     <div class="fb-header">
                         <div class="fb-avatar" style="background:#3a3b3c">${pedido.cliente_nome.charAt(0)}</div>
@@ -727,19 +783,26 @@
                     </div>
                     <div class="fb-footer">
                         <span style="font-size:12px; color:#b0b3b8;">Aguardando profissional...</span>
-                        <button class="btn-yellow" onclick="atenderPedido('${pedido.id}', '${pedido.cliente_whats}', '${pedido.titulo_ajuda}')" 
-                        style="padding: 10px 20px; border-radius: 8px; cursor:pointer; font-weight:800;">AJUDAR</button>
+                        <button class="btn-yellow" onclick="atenderPedido('${pedido.id}', '${pedido.cliente_whats}', '${safeTitulo}', this)" 
+                        style="padding: 10px 20px; border-radius: 8px; cursor:pointer; font-weight:800;">AJUDAR AGORA</button>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
     }
 
-    async function atenderPedido(id, whatsapp, titulo) {
+    // LÓGICA CORRIGIDA DO BOTÃO AJUDAR AGORA (Impede bloqueio do navegador)
+    async function atenderPedido(id, whatsapp, titulo, btnElement) {
         if (!logado) {
             alert("Apenas prestadores registados e com sessão iniciada podem atender pedidos.");
             openModal('modalLogin');
             return;
+        }
+
+        if (btnElement) {
+            btnElement.innerText = "PROCESSANDO...";
+            btnElement.disabled = true;
         }
 
         const { error } = await _supabase.from('pedidos_ajuda').update({ 
@@ -751,8 +814,16 @@
         if (!error) {
             const linkAvaliacao = `${window.location.origin}?avaliar=${id}`;
             const mensagem = `Olá! Vi o seu pedido de "${titulo}" no Ajuda Aí. O meu nome é ${logado.nome}, profissional registado, e posso ajudar. Quando terminarmos, por favor, confirme e avalie o meu serviço através deste link seguro: ${linkAvaliacao}`;
-            window.open(`https://wa.me/55${whatsapp.replace(/\D/g,'')}?text=${encodeURIComponent(mensagem)}`, '_blank');
+            
             carregarMural(currentCity);
+            // Ao invés de window.open (que é bloqueado), usamos location.href para redirecionar diretamente para o WhatsApp
+            window.location.href = `https://wa.me/55${whatsapp.replace(/\D/g,'')}?text=${encodeURIComponent(mensagem)}`;
+        } else {
+            if (btnElement) {
+                btnElement.innerText = "AJUDAR AGORA";
+                btnElement.disabled = false;
+            }
+            alert("Erro ao atender pedido: " + error.message);
         }
     }
 
@@ -855,7 +926,6 @@
     };
 
     async function verificarFeedbackCliente() {
-        // Verifica se a URL contém o pedido de avaliação (Link Inteligente)
         const params = new URLSearchParams(window.location.search);
         const avaliarId = params.get('avaliar');
         
