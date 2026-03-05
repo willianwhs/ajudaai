@@ -1110,6 +1110,30 @@
     <p style="margin: 5px 0; font-size: 14px; color: #185ADB; font-weight: bold;">✉️ contato@ajudaai.site</p>
     <p style="font-size: 12px; color: #666; margin-top: 20px;">© 2026 Ajuda Aí. Todos os direitos reservados. Segurança e Agilidade no seu bairro.</p>
 </footer>
+    <div id="modalTermos" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="modal-content" style="background: var(--brand-blue); padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; color: white; max-height: 80vh; overflow-y: auto;">
+        <h2 style="color: var(--brand-yellow); text-align: center; margin-top: 0;">Termos de Uso</h2>
+        <div style="font-size: 14px; line-height: 1.6; color: #ccc;">
+            <p><strong>1. Aceitação:</strong> Ao usar o Ajuda Aí, você concorda com nossos termos.</p>
+            <p><strong>2. Isenção de Responsabilidade:</strong> O Ajuda Aí atua apenas como plataforma de conexão entre clientes e prestadores. Não nos responsabilizamos por serviços mal executados ou acordos financeiros feitos fora da plataforma.</p>
+            <p><strong>3. Regras de Conduta:</strong> Profissionais que receberem reclamações graves perderão o Selo de Verificação e poderão ser banidos.</p>
+            <p><em>Estes são os termos resumidos. O contrato completo será enviado no cadastro.</em></p>
+        </div>
+        <button onclick="document.getElementById('modalTermos').style.display='none'" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; margin-top: 20px; cursor: pointer;">Entendi e Concordo</button>
+    </div>
+</div>
+
+<div id="modalPrivacidade" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="modal-content" style="background: var(--brand-blue); padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; color: white; max-height: 80vh; overflow-y: auto;">
+        <h2 style="color: var(--brand-yellow); text-align: center; margin-top: 0;">Política de Privacidade</h2>
+        <div style="font-size: 14px; line-height: 1.6; color: #ccc;">
+            <p><strong>1. Seus Dados:</strong> Protegemos seus dados (incluindo CNPJ) com criptografia. Eles não são vendidos a terceiros.</p>
+            <p><strong>2. Uso do WhatsApp:</strong> Ao aceitar o plano Premium, você autoriza o Ajuda Aí a enviar notificações transacionais pelo WhatsApp.</p>
+            <p><strong>3. Exclusão:</strong> Você pode solicitar a exclusão da sua conta e de todos os seus dados a qualquer momento enviando um email para contato@ajudaai.site.</p>
+        </div>
+        <button onclick="document.getElementById('modalPrivacidade').style.display='none'" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; margin-top: 20px; cursor: pointer;">Fechar Privacidade</button>
+    </div>
+</div>
 
 <div class="modal" id="modalPerfil">
     <div class="modal-content" style="text-align: center;">
