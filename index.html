@@ -1817,6 +1817,33 @@ function enviarPedidoSOS() {
     document.getElementById('modalPedido').style.display = 'none';
 }
 /* --- FIM DA LÓGICA VIP --- */
+/* --- INÍCIO GEOLOCALIZAÇÃO DO BANNER --- */
+document.addEventListener("DOMContentLoaded", function() {
+    // API Gratuita que descobre a cidade do usuário pelo IP da internet dele
+    fetch('https://ipinfo.io/json')
+        .then(response => response.json())
+        .then(data => {
+            const cidadeUsuario = data.city; // Ex: Sumare, Campinas, etc
+            const cidadesAlvo = ["Sumaré", "Sumare", "Campinas", "Hortolândia", "Hortolandia", "Americana", "Nova Odessa", "Santa Bárbara d'Oeste"];
+            
+            // Se a cidade dele estiver na nossa lista, mostramos a cidade. Se não, mostramos "Sua Região".
+            if(cidadeUsuario && cidadesAlvo.includes(cidadeUsuario)) {
+                document.getElementById('cidade-dinamica').innerText = cidadeUsuario;
+            } else {
+                document.getElementById('cidade-dinamica').innerText = "sua região";
+            }
+        })
+        .catch(error => {
+            console.log("Geolocalização bloqueada. Usando texto padrão.");
+            document.getElementById('cidade-dinamica').innerText = "sua região";
+        });
+});
+
+// Funções para garantir que os links do rodapé abram os modais corretamente
+function abrirModal(id) {
+    document.getElementById(id).style.display = 'flex';
+}
+/* --- FIM GEOLOCALIZAÇÃO DO BANNER --- */
 </script>
 </body>
 </html>
