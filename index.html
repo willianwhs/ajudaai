@@ -1135,14 +1135,15 @@ select:focus {
 </select>
 
         <label style="font-weight: bold;">Tamanho do Serviço:</label>
-        <select id="tamanho-servico" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
-            <option value="pequeno">Conserto Rápido / Serviço Menor</option>
-            <option value="medio">Serviço Médio / Leva um dia todo</option>
-            <option value="grande">Grande Obra / Reforma Completa</option>
-        </select>
-
         <textarea id="descricao-pedido" rows="3" placeholder="Descreva o problema com detalhes..." style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); resize: none;"></textarea>
 
+        <select id="tamanho-servico" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; appearance: none;">
+    <option value="" disabled selected>Selecione o tamanho...</option>
+    <option value="pequeno">Conserto Rápido / Serviço Menor</option>
+    <option value="medio">Serviço Médio / Leva um dia todo</option>
+    <option value="grande">Grande Obra / Reforma Completa</option>
+</select>
+        
         <div class="caixa-sos" style="background: rgba(255, 69, 0, 0.1); border-left: 4px solid #FF4500; padding: 15px; border-radius: 8px;">
             <h4 style="color: #FF4500; margin-top: 0; margin-bottom: 5px;"><i class="fa-solid fa-bolt"></i> Urgência Máxima (SOS)?</h4>
             <p style="font-size: 12px; color: #ccc; margin-bottom: 10px;">Fure a fila e apite no radar dos Profissionais VIP na hora.</p>
