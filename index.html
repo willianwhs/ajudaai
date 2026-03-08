@@ -2093,7 +2093,58 @@ async function verificarVagasGratuitas() {
         console.error("Erro no contador de vagas:", e);
     }
 }
- 
+
+
+    // --- FUNÇÃO DE SALVAMENTO NO SUPABASE (CADASTRO DE PRESTADOR) ---
+async function finalizarCadastroPrestador() {
+    const btn = document.getElementById('btn-concluir-cadastro');
+    
+    // Evita cliques duplos enquanto processa
+    btn.disabled = true;
+    btn.innerText = "Processando Cadastro...";
+
+    // Captura os dados exatos dos campos do Modal
+    const dados = {
+        nome: document.getElementById('nome-prestador').value,
+        email: document.getElementById('email-prestador').value,
+        senha: document.getElementById('senha-prestador').value,
+        cpf: document.getElementById('cpf-prestador').value,
+        whatsapp: document.getElementById('whatsapp-prestador').value,
+        categoria: document.getElementById('categoria-prestador').value,
+        bio: document.getElementById('bio-prestador').value,
+        plano: document.getElementById('plano-final').value,
+        // Pega a cidade que o banner de geolocalização detectou
+        cidade: document.getElementById('cidade-detalhe')?.innerText || "Não detectada",
+        data_cadastro: new Date().toISOString()
+    };
+
+    // Validação de Segurança Básica
+    if (!dados.email || !dados.senha || !dados.cpf || !dados.nome) {
+        alert("⚠️ Por favor, preencha Nome, E-mail, Senha e CPF para garantir sua vaga.");
+        btn.disabled = false;
+        btn.innerText = "GARANTIR MINHA VAGA";
+        return;
+    }
+
+    try {
+        // Envia para a sua tabela 'prestadores' no Supabase
+        const { error } = await supabase.from('prestadores').insert([dados]);
+        
+        if (error) throw error;
+
+        alert("✅ Parabéns! Seu cadastro foi realizado com sucesso e sua vaga de 1 ano está garantida.");
+        
+        // Fecha o modal e recarrega para aplicar as mudanças
+        document.getElementById('modalPrestador').style.display = 'none';
+        window.location.reload(); 
+
+    } catch (e) {
+        console.error("Erro ao salvar:", e);
+        alert("❌ Erro ao salvar cadastro: " + e.message);
+        btn.disabled = false;
+        btn.innerText = "TENTAR NOVAMENTE";
+    }
+}
 function renderizarCardMural(pedido, planoPrestador) {
     let isOuro = pedido.alto_valor || pedido.tipo_cliente === 'empresa' || pedido.tamanho_servico === 'grande';
     let isSOS = pedido.urgencia_sos;
