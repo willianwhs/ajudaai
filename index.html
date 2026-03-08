@@ -2021,50 +2021,67 @@ function atualizarTipoCliente() {
 }
 
 // --- SISTEMA INTELIGENTE DE VAGAS GRATUITAS ---
+// --- SISTEMA INTELIGENTE DE VAGAS: PREMIUM -> PLATINUM -> PAGO ---
 async function verificarVagasGratuitas() {
-    const LIMITE_VAGAS_GRATUITAS = 50; // Defina aqui o seu limite real
-    const caixaAviso = document.getElementById('aviso-vagas');
-    const botaoCadastro = document.getElementById('btn-concluir-cadastro'); // Ajuste se o ID do seu botão for diferente
+    const LIMITE_PREMIUM_GRATIS = 20;  // Os 20 primeiros ganham Premium
+    const LIMITE_PLATINUM_GRATIS = 40; // Do 21º ao 40º ganham Platinum (Total de 40 vagas grátis)
     
-    if(!caixaAviso) return; // Se a caixa não existir na tela, não faz nada
+    const caixaAviso = document.getElementById('aviso-vagas');
+    const btn = document.getElementById('btn-concluir-cadastro');
+    
+    if(!caixaAviso) return;
 
     try {
-        // Vai no Supabase e conta quantos prestadores já existem na tabela
-        // Nota: Certifique-se que o nome da sua tabela é 'prestadores'
+        // Consulta o Supabase para contar quantos prestadores já existem
         const { count, error } = await supabase
             .from('prestadores') 
             .select('*', { count: 'exact', head: true });
 
         if (error) throw error;
 
-        const vagasRestantes = LIMITE_VAGAS_GRATUITAS - count;
-
-        if (vagasRestantes > 0) {
-            // AINDA TEM VAGA GRATUITA
+        // FASE 1: AINDA HÁ VAGAS PARA PREMIUM GRÁTIS
+        if (count < LIMITE_PREMIUM_GRATIS) {
+            const restam = LIMITE_PREMIUM_GRATIS - count;
             caixaAviso.style.background = "rgba(37, 211, 102, 0.1)";
             caixaAviso.style.borderColor = "#25D366";
             caixaAviso.style.color = "#25D366";
-            caixaAviso.innerHTML = `<i class="fa-solid fa-gift"></i> Restam apenas ${vagasRestantes} vagas GRATUITAS na sua região!`;
+            caixaAviso.innerHTML = `<i class="fa-solid fa-gift"></i> FASE 1: Restam ${restam} vagas para <b>Plano Premium GRÁTIS</b> (1 ano)!`;
             
-            if(botaoCadastro) {
-                botaoCadastro.innerText = "CONCLUIR CADASTRO GRATUITO";
-            }
-        } else {
-            // VAGAS ACABARAM - VIRA A CHAVE PARA PAGO AUTOMATICAMENTE
+            // Marca automaticamente o plano Premium no seletor
+            const radioPremium = document.querySelector('input[name="planoEscolha"][value="premium"]');
+            if(radioPremium) radioPremium.checked = true;
+            
+            if(btn) btn.innerText = "GARANTIR VAGA PREMIUM GRÁTIS";
+        } 
+        
+        // FASE 2: PREMIUM ACABOU, MAS HÁ PLATINUM GRÁTIS
+        else if (count < LIMITE_PLATINUM_GRATIS) {
+            const restam = LIMITE_PLATINUM_GRATIS - count;
+            caixaAviso.style.background = "rgba(255, 180, 0, 0.1)";
+            caixaAviso.style.borderColor = "#FFB400";
+            caixaAviso.style.color = "#FFB400";
+            caixaAviso.innerHTML = `<i class="fa-solid fa-star"></i> FASE 2: Premium esgotado! Restam ${restam} vagas <b>Platinum GRÁTIS</b>!`;
+            
+            // Marca automaticamente o plano Platinum no seletor
+            const radioPlatinum = document.querySelector('input[name="planoEscolha"][value="platinum"]');
+            if(radioPlatinum) radioPlatinum.checked = true;
+
+            if(btn) btn.innerText = "GARANTIR VAGA PLATINUM GRÁTIS";
+        } 
+        
+        // FASE 3: ACABARAM TODAS AS VAGAS GRÁTIS (SISTEMA PAGO)
+        else {
             caixaAviso.style.background = "rgba(255, 69, 0, 0.1)";
             caixaAviso.style.borderColor = "#FF4500";
             caixaAviso.style.color = "#FF4500";
-            caixaAviso.innerHTML = `<i class="fa-solid fa-lock"></i> Vagas gratuitas esgotadas. Assine o Plano Premium para entrar.`;
+            caixaAviso.innerHTML = `<i class="fa-solid fa-lock"></i> Vagas gratuitas encerradas. Escolha seu plano de assinatura:`;
             
-            if(botaoCadastro) {
-                botaoCadastro.innerText = "ASSINAR PLANO PREMIUM (R$ 19,90)";
-                // Aqui você pode mudar o onclick do botão para abrir a tela de pagamento
-                // botaoCadastro.onclick = abrirPagamentoPremium; 
-            }
+            if(btn) btn.innerText = "ASSINAR E CONCLUIR CADASTRO";
         }
+
     } catch (erro) {
-        console.error("Erro ao verificar vagas no Supabase:", erro);
-        caixaAviso.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Vagas limitadas. Cadastre-se agora.`;
+        console.error("Erro ao validar vagas:", erro);
+        caixaAviso.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Vagas limitadas. Cadastre-se para garantir seu destaque.`;
     }
 }
  
