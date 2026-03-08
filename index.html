@@ -1939,6 +1939,54 @@ function atualizarTipoCliente() {
     }
 }
 
+// --- SISTEMA INTELIGENTE DE VAGAS GRATUITAS ---
+async function verificarVagasGratuitas() {
+    const LIMITE_VAGAS_GRATUITAS = 50; // Defina aqui o seu limite real
+    const caixaAviso = document.getElementById('aviso-vagas');
+    const botaoCadastro = document.getElementById('btn-concluir-cadastro'); // Ajuste se o ID do seu botão for diferente
+    
+    if(!caixaAviso) return; // Se a caixa não existir na tela, não faz nada
+
+    try {
+        // Vai no Supabase e conta quantos prestadores já existem na tabela
+        // Nota: Certifique-se que o nome da sua tabela é 'prestadores'
+        const { count, error } = await supabase
+            .from('prestadores') 
+            .select('*', { count: 'exact', head: true });
+
+        if (error) throw error;
+
+        const vagasRestantes = LIMITE_VAGAS_GRATUITAS - count;
+
+        if (vagasRestantes > 0) {
+            // AINDA TEM VAGA GRATUITA
+            caixaAviso.style.background = "rgba(37, 211, 102, 0.1)";
+            caixaAviso.style.borderColor = "#25D366";
+            caixaAviso.style.color = "#25D366";
+            caixaAviso.innerHTML = `<i class="fa-solid fa-gift"></i> Restam apenas ${vagasRestantes} vagas GRATUITAS na sua região!`;
+            
+            if(botaoCadastro) {
+                botaoCadastro.innerText = "CONCLUIR CADASTRO GRATUITO";
+            }
+        } else {
+            // VAGAS ACABARAM - VIRA A CHAVE PARA PAGO AUTOMATICAMENTE
+            caixaAviso.style.background = "rgba(255, 69, 0, 0.1)";
+            caixaAviso.style.borderColor = "#FF4500";
+            caixaAviso.style.color = "#FF4500";
+            caixaAviso.innerHTML = `<i class="fa-solid fa-lock"></i> Vagas gratuitas esgotadas. Assine o Plano Premium para entrar.`;
+            
+            if(botaoCadastro) {
+                botaoCadastro.innerText = "ASSINAR PLANO PREMIUM (R$ 19,90)";
+                // Aqui você pode mudar o onclick do botão para abrir a tela de pagamento
+                // botaoCadastro.onclick = abrirPagamentoPremium; 
+            }
+        }
+    } catch (erro) {
+        console.error("Erro ao verificar vagas no Supabase:", erro);
+        caixaAviso.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Vagas limitadas. Cadastre-se agora.`;
+    }
+}
+ 
 function renderizarCardMural(pedido, planoPrestador) {
     let isOuro = pedido.alto_valor || pedido.tipo_cliente === 'empresa' || pedido.tamanho_servico === 'grande';
     let isSOS = pedido.urgencia_sos;
