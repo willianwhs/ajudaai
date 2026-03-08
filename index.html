@@ -1869,9 +1869,19 @@
 /* --- INÍCIO DA LÓGICA VIP --- */
 function atualizarTipoCliente() {
     const isEmpresa = document.querySelector('input[name="tipoCliente"]:checked').value === 'empresa';
+    
+    // Mostra/esconde o campo de CNPJ
     document.getElementById('campo-cnpj').style.display = isEmpresa ? 'block' : 'none';
+    
+    // Mostra/esconde o aviso do boleto
     document.getElementById('aviso-boleto').style.display = isEmpresa ? 'block' : 'none';
-    document.getElementById('texto-sos-preco').innerText = isEmpresa ? 'Sim, prioridade corporativa (+ R$ 19,90)' : 'Sim, quero prioridade (+ R$ 4,90 via Pix)';
+    
+    // MUDA O VALOR DA PRIORIDADE AUTOMATICAMENTE
+    if(isEmpresa) {
+        document.getElementById('texto-sos-preco').innerHTML = '<span style="color: #FF4500;">Sim, prioridade corporativa (+ R$ 19,90 via Boleto/Pix)</span>';
+    } else {
+        document.getElementById('texto-sos-preco').innerHTML = '<span style="color: #FF4500;">Sim, quero prioridade (+ R$ 4,90 via Pix)</span>';
+    }
 }
 
 function renderizarCardMural(pedido, planoPrestador) {
