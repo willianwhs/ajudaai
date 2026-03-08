@@ -2054,6 +2054,11 @@ document.addEventListener("DOMContentLoaded", function() {
 // Funções para garantir que os links do rodapé abram os modais corretamente
 function abrirModal(id) {
     document.getElementById(id).style.display = 'flex';
+    
+    // Se for o modal de prestador, calcula as vagas na hora!
+    if(id === 'modalPrestador') {
+        verificarVagasGratuitas();
+    }
 }
 /* --- FIM GEOLOCALIZAÇÃO DO BANNER --- */
 /* --- FECHAR MODAL AO CLICAR FORA --- */
