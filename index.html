@@ -1341,17 +1341,52 @@ select:focus {
     </div>
 </div>
 
-<div class="modal" id="modalPrestador">
-    <div class="modal-content">
-        <h2>Seja seu <span>Próprio Chefe</span></h2>
-        <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Entre na sua cidade primeiro e aumente sua renda.</p>
+<div id="modalPrestador" class="modal">
+    <div class="modal-content" style="display: flex; flex-direction: column; gap: 15px; max-width: 600px;">
+        <h2 style="color: var(--brand-yellow); text-align: center; margin-top: 0;">Cadastrar como Profissional</h2>
         
-        <div class="vip-counter">
-            <span style="font-size: 12px; font-weight: 800; color: var(--brand-yellow);">🎁 VAGAS PREMIUM (FUNDADOR):</span>
-            <div class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
-        <div id="aviso-vagas" style="background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; color: #25D366; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 20px; transition: 0.3s;">
-    <i class="fa-solid fa-spinner fa-spin"></i> Calculando vagas gratuitas disponíveis...
+        <div id="aviso-vagas" style="background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; color: #25D366; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold;">
+            <i class="fa-solid fa-gift"></i> Verificando vagas gratuitas...
+        </div>
+
+        <p style="text-align: center; font-size: 14px; color: var(--text-muted);">
+            Ao garantir sua vaga hoje, você terá acesso ao plano escolhido por **1 ano inteiramente grátis**.
+        </p>
+
+        <label style="font-weight: bold;">Escolha seu Plano:</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <label style="cursor: pointer; border: 2px solid var(--brand-blue-light); padding: 15px; border-radius: 12px; position: relative;">
+                <input type="radio" name="planoEscolha" value="premium" checked style="position: absolute; right: 10px; top: 10px;">
+                <div style="font-weight: bold; color: white;">PREMIUM</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Destaque Prata</div>
+            </label>
+            <label style="cursor: pointer; border: 2px solid var(--brand-yellow); padding: 15px; border-radius: 12px; position: relative;">
+                <input type="radio" name="planoEscolha" value="platinum" style="position: absolute; right: 10px; top: 10px;">
+                <div style="font-weight: bold; color: var(--brand-yellow);">PLATINUM</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Destaque Ouro (Topo)</div>
+            </label>
+        </div>
+
+        <input type="text" id="nome-prestador" placeholder="Seu Nome Completo" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+        
+        <input type="text" id="whatsapp-prestador" placeholder="Seu WhatsApp (com DDD)" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+
+        <label style="font-weight: bold;">Sua Especialidade:</label>
+        <select id="categoria-prestador" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+            <option value="eletricista">Eletricista</option>
+            <option value="encanador">Encanador</option>
+            <option value="pedreiro">Pedreiro</option>
+            <option value="pintor">Pintor</option>
+            <option value="diarista">Diarista</option>
+            </select>
+
+        <textarea id="bio-prestador" rows="3" placeholder="Fale um pouco sobre sua experiência e serviços..." style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border); resize: none;"></textarea>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+            <button id="btn-concluir-cadastro" onclick="finalizarCadastroPrestador()" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; cursor: pointer; font-size: 16px;">CONCLUIR CADASTRO</button>
+            <button onclick="document.getElementById('modalPrestador').style.display='none'" style="background: none; border: 1px solid var(--border); color: #fff; width: 100%; padding: 10px; border-radius: 8px; cursor: pointer;">Voltar</button>
+        </div>
+    </div>
 </div>
 
         <form onsubmit="registrarPrestador(event)">
