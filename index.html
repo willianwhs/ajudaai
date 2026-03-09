@@ -1101,7 +1101,8 @@ select:focus {
             </p>
         </div>
     </section>
-</div>
+    
+            </div>
 <div id="modalServico" class="modal">
     <div class="modal-content" style="display: flex; flex-direction: column; gap: 15px; max-width: 500px; padding: 25px;">
         <h2 style="color: var(--brand-yellow); text-align: center; margin-top: 0;">O que você precisa hoje?</h2>
@@ -1137,6 +1138,11 @@ select:focus {
                 Seu pedido aparecerá no topo para os profissionais (+ R$ 4,90 via Pix).
             </p>
         </div>
+
+        <button onclick="enviarPedidoServico()" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; cursor: pointer; font-size: 16px;">ENVIAR PEDIDO AGORA</button>
+        <button onclick="document.getElementById('modalServico').style.display='none'" style="background: none; border: none; color: #999; cursor: pointer; font-size: 13px;">Voltar</button>
+    </div>
+</div>
 
         <button onclick="enviarPedidoServico()" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; cursor: pointer; font-size: 16px;">ENVIAR PEDIDO AGORA</button>
         <button onclick="document.getElementById('modalServico').style.display='none'" style="background: none; border: none; color: #999; cursor: pointer; font-size: 13px;">Voltar</button>
