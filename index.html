@@ -1351,46 +1351,6 @@ select:focus {
             <input type="text" id="cnpj-input" placeholder="Digite o CNPJ da Empresa" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
         </div>
         
-        <input type="text" id="nome-cliente" placeholder="Seu Nome ou Nome da Empresa" style="width: 100%; padding: 12px; border-radius: 8px; margin-bottom: 15px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
-        
-        <label style="margin-bottom: 5px; display: block; font-weight: bold;">Categoria do Serviço:</label>
-        <div style="position: relative;">
-            <select id="categoria-servico" style="width: 100%; padding: 14px; border-radius: 8px; margin-bottom: 15px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); appearance: none;">
-                <option value="" disabled selected>Selecione uma categoria...</option>
-                <option value="eletricista">Eletricista</option>
-                <option value="encanador">Encanador</option>
-                <option value="pedreiro">Pedreiro / Construtor</option>
-                <option value="pintor">Pintor</option>
-                <option value="diarista">Diarista / Limpeza</option>
-                <option value="montador">Montador de Móveis</option>
-                <option value="frete">Fretes e Mudanças</option>
-                <option value="assistencia">Assistência Técnica</option>
-                <option value="climatizacao">Climatização</option>
-                <option value="outros">Outros Serviços</option>
-            </select>
-        </div>
-
-        <label style="margin-bottom: 5px; display: block; font-weight: bold;">Tamanho do Serviço:</label>
-        <select id="tamanho-servico" style="width: 100%; padding: 12px; border-radius: 8px; margin-bottom: 15px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
-            <option value="pequeno">Conserto Rápido / Serviço Menor</option>
-            <option value="medio">Serviço Médio / Leva um dia todo</option>
-            <option value="grande">Grande Obra / Reforma Completa</option>
-        </select>
-
-        <textarea id="descricao-pedido" rows="4" placeholder="Descreva o problema com detalhes..." style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);"></textarea>
-
-<div class="caixa-sos">
-    <h4 style="color: #FF4500; margin-top: 0;"><i class="fa-solid fa-bolt"></i> Urgência Máxima (SOS)?</h4>
-    <p style="font-size: 12px; color: #ccc;">Fure a fila e apite no radar dos Profissionais Premium VIP na hora.</p>
-    <label style="font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px;">
-        <input type="checkbox" id="checkSOS" style="width: 20px; height: 20px;"> 
-        <span id="texto-sos-preco" style="color: #FF4500;">Sim, quero prioridade (+ R$ 4,90 via Pix)</span>
-    </label>
-    <p id="aviso-boleto" style="display:none; color: #FFD700; font-size: 11px; margin-top: 10px; font-weight: bold;">
-        *Para empresas, a prioridade corporativa tem o valor de R$ 19,90 (Boleto/Pix).
-    </p>
-</div>
-
         <button onclick="enviarPedidoSOS()" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; margin-top: 20px; cursor: pointer; transition: 0.3s;">ENVIAR PEDIDO AGORA</button>
         <button onclick="closeModal('modalPedido')" style="background:none; border:none; color:#999; width:100%; margin-top:15px; cursor:pointer;">Cancelar</button>
     </div>
