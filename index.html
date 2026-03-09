@@ -1346,72 +1346,7 @@ select:focus {
         <button onclick="document.getElementById('modalPrestador').style.display='none'" style="background: none; border: none; color: #999; cursor: pointer; font-size: 13px;">Cancelar</button>
     </div>
 </div>
-        <p style="text-align: center; font-size: 14px; color: var(--text-muted);">
-            Ao garantir sua vaga hoje, você terá acesso ao plano escolhido por **1 ano inteiramente grátis**.
-        </p>
-
-        <label style="font-weight: bold;">Escolha seu Plano:</label>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <label style="cursor: pointer; border: 2px solid var(--brand-blue-light); padding: 15px; border-radius: 12px; position: relative;">
-                <input type="radio" name="planoEscolha" value="premium" checked style="position: absolute; right: 10px; top: 10px;">
-                <div style="font-weight: bold; color: white;">PREMIUM</div>
-                <div style="font-size: 12px; color: var(--text-muted);">Destaque Prata</div>
-            </label>
-            <label style="cursor: pointer; border: 2px solid var(--brand-yellow); padding: 15px; border-radius: 12px; position: relative;">
-                <input type="radio" name="planoEscolha" value="platinum" style="position: absolute; right: 10px; top: 10px;">
-                <div style="font-weight: bold; color: var(--brand-yellow);">PLATINUM</div>
-                <div style="font-size: 12px; color: var(--text-muted);">Destaque Ouro (Topo)</div>
-            </label>
-        </div>
-
-        <input type="text" id="nome-prestador" placeholder="Seu Nome Completo" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-    <input type="text" id="cpf-prestador" placeholder="Seu CPF (para verificação)" maxlength="14" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
-    <input type="text" id="data-nascimento" placeholder="Data de Nascimento" onfocus="(this.type='date')" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
-</div>
-<p style="font-size: 10px; color: var(--text-muted); margin-top: -5px; margin-left: 5px;">
-    <i class="fa-solid fa-shield-halved"></i> Seus dados estão protegidos pela LGPD e não serão exibidos publicamente.
-</p>
-        <input type="text" id="whatsapp-prestador" placeholder="Seu WhatsApp (com DDD)" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
-
-        <label style="font-weight: bold;">Sua Especialidade:</label>
-        <select id="categoria-prestador" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
-            <option value="eletricista">Eletricista</option>
-            <option value="encanador">Encanador</option>
-            <option value="pedreiro">Pedreiro</option>
-            <option value="pintor">Pintor</option>
-            <option value="diarista">Diarista</option>
-            </select>
-
-        <textarea id="bio-prestador" rows="3" placeholder="Fale um pouco sobre sua experiência e serviços..." style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border); resize: none;"></textarea>
-
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-            <button id="btn-concluir-cadastro" onclick="finalizarCadastroPrestador()" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; cursor: pointer; font-size: 16px;">CONCLUIR CADASTRO</button>
-            <button onclick="document.getElementById('modalPrestador').style.display='none'" style="background: none; border: 1px solid var(--border); color: #fff; width: 100%; padding: 10px; border-radius: 8px; cursor: pointer;">Voltar</button>
-        </div>
-    </div>
-</div>
-
-        <form onsubmit="registrarPrestador(event)">
-            <input type="text" id="pres_nome" placeholder="Nome completo" required>
-            <input type="email" id="pres_email" placeholder="Seu e-mail (Para Login)" required>
-            <input type="password" id="pres_senha" placeholder="Crie uma senha" required>
-            <input type="tel" class="mask-whatsapp" id="whatsappInput" placeholder="WhatsApp (DDD)" maxlength="16" required>
-            <input type="text" id="pres_servico" placeholder="Sua Profissão (Ex: Eletricista, Encanador...)" required>
-            <input type="text" id="pres_cidade" placeholder="Sua Cidade" required>
-            
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin: 15px 0 5px 5px; text-align: left;">Foto de Perfil (Opcional - Ajuda na Confiança)</label>
-            <input type="file" id="pres_foto" accept="image/*" style="padding: 12px; cursor: pointer; color: var(--brand-yellow);">
-
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin: 15px 0 5px 5px; text-align: left;">Sua Experiência (Máximo 120 caracteres)</label>
-            <textarea id="pres_bio" placeholder="Fale brevemente sobre sua experiência (Destaque o seu valor)" maxlength="120"></textarea>
-            
-            <button type="submit" id="btnSalvarPrestador" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">FINALIZAR CADASTRO</button>
-            <button type="button" onclick="closeModal('modalPrestador')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Voltar</button>
-        </form>
-    </div>
-</div>
-
+    
         <div id="campo-cnpj" style="display: none; margin-bottom: 15px;">
             <input type="text" id="cnpj-input" placeholder="Digite o CNPJ da Empresa" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
         </div>
