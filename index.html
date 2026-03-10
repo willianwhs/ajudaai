@@ -1227,6 +1227,97 @@ select:focus {
         <button onclick="closeModal('modalPrivacidade')" class="btn-yellow" style="width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-weight:800; cursor:pointer;">LI E CONCORDO</button>
     </div>
 </div>
+</div>
+</div>
+
+<!-- MODAL PEDIR AJUDA -->
+<div class="modal" id="modalPedido">
+
+<div class="modal-content">
+
+<h2>🚨 Pedir Ajuda</h2>
+
+<label>Tipo de cliente</label>
+
+<label>
+<input type="radio" name="tipoCliente" value="cliente" checked>
+Pessoa Física
+</label>
+
+<label>
+<input type="radio" name="tipoCliente" value="empresa">
+Empresa
+</label>
+
+<br><br>
+
+<label>Nome</label>
+<input type="text" id="nomeCliente">
+
+<label>WhatsApp</label>
+<input type="tel" id="whatsappCliente">
+
+<label>Categoria</label>
+<select id="categoriaServico">
+
+<option>Eletricista</option>
+<option>Encanador</option>
+<option>Pedreiro</option>
+<option>Pintor</option>
+<option>Diarista</option>
+<option>Frete</option>
+<option>Montador de móveis</option>
+<option>Técnico informática</option>
+
+</select>
+
+<label>Descrição do serviço</label>
+
+<textarea id="descricaoServico"></textarea>
+
+<label>Tamanho do serviço</label>
+
+<select id="tamanhoServico">
+
+<option value="pequeno">Pequeno</option>
+<option value="medio">Médio</option>
+<option value="grande">Grande</option>
+
+</select>
+
+<hr>
+
+<label>
+
+<input type="checkbox" id="checkSOS">
+
+🚨 Pedido Prioritário (SOS)
+
+</label>
+
+<p style="font-size:13px;color:#aaa;">
+
+Pessoa Física → R$ 5,90  
+Empresa → R$ 19,90  
+
+</p>
+
+<br>
+
+<button onclick="enviarPedidoSOS()">
+
+Enviar Pedido
+
+</button>
+
+<button onclick="closeModal('modalPedido')">
+
+Cancelar
+
+</button>
+
+</div>
+</div>
 
 <div class="modal" id="modalTermos">
     <div class="modal-content">
