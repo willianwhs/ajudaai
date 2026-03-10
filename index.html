@@ -1227,95 +1227,39 @@ select:focus {
         <button onclick="closeModal('modalPrivacidade')" class="btn-yellow" style="width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-weight:800; cursor:pointer;">LI E CONCORDO</button>
     </div>
 </div>
-</div>
-<!-- MODAL PEDIR AJUDA -->
+<div class="modal" id="modalPedido">
+    <div class="modal-content">
+        <h2>Contrate com <span>Segurança</span></h2>
+        <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Encontre profissionais avaliados perto de você.</p>
 
-<div id="modalPedido" class="modal">
+        <form id="formPedido">
 
-<div class="modal-content">
+            <input type="text" id="ped_nome" placeholder="Seu nome completo" required>
 
-<span class="close" onclick="fecharModalPedido()">&times;</span>
+            <input type="tel" class="mask-whatsapp" id="ped_whatsapp" placeholder="Seu WhatsApp (com DDD)" maxlength="16" required>
 
-<h2>🚨 Pedir Ajuda</h2>
+            <input type="text" id="ped_titulo" placeholder="O que você precisa? (Ex: Preciso de eletricista)" required>
 
-<p>Descreva o serviço que você precisa e encontre profissionais próximos.</p>
+            <input type="text" id="ped_cidade" placeholder="Sua Cidade" required>
 
-<form id="formPedido">
+            <label style="display: block; font-size: 12px; color: var(--text-muted); margin: 15px 0 5px 5px; text-align: left;">
+            Seja objetivo no pedido (Max: 150 caracteres)
+            </label>
 
-<label>Você é:</label>
+            <textarea id="ped_descricao" placeholder="Descreva os detalhes do serviço." maxlength="150" required></textarea>
 
-<div style="display:flex;gap:15px;margin-bottom:10px;">
+            <button type="submit" id="btnPostarPedido" class="btn-yellow"
+            style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">
+            POSTAR NO MURAL
+            </button>
 
-<label>
-<input type="radio" name="tipoCliente" value="cliente" checked>
-Cliente
-</label>
+            <button type="button" onclick="closeModal('modalPedido')" 
+            style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width:100%;">
+            Cancelar
+            </button>
 
-<label>
-<input type="radio" name="tipoCliente" value="empresa">
-Empresa
-</label>
-
-</div>
-
-
-<input type="text" id="ped_nome" placeholder="Seu nome completo" required>
-
-<input type="tel" id="ped_whatsapp" placeholder="Seu WhatsApp" required>
-
-<input type="text" id="ped_titulo" placeholder="Título do serviço (ex: Conserto de chuveiro)" required>
-
-<input type="text" id="ped_cidade" placeholder="Sua cidade" required>
-
-
-<select id="ped_categoria">
-
-<option value="">Escolha a categoria</option>
-
-<option>Eletricista</option>
-<option>Encanador</option>
-<option>Pedreiro</option>
-<option>Pintor</option>
-<option>Montador de móveis</option>
-<option>Técnico em ar condicionado</option>
-<option>Chaveiro</option>
-<option>Limpeza</option>
-<option>Fretes</option>
-
-</select>
-
-
-<textarea id="ped_descricao" placeholder="Descreva o serviço que precisa"></textarea>
-
-
-<div style="margin-top:15px">
-
-<label>
-
-<input type="checkbox" id="checkSOS">
-
-🚨 Pedido com prioridade (SOS)
-
-</label>
-
-<p id="valorSOS" style="font-size:14px;color:#666;margin-top:5px">
-
-Cliente: R$ 5,90 via Pix<br>
-Empresa: R$ 19,90 via boleto/PIX
-
-</p>
-
-</div>
-
-
-<button type="button" onclick="enviarPedidoSOS()" class="btn-mega">
-
-📢 Postar Pedido
-
-</button>
-
-</form>
-
+        </form>
+    </div>
 </div>
 
 </div>
