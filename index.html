@@ -450,6 +450,14 @@
             border: 2px solid var(--brand-yellow); 
             font-size: 20px; 
             text-transform: uppercase; 
+            overflow: hidden; /* IMPLEMENTAÇÃO DA FOTO: Não deixa a foto vazar o círculo */
+        }
+        
+        /* IMPLEMENTAÇÃO DA FOTO: Estilo para a imagem cobrir perfeitamente o avatar */
+        .fb-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .fb-meta { 
@@ -463,11 +471,31 @@
             white-space: nowrap; 
             overflow: hidden; 
             text-overflow: ellipsis; 
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* IMPLEMENTAÇÃO DOS ANTECEDENTES: Selo Verificado */
+        .selo-verificado {
+            color: #00C851;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .fb-meta span { 
             font-size: 12px; 
             color: #b0b3b8; 
+        }
+
+        /* IMPLEMENTAÇÃO DE LIMITE VISUAL: Nunca passa de 3 linhas */
+        .text-limit {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .fb-body { 
@@ -824,9 +852,59 @@
                 max-width: 100%; 
             } 
         }
+/* --- INÍCIO DA INSERÇÃO PREMIUM --- */
+/* --- INÍCIO BANNER ARRUMADO --- */
+.fomo-banner { 
+    background: #e50914; 
+    color: white; 
+    text-align: center; 
+    padding: 12px; 
+    font-size: 14px; 
+    font-weight: 800; 
+    animation: piscar 2s infinite; 
+    position: relative; /* Mudamos de sticky para relative para não cobrir o menu */
+    display: block;
+    width: 100%;
+    z-index: 10000; 
+}
+@keyframes piscar { 0% { background: #e50914; } 50% { background: #b0070f; } 100% { background: #e50914; } }
+/* --- FIM BANNER ARRUMADO --- */borderPulse { 0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 69, 0, 0); } }
+/* --- FIM DA INSERÇÃO PREMIUM --- */
+    .hero-cards-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 50px; }
+.premium-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 30px; max-width: 380px; width: 100%; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.2); backdrop-filter: blur(10px); transition: transform 0.3s ease; }
+.premium-card:hover { transform: translateY(-5px); border-color: rgba(255, 215, 0, 0.3); }
+.premium-card-icon { font-size: 30px; margin-bottom: 15px; color: var(--brand-yellow); }
+.premium-card-title { font-size: 16px; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; color: #fff; text-transform: uppercase; }
+.premium-card p { font-size: 14px; color: #94A3B8; line-height: 1.6; margin-bottom: 25px; }
+
+.filtro-pill { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.filtro-pill:hover, .filtro-pill.active { background: var(--brand-yellow); color: #000; border-color: var(--brand-yellow); }
+.filtros-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; margin-top: 20px; }
+
+@media (max-width: 768px) {
+    .hero-cards-container { flex-direction: column; padding: 0 15px; }
+    .premium-card { max-width: 100%; }
+    .nav { flex-direction: column; gap: 15px; }
+    .hero h1 { font-size: 24px; }
+    .fomo-banner { font-size: 12px; padding: 10px; }
+    .modal-content { padding: 20px; width: 95%; }
+}
+   /* FORÇAR OPÇÕES DOS MENUS A FICAREM ESCURAS */
+select option {
+    background-color: #050B14 !important;
+    color: #ffffff !important;
+}
+select:focus {
+    background-color: #050B14 !important;
+    color: #ffffff !important;
+} 
     </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+<div class="fomo-banner">
+    🔥 ALERTA: Restam apenas <span id="vagas-premium">12</span> Vagas Premium VIP e <span id="vagas-platinum">45</span> Vagas Platinum gratuitas para <span id="cidade-dinamica" style="color: #FFD700; text-transform: uppercase;">nesta região</span>!
+</div>
 
 <div id="radarAlert" class="radar-alert">
     <div style="font-size: 30px;">🚨</div>
@@ -862,7 +940,7 @@
         </a>
         
         <div class="nav-actions" id="navActions">
-            <span id="userBadge" class="user-badge">PRESTADOR LOGADO</span>
+            <span id="userBadge" class="user-badge">PRESTADOR</span>
             <a href="#" class="nav-link-top" onclick="closeMenu()">Home</a>
             <a href="#como-funciona" class="nav-link-top" onclick="closeMenu()">Como Funciona</a>
             <a href="#quem-somos" class="nav-link-top" onclick="closeMenu()">Quem Somos</a>
@@ -886,10 +964,11 @@
         <div class="expansion-badge">🇧🇷 O Ajuda Aí está se expandindo pelo Brasil</div>
         <h1>Sua ajuda chegou.<span> Onde você estiver.</span></h1>
         <p>A ponte que conecta o talento de profissionais locais como <b>eletricistas, diaristas, pintores e encanadores</b> à necessidade de quem precisa. Contratação segura, direta e humana perto de você.</p>
-        <div class="btn-group">
-            <button class="btn-mega btn-yellow" onclick="openModal('modalPedido')">🎯 PEDIR UMA AJUDA AGORA</button>
-            <button class="btn-mega btn-work" onclick="openModal('modalPrestador')">🚀 QUERO TRABALHAR NO AJUDA AI</button>
-        </div>
+<div class="btn-group">
+    <button class="btn-mega btn-yellow" onclick="openModal('modalPedido')" style="box-shadow: 0 8px 25px rgba(255, 180, 0, 0.4);"><i class="fa-solid fa-bullseye"></i> PEDIR AJUDA</button>
+    
+    <button class="btn-mega" onclick="openModal('modalPrestador')" style="background: #ffffff; color: var(--brand-dark); border: none; font-weight: 900; box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15); transition: 0.3s;"><i class="fa-solid fa-user-plus"></i> CADASTRAR-SE COMO PRESTADOR</button>
+</div>
         <div style="margin-top: 25px; font-size: 14px; font-weight: 600; color: var(--brand-yellow);">
             SEJA SEU PRÓPRIO CHEFE • ESCOLHA SEUS CLIENTES • AUMENTE SUA RENDA
         </div>
@@ -905,32 +984,36 @@
         <div style="color: var(--text-muted); font-size: 10px; text-transform: uppercase;">Publicidade</div>
     </div>
 
-    <section id="como-funciona" style="padding: 60px 0;">
-        <h2 style="text-align: center; margin-bottom: 40px; font-size: clamp(24px, 5vw, 32px);">Como o Ajuda Aí funciona?</h2>
-        <div style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; display: grid;">
-            <div class="step-card">
-                <div class="icon">📝</div>
-                <h3>Para quem precisa</h3>
-                <p>Poste sua necessidade e encontre prestadores qualificados, avaliados e que já estão no seu bairro.</p>
-            </div>
-            <div class="step-card">
-                <div class="icon">🛠️</div>
-                <h3>Para quem trabalha</h3>
-                <p>Tenha <b>autonomia total</b>. Acesse o mural de serviços em tempo real e aumente sua renda sem pagar taxas extras.</p>
-            </div>
-            <div class="step-card">
-                <div class="icon">🤝</div>
-                <h3>Segurança e Confiança</h3>
-                <p>Conexão hiperlocal direta. Você analisa avaliações, escolhe o profissional e combina tudo pelo WhatsApp.</p>
-            </div>
+<section class="container" id="como-funciona" style="margin: 60px auto;">
+    <h2 style="text-align: center; margin-bottom: 40px; font-size: clamp(24px, 5vw, 32px);">Como o Ajuda Aí Funciona?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: center;">
+        
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 40px 20px; border-radius: 20px;">
+            <div style="font-size: 40px; color: var(--brand-yellow); margin-bottom: 15px;"><i class="fa-solid fa-mobile-screen"></i></div>
+            <h3 style="margin-bottom: 15px;">1. Faça o seu Pedido</h3>
+            <p style="color: var(--text-muted); font-size: 15px;">Diga-nos o que precisa consertar, instalar ou construir.</p>
         </div>
-    </section>
+
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 40px 20px; border-radius: 20px;">
+            <div style="font-size: 40px; color: var(--brand-yellow); margin-bottom: 15px;"><i class="fa-solid fa-comments"></i></div>
+            <h3 style="margin-bottom: 15px;">2. Receba Propostas</h3>
+            <p style="color: var(--text-muted); font-size: 15px;">Os profissionais da sua região recebem o alerta e entram em contato.</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 40px 20px; border-radius: 20px;">
+            <div style="font-size: 40px; color: var(--brand-yellow); margin-bottom: 15px;"><i class="fa-solid fa-handshake-angle"></i></div>
+            <h3 style="margin-bottom: 15px;">3. Negocie Direto</h3>
+            <p style="color: var(--text-muted); font-size: 15px;">Sem taxas ocultas. Você acerta os detalhes e o valor direto com o profissional.</p>
+        </div>
+
+    </div>
+</section>
 
     <section class="map-section">
-        <h2 style="color:var(--brand-yellow); font-size: clamp(22px, 4vw, 28px); text-align: center; margin-bottom: 20px;">📍 Encontre suporte ao seu redor</h2>
+        <h2 style="color:var(--brand-yellow); font-size: clamp(22px, 4vw, 28px); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-location-dot" style="color: var(--brand-yellow); margin-right: 8px;"></i> Encontre suporte ao seu redor</h2>
         <div class="map-wrapper">
             <div id="map"></div>
-            <button class="btn-near" onclick="getGPS()">📍 USAR MEU GPS</button>
+            <button class="btn-near" onclick="getGPS()"><i class="fa-solid fa-location-dot"></i> Ver Mais Próximos</button>
         </div>
     </section>
 
@@ -951,13 +1034,19 @@
         <input type="text" class="search-input-main" id="muralSearch" placeholder="O que você procura? (Ex: Marido de Aluguel, Pintor, Elétrica...)">
     </div>
 
-    <div class="filter-wrapper">
-        <div class="filter-tag active">Todos</div>
-        <div class="filter-tag">🏠 Reparos</div>
-        <div class="filter-tag">⚡ Elétrica</div>
-        <div class="filter-tag">🧼 Limpeza</div>
-        <div class="filter-tag">📦 Carretos</div>
-    </div>
+   <div class="filtros-container">
+    <button class="filtro-pill active"><i class="fa-solid fa-border-all"></i> Todas</button>
+    <button class="filtro-pill"><i class="fa-solid fa-bolt"></i> Eletricista</button>
+    <button class="filtro-pill"><i class="fa-solid fa-faucet-drip"></i> Encanador</button>
+    <button class="filtro-pill"><i class="fa-solid fa-trowel-bricks"></i> Pedreiro</button>
+    <button class="filtro-pill"><i class="fa-solid fa-paint-roller"></i> Pintor</button>
+    <button class="filtro-pill"><i class="fa-solid fa-broom"></i> Diarista</button>
+    <button class="filtro-pill"><i class="fa-solid fa-screwdriver-wrench"></i> Montador</button>
+    <button class="filtro-pill"><i class="fa-solid fa-truck-fast"></i> Fretes</button>
+    <button class="filtro-pill"><i class="fa-solid fa-laptop-medical"></i> Assistência Técnica</button>
+    <button class="filtro-pill"><i class="fa-solid fa-snowflake"></i> Climatização</button>
+    <button class="filtro-pill"><i class="fa-solid fa-ellipsis"></i> Outros</button>
+</div>
 
     <section id="feed">
         <h2 style="font-size: clamp(24px, 5vw, 32px); text-align: center; margin: 40px 0;">Mural de Oportunidades <span style="color: var(--brand-yellow);">Locais</span></h2>
@@ -1011,20 +1100,63 @@
                 <b>No Ajuda Aí, a economia local se fortalece e todo mundo ganha.</b>
             </p>
         </div>
-    </section>
 </div>
-
-<footer>
-    <div class="container">
-        <div class="logo-text">AJUDA<span>AI</span></div>
-        <div class="footer-links">
-            <a onclick="openModal('modalPrivacidade')">Privacidade</a>
-            <a onclick="openModal('modalTermos')">Termos de Uso</a>
-            <a href="#como-funciona">Como Funciona</a>
+    <footer style="background-color: #03070C; color: #94A3B8; padding: 60px 20px 20px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 50px; font-size: 14px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: left;">
+        
+        <div>
+            <h3 style="color: var(--brand-yellow); font-size: 22px; font-weight: 900; margin-top: 0; margin-bottom: 15px;">AJUDA<span style="color: #fff;">AÍ</span></h3>
+            <p style="line-height: 1.6; margin-bottom: 15px;">A maior rede de profissionais verificados do Brasil. Segurança, agilidade e excelência corporativa.</p>
+            <p style="color: #fff; font-size: 12px; font-weight: bold;">Ajuda Aí Tecnologia S.A. | CNPJ: 65.489.993/0001-52</p>
         </div>
-        <p style="margin-top: 30px; font-size: 11px; color: rgba(255,255,255,0.2);">© 2026 AJUDA AI - CONEXÃO HUMANA, SEGURA E DIRETA.</p>
+        
+        <div>
+            <h4 style="color: #fff; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 15px;">A Plataforma</h4>
+            <ul style="list-style: none; padding: 0; line-height: 2.5; margin: 0;">
+                <li><a href="#" style="color: #94A3B8; text-decoration: none;">Como Funciona</a></li>
+                <li><a href="#" style="color: #94A3B8; text-decoration: none;">Planos Premium</a></li>
+                <li><a href="mailto:contato@ajudaai.site?subject=Suporte Ajuda Aí" style="color: #94A3B8; text-decoration: none;">Central de Suporte</a></li>
+            </ul>
+        </div>
+        
+        <div>
+            <h4 style="color: #fff; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 15px;">Transparência e Legal</h4>
+            <ul style="list-style: none; padding: 0; line-height: 2.5; margin: 0;">
+                <li><a href="javascript:void(0)" onclick="abrirModal('modalTermos')" style="color: #94A3B8; text-decoration: none;">Termos de Uso</a></li>
+                <li><a href="javascript:void(0)" onclick="abrirModal('modalPrivacidade')" style="color: #94A3B8; text-decoration: none;">Política de Privacidade</a></li>
+                <li style="color: #00E676; font-weight: bold; margin-top: 10px;"><i class="fa-solid fa-shield-halved"></i> Ambiente 100% Seguro</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div style="max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 12px;">
+        <p>© 2026 Ajuda Aí. Todos os direitos reservados.</p>
     </div>
 </footer>
+    <div id="modalTermos" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="modal-content" style="background: var(--brand-blue); padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; color: white; max-height: 80vh; overflow-y: auto;">
+        <h2 style="color: var(--brand-yellow); text-align: center; margin-top: 0;">Termos de Uso</h2>
+        <div style="font-size: 14px; line-height: 1.6; color: #ccc;">
+            <p><strong>1. Aceitação:</strong> Ao usar o Ajuda Aí, você concorda com nossos termos.</p>
+            <p><strong>2. Isenção de Responsabilidade:</strong> O Ajuda Aí atua apenas como plataforma de conexão entre clientes e prestadores. Não nos responsabilizamos por serviços mal executados ou acordos financeiros feitos fora da plataforma.</p>
+            <p><strong>3. Regras de Conduta:</strong> Profissionais que receberem reclamações graves perderão o Selo de Verificação e poderão ser banidos.</p>
+            <p><em>Estes são os termos resumidos. O contrato completo será enviado no cadastro.</em></p>
+        </div>
+        <button onclick="document.getElementById('modalTermos').style.display='none'" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; margin-top: 20px; cursor: pointer;">Entendi e Concordo</button>
+    </div>
+</div>
+
+<div id="modalPrivacidade" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="modal-content" style="background: var(--brand-blue); padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; color: white; max-height: 80vh; overflow-y: auto;">
+        <h2 style="color: var(--brand-yellow); text-align: center; margin-top: 0;">Política de Privacidade</h2>
+        <div style="font-size: 14px; line-height: 1.6; color: #ccc;">
+            <p><strong>1. Seus Dados:</strong> Protegemos seus dados (incluindo CNPJ) com criptografia. Eles não são vendidos a terceiros.</p>
+            <p><strong>2. Uso do WhatsApp:</strong> Ao aceitar o plano Premium, você autoriza o Ajuda Aí a enviar notificações transacionais pelo WhatsApp.</p>
+            <p><strong>3. Exclusão:</strong> Você pode solicitar a exclusão da sua conta e de todos os seus dados a qualquer momento enviando um email para contato@ajudaai.site.</p>
+        </div>
+        <button onclick="document.getElementById('modalPrivacidade').style.display='none'" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 8px; border: none; margin-top: 20px; cursor: pointer;">Fechar Privacidade</button>
+    </div>
+</div>
 
 <div class="modal" id="modalPerfil">
     <div class="modal-content" style="text-align: center;">
@@ -1043,12 +1175,12 @@
                 <div class="upsell-box">
                     <h4 style="margin: 0 0 5px; color: #C0C0C0;">⭐ Adquirir Plano Platinum</h4>
                     <span style="font-size: 12px; color: var(--text-muted);">Pino Prateado visível 24h para clientes e prioridade no Mural. (R$ 24,90/mês)</span>
-                    <button class="upsell-btn platinum" onclick="alert('Integração de pagamento Mercado Pago em breve!')">UPGRADE PLATINUM</button>
+                    <button class="upsell-btn platinum" onclick="window.open('https://link.mercadopago.com.br/SEU_LINK_AQUI', '_blank')">UPGRADE PLATINUM</button>
                 </div>
                 <div class="upsell-box" style="border-color: #FFD700;">
                     <h4 style="margin: 0 0 5px; color: #FFD700;">👑 Adquirir Plano Premium</h4>
-                    <span style="font-size: 12px; color: var(--text-muted);">Pino Dourado, Radar Inteligente de WhatsApp e Visibilidade Máxima. (R$ 49,90/mês)</span>
-                    <button class="upsell-btn premium" onclick="alert('Integração de pagamento Mercado Pago em breve!')">UPGRADE PREMIUM</button>
+                    <span style="font-size: 12px; color: var(--text-muted);">Pino Dourado, Radar Inteligente e Visibilidade Máxima. (R$ 49,90/mês)</span>
+                    <button class="upsell-btn premium" onclick="window.open('https://link.mercadopago.com.br/SEU_LINK_AQUI', '_blank')">UPGRADE PREMIUM</button>
                 </div>
             </div>
         </div>
@@ -1091,15 +1223,45 @@
         <h2 style="color: var(--brand-yellow);">Política de <span>Privacidade</span></h2>
         <div class="legal-text">
             <p>A sua privacidade é fundamental. Esta política descreve como o <b>Ajuda Aí</b> protege os seus dados de forma integral e segura.</p>
-            <h4>1. Coleta de Dados</h4>
-            <p>Coletamos nome, WhatsApp e localização apenas para viabilizar conexões profissionais locais.</p>
-            <h4>2. Uso da Localização</h4>
-            <p>Utilizamos GPS para mostrar serviços e profissionais hiperlocais, garantindo rapidez no atendimento.</p>
-            <h4>3. Compartilhamento</h4>
-            <p>O contato é direto via WhatsApp entre as partes interessadas.</p>
         </div>
         <button onclick="closeModal('modalPrivacidade')" class="btn-yellow" style="width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-weight:800; cursor:pointer;">LI E CONCORDO</button>
     </div>
+</div>
+<div class="modal" id="modalPedido">
+    <div class="modal-content">
+        <h2>Contrate com <span>Segurança</span></h2>
+        <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Encontre profissionais avaliados perto de você.</p>
+
+        <form id="formPedido">
+
+            <input type="text" id="ped_nome" placeholder="Seu nome completo" required>
+
+            <input type="tel" class="mask-whatsapp" id="ped_whatsapp" placeholder="Seu WhatsApp (com DDD)" maxlength="16" required>
+
+            <input type="text" id="ped_titulo" placeholder="O que você precisa? (Ex: Preciso de eletricista)" required>
+
+            <input type="text" id="ped_cidade" placeholder="Sua Cidade" required>
+
+            <label style="display: block; font-size: 12px; color: var(--text-muted); margin: 15px 0 5px 5px; text-align: left;">
+            Seja objetivo no pedido (Max: 150 caracteres)
+            </label>
+
+            <textarea id="ped_descricao" placeholder="Descreva os detalhes do serviço." maxlength="150" required></textarea>
+
+            <button type="submit" id="btnPostarPedido" class="btn-yellow"
+            style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">
+            POSTAR NO MURAL
+            </button>
+
+            <button type="button" onclick="closeModal('modalPedido')" 
+            style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width:100%;">
+            Cancelar
+            </button>
+
+        </form>
+    </div>
+</div>
+
 </div>
 
 <div class="modal" id="modalTermos">
@@ -1107,59 +1269,76 @@
         <h2 style="color: var(--brand-yellow);">Termos de <span>Uso</span></h2>
         <div class="legal-text">
             <p>Ao utilizar o <b>Ajuda Aí</b>, você concorda com os nossos pilares de segurança e confiança local comunitária.</p>
-            <h4>1. Natureza do Serviço</h4>
-            <p>O Ajuda Aí é um marketplace de conexão direta. Promovemos a autonomia do trabalhador.</p>
-            <h4>2. Isenção de Responsabilidade</h4>
-            <p>A plataforma facilita o encontro. Negociações são diretas entre cliente e profissional.</p>
-            <h4>3. Segurança</h4>
-            <p>Incentivamos o uso do sistema de avaliações para manter a confiança da rede regional.</p>
         </div>
         <button onclick="closeModal('modalTermos')" class="btn-yellow" style="width:100%; padding:15px; margin-top:20px; border-radius:15px; border:none; font-weight:800; cursor:pointer;">ACEITAR TERMOS</button>
     </div>
 </div>
 
-<div class="modal" id="modalPrestador">
-    <div class="modal-content">
-        <h2>Seja seu <span>Próprio Chefe</span></h2>
-        <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Entre na sua cidade primeiro e aumente sua renda.</p>
+<div id="modalPrestador" class="modal">
+    <div class="modal-content" style="display: flex; flex-direction: column; gap: 12px; max-width: 550px; padding: 25px;">
+        <h2 style="color: var(--brand-yellow); text-align: center; margin-top: 0;">Cadastro de Profissional</h2>
         
-        <div class="vip-counter">
-            <span style="font-size: 12px; font-weight: 800; color: var(--brand-yellow);">🎁 VAGAS PREMIUM (FUNDADOR):</span>
-            <div class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
-            </div>
-            <p id="seatsText" style="font-size: 11px; margin-top: 10px; color: #94A3B8;">Carregando vagas...</p>
+        <div id="aviso-vagas" style="background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; color: #25D366; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 14px;">
+            <i class="fa-solid fa-gift"></i> Verificando benefícios de boas-vindas...
         </div>
 
-        <form onsubmit="registrarPrestador(event)">
-            <input type="text" id="pres_nome" placeholder="Nome completo" required>
-            <input type="email" id="pres_email" placeholder="Seu e-mail (Para Login)" required>
-            <input type="password" id="pres_senha" placeholder="Crie uma senha" required>
-            <input type="tel" class="mask-whatsapp" id="whatsappInput" placeholder="WhatsApp (DDD)" maxlength="16" required>
-            <input type="text" id="pres_servico" placeholder="Sua Profissão (Ex: Eletricista, Encanador...)" required>
-            <input type="text" id="pres_cidade" placeholder="Sua Cidade" required>
-            <textarea id="pres_bio" placeholder="Fale brevemente sobre sua experiência (Destaque o seu valor)"></textarea>
-            <button type="submit" id="btnSalvarPrestador" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">FINALIZAR CADASTRO</button>
-            <button type="button" onclick="closeModal('modalPrestador')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Voltar</button>
-        </form>
-    </div>
-</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <input type="email" id="email-prestador" placeholder="Seu melhor E-mail" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+            <input type="password" id="senha-prestador" placeholder="Crie uma Senha" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+        </div>
 
-<div class="modal" id="modalPedido">
-    <div class="modal-content">
-        <h2>Contrate com <span>Segurança</span></h2>
-        <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Encontre profissionais avaliados perto de você.</p>
-        <form id="formPedido">
-            <input type="text" id="ped_nome" placeholder="Seu nome completo" required>
-            <input type="tel" class="mask-whatsapp" id="ped_whatsapp" placeholder="Seu WhatsApp (com DDD)" maxlength="16" required>
-            <input type="text" id="ped_titulo" placeholder="O que você precisa? (Ex: Preciso de eletricista)" required>
-            <input type="text" id="ped_cidade" placeholder="Sua Cidade" required>
-            <textarea id="ped_descricao" placeholder="Descreva os detalhes do serviço..."></textarea>
-            <button type="submit" id="btnPostarPedido" class="btn-yellow" style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">POSTAR NO MURAL</button>
-            <button type="button" onclick="closeModal('modalPedido')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">Cancelar</button>
-        </form>
+        <input type="text" id="nome-prestador" placeholder="Nome Completo ou Nome da Empresa" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <input type="text" id="cpf-prestador" placeholder="Seu CPF (para verificação)" maxlength="14" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+    <input type="text" id="data-nascimento" placeholder="Data de Nascimento" onfocus="(this.type='date')" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+</div>
+<p style="font-size: 10px; color: var(--text-muted); margin-top: -5px; margin-left: 5px; margin-bottom: 5px;">
+    <i class="fa-solid fa-shield-halved"></i> Seus dados estão protegidos pela LGPD e não serão exibidos publicamente.
+</p>
+        <input type="tel" id="whatsapp-prestador" class="mask-whatsapp" placeholder="WhatsApp (com DDD)" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+
+        <label style="font-weight: bold; font-size: 14px;">Sua Categoria Principal:</label>
+        <select id="categoria-prestador" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border);">
+            <option value="" disabled selected>Selecione sua profissão...</option>
+            <option value="eletricista">Eletricista</option>
+            <option value="encanador">Encanador</option>
+            <option value="pedreiro">Pedreiro / Construtor</option>
+            <option value="pintor">Pintor</option>
+            <option value="diarista">Diarista / Limpeza</option>
+            <option value="montador">Montador de Móveis</option>
+            <option value="frete">Fretes e Mudanças</option>
+            <option value="assistencia">Assistência Técnica</option>
+            <option value="climatizacao">Climatização</option>
+            <option value="marceneiro">Marceneiro</option>
+            <option value="jardineiro">Jardineiro</option>
+            <option value="mecanico">Mecânico</option>
+            <option value="outros">Outros Serviços</option>
+        </select>
+
+        <label style="font-weight: bold; font-size: 14px;">Destaque Desejado:</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <label id="label-premium" style="cursor: pointer; border: 1px solid var(--brand-blue-light); padding: 10px; border-radius: 10px; text-align: center;">
+                <input type="radio" name="planoEscolha" value="premium" checked> 
+                <div style="font-weight: bold; font-size: 13px;">PREMIUM</div>
+                <div style="font-size: 10px; color: var(--text-muted);">Destaque Prata</div>
+            </label>
+            <label id="label-platinum" style="cursor: pointer; border: 1px solid var(--brand-yellow); padding: 10px; border-radius: 10px; text-align: center;">
+                <input type="radio" name="planoEscolha" value="platinum"> 
+                <div style="font-weight: bold; font-size: 13px; color: var(--brand-yellow);">PLATINUM</div>
+                <div style="font-size: 10px; color: var(--text-muted);">Destaque Ouro</div>
+            </label>
+        </div>
+
+        <textarea id="bio-prestador" rows="2" placeholder="Resumo dos seus serviços..." style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border); resize: none;"></textarea>
+
+        <button id="btn-concluir-cadastro" onclick="finalizarCadastroPrestador()" style="background: var(--brand-yellow); color: black; font-weight: bold; width: 100%; padding: 15px; border-radius: 10px; border: none; cursor: pointer; font-size: 16px;">GARANTIR MINHA VAGA</button>
+        <button onclick="document.getElementById('modalPrestador').style.display='none'" style="background: none; border: none; color: #999; cursor: pointer; font-size: 13px;">Cancelar</button>
     </div>
 </div>
+    
+        <div id="campo-cnpj" style="display: none; margin-bottom: 15px;">
+            <input type="text" id="cnpj-input" placeholder="Digite o CNPJ da Empresa" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
+        </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -1337,22 +1516,31 @@
                     const { data: avs } = await _supabase.from('avaliacoes').select('nota').eq('prestador_id', p.id);
                     const media = avs && avs.length > 0 ? (avs.reduce((a, b) => a + b.nota, 0) / avs.length).toFixed(1) : "Novo";
                     const estrelas = media !== "Novo" ? "★".repeat(Math.round(media)) + "☆".repeat(5 - Math.round(media)) : "☆☆☆☆☆";
-                    const corBorda = p.plano === 'ouro' ? 'border-color: #FFD700;' : 'border-color: #C0C0C0;';
-                    const corBadge = p.plano === 'ouro' ? '<div class="badge-premium" style="background:#FFD700; color:#000;">PREMIUM</div>' : '<div class="badge-premium" style="background:#C0C0C0; color:#000;">PLATINUM</div>';
+                    
+                    const corBadge = isPremium ? '<div class="badge-premium" style="background:#FFD700; color:#000;">PREMIUM</div>' : '<div class="badge-premium" style="background:#C0C0C0; color:#000;">PLATINUM</div>';
+                    const avatarClass = isPremium ? 'premium' : (isPlatinum ? 'platinum' : '');
+                    
+                    // IMPLEMENTAÇÃO: Renderiza a Imagem se o prestador fez upload, caso contrário renderiza a inicial do nome
+                    const fotoHtml = p.foto_url ? `<img src="${p.foto_url}" alt="Foto de Perfil">` : p.nome.charAt(0);
+                    
+                    // IMPLEMENTAÇÃO: Renderiza Selo Verificado se is_verificado for true
+                    const seloHtml = p.is_verificado ? `<span class="selo-verificado" title="Identidade Verificada">✔️</span>` : '';
 
                     html += `
-                        <div class="prestador-card fb-card" style="${corBorda}">
+                        <div class="prestador-card fb-card">
                             ${corBadge}
                             <div class="fb-header">
-                                <div class="fb-avatar" style="${p.plano === 'ouro' ? 'background:#FFD700; color:#000;' : (p.plano === 'prata' ? 'background:#C0C0C0; color:#000;' : '')}">${p.nome.charAt(0)}</div>
+                                <div class="fb-avatar ${avatarClass}">
+                                    ${fotoHtml}
+                                </div>
                                 <div class="fb-meta">
-                                    <h4>${p.nome}</h4>
+                                    <h4 style="display:flex; align-items:center; gap:5px;">${p.nome} ${seloHtml}</h4>
                                     <div class="stars-container">${estrelas} <span style="font-size:10px; color:var(--text-muted); margin-left:5px;">(${media})</span></div>
                                 </div>
                             </div>
                             <div class="fb-body">
                                 <strong style="color:var(--brand-yellow); font-size:14px;">💼 ${p.servico}</strong>
-                                <p style="font-size:13px; color:var(--text-main); margin:10px 0;">"${p.bio || 'Profissional local disponível para ajudar.'}"</p>
+                                <p class="text-limit">"${p.bio || 'Profissional local disponível para ajudar.'}"</p>
                             </div>
                             <div class="fb-footer">
                                 <span style="font-size:11px; color:var(--text-muted);">📍 ${p.cidade}</span>
@@ -1381,7 +1569,7 @@
                 return `
                 <div class="fb-card">
                     <div class="fb-header">
-                        <div class="fb-avatar" style="background:#3a3b3c">${pedido.cliente_nome.charAt(0)}</div>
+                        <div class="fb-avatar" style="background:var(--brand-dark); border: 1px solid var(--border);">${pedido.cliente_nome.charAt(0)}</div>
                         <div class="fb-meta">
                             <h4>${pedido.cliente_nome}</h4>
                             <span>📍 ${pedido.cidade} • Pedido de Ajuda</span>
@@ -1389,7 +1577,7 @@
                     </div>
                     <div class="fb-body">
                         <strong style="color:var(--brand-yellow); display:block; margin-bottom:5px;">${pedido.titulo_ajuda}</strong>
-                        <p>${pedido.descricao}</p>
+                        <p class="text-limit">${pedido.descricao}</p>
                     </div>
                     <div class="fb-footer">
                         <span style="font-size:12px; color:#b0b3b8;">Aguardando profissional...</span>
@@ -1489,6 +1677,23 @@
         btn.innerText = "PROCESSANDO..."; 
         btn.disabled = true;
 
+        let fotoUrl = null;
+        const fileInput = document.getElementById('pres_foto');
+        
+        // IMPLEMENTAÇÃO: LÓGICA DE UPLOAD PARA O SUPABASE STORAGE
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Date.now()}.${fileExt}`;
+            
+            const { data: uploadData, error: uploadError } = await _supabase.storage.from('avatars').upload(fileName, file);
+            
+            if (!uploadError) {
+                const { data: publicUrlData } = _supabase.storage.from('avatars').getPublicUrl(fileName);
+                fotoUrl = publicUrlData.publicUrl;
+            }
+        }
+
         const { error } = await _supabase.from('prestadores').insert([{ 
             nome: document.getElementById('pres_nome').value, 
             email: document.getElementById('pres_email').value, 
@@ -1497,6 +1702,8 @@
             servico: document.getElementById('pres_servico').value, 
             cidade: document.getElementById('pres_cidade').value, 
             bio: document.getElementById('pres_bio').value, 
+            foto_url: fotoUrl, // Inserção da URL da foto
+            is_verificado: false, // Inicia sem o selo
             lat: userLat || null, 
             lng: userLng || null 
         }]);
@@ -1633,6 +1840,214 @@
             getCityName(p.coords.latitude, p.coords.longitude); 
         }); 
     }
+/* --- INÍCIO DA LÓGICA VIP --- */
+function atualizarTipoCliente() {
+    const isEmpresa = document.querySelector('input[name="tipoCliente"]:checked').value === 'empresa';
+    
+    // Mostra/esconde o campo de CNPJ e o aviso de boleto
+    document.getElementById('campo-cnpj').style.display = isEmpresa ? 'block' : 'none';
+    document.getElementById('aviso-boleto').style.display = isEmpresa ? 'block' : 'none';
+    
+    // MUDA O PREÇO AUTOMATICAMENTE NA TELA
+    if(isEmpresa) {
+        document.getElementById('texto-sos-preco').innerHTML = 'Sim, prioridade corporativa (+ R$ 19,90)';
+    } else {
+        document.getElementById('texto-sos-preco').innerHTML = 'Sim, quero prioridade (+ R$ 4,90 via Pix)';
+    }
+}
+
+// --- SISTEMA INTELIGENTE DE VAGAS GRATUITAS ---
+// --- SISTEMA INTELIGENTE DE VAGAS: PREMIUM -> PLATINUM -> PAGO ---
+async function verificarVagasGratuitas() {
+    const TOTAL_VAGAS_PROMO = 500;
+    const METADE_PROMO = 250; // Ponto de virada de Premium para Platinum
+    
+    const statusDiv = document.getElementById('plano-status');
+    const planoInput = document.getElementById('plano-final');
+    const btn = document.getElementById('btn-concluir-cadastro');
+    const cidade = document.getElementById('cidade-detalhe')?.innerText || "sua região";
+
+    try {
+        // Conta TODOS os prestadores cadastrados na região de Campinas
+        const { count, error } = await supabase
+            .from('prestadores') 
+            .select('*', { count: 'exact', head: true });
+
+        if (error) throw error;
+
+        // LÓGICA DE DISTRIBUIÇÃO AUTOMATIZADA
+        if (count < METADE_PROMO) {
+            // FASE 1: LIBERANDO PREMIUM GRÁTIS
+            const restam = METADE_PROMO - count;
+            statusDiv.innerHTML = `
+                <div style="border: 2px solid #25D366; padding: 12px; border-radius: 10px; background: rgba(37, 211, 102, 0.1);">
+                    <div style="font-weight: bold; color: #25D366;">🎁 BEM-VINDO PROFISSIONAL DE ${cidade.toUpperCase()}</div>
+                    <p style="font-size: 13px; color: white; margin: 5px 0;">Restam <b>${restam} vagas</b> para 1 ano de <b>Plano Premium GRÁTIS</b>!</p>
+                </div>`;
+            planoInput.value = "premium";
+            btn.innerText = "GARANTIR MINHA VAGA PREMIUM";
+        } 
+        else if (count < TOTAL_VAGAS_PROMO) {
+            // FASE 2: PREMIUM ACABOU, LIBERANDO PLATINUM GRÁTIS
+            const restam = TOTAL_VAGAS_PROMO - count;
+            statusDiv.innerHTML = `
+                <div style="border: 2px solid var(--brand-yellow); padding: 12px; border-radius: 10px; background: rgba(255, 180, 0, 0.1);">
+                    <div style="font-weight: bold; color: var(--brand-yellow);">🌟 OPORTUNIDADE EM ${cidade.toUpperCase()}</div>
+                    <p style="font-size: 13px; color: white; margin: 5px 0;">Vagas Premium esgotadas! Restam <b>${restam} vagas Platinum</b> grátis!</p>
+                </div>`;
+            planoInput.value = "platinum";
+            btn.innerText = "GARANTIR MINHA VAGA PLATINUM";
+        } 
+        else {
+            // FASE 3: TUDO ESGOTADO -> COBRANÇA LIBERADA
+            statusDiv.innerHTML = `
+                <div style="border: 1px solid #FF4500; padding: 12px; border-radius: 10px; background: rgba(255, 69, 0, 0.1);">
+                    <div style="font-weight: bold; color: #FF4500;">VAGAS PROMOCIONAIS ESGOTADAS</div>
+                    <p style="font-size: 11px; color: white;">Selecione o plano que deseja adquirir:</p>
+                    <select onchange="document.getElementById('plano-final').value = this.value" style="width:100%; background:#000; color:#fff; padding:8px; border-radius:5px; border:1px solid #444;">
+                        <option value="premium">Plano Premium (R$ 19,90/mês)</option>
+                        <option value="platinum">Plano Platinum (R$ 39,90/mês)</option>
+                    </select>
+                </div>`;
+            btn.innerText = "ASSINAR E CONCLUIR CADASTRO";
+        }
+
+    } catch (e) {
+        console.error("Erro no contador de vagas:", e);
+    }
+}
+
+
+    // --- FUNÇÃO DE SALVAMENTO NO SUPABASE (CADASTRO DE PRESTADOR) ---
+async function finalizarCadastroPrestador() {
+    const btn = document.getElementById('btn-concluir-cadastro');
+    
+    // Evita cliques duplos enquanto processa
+    btn.disabled = true;
+    btn.innerText = "Processando Cadastro...";
+
+    // Captura os dados exatos dos campos do Modal
+    const dados = {
+        nome: document.getElementById('nome-prestador').value,
+        email: document.getElementById('email-prestador').value,
+        senha: document.getElementById('senha-prestador').value,
+        cpf: document.getElementById('cpf-prestador').value,
+        whatsapp: document.getElementById('whatsapp-prestador').value,
+        categoria: document.getElementById('categoria-prestador').value,
+        bio: document.getElementById('bio-prestador').value,
+        plano: document.getElementById('plano-final').value,
+        // Pega a cidade que o banner de geolocalização detectou
+        cidade: document.getElementById('cidade-detalhe')?.innerText || "Não detectada",
+        data_cadastro: new Date().toISOString()
+    };
+
+    // Validação de Segurança Básica
+    if (!dados.email || !dados.senha || !dados.cpf || !dados.nome) {
+        alert("⚠️ Por favor, preencha Nome, E-mail, Senha e CPF para garantir sua vaga.");
+        btn.disabled = false;
+        btn.innerText = "GARANTIR MINHA VAGA";
+        return;
+    }
+
+    try {
+        // Envia para a sua tabela 'prestadores' no Supabase
+        const { error } = await supabase.from('prestadores').insert([dados]);
+        
+        if (error) throw error;
+
+        alert("✅ Parabéns! Seu cadastro foi realizado com sucesso e sua vaga de 1 ano está garantida.");
+        
+        // Fecha o modal e recarrega para aplicar as mudanças
+        document.getElementById('modalPrestador').style.display = 'none';
+        window.location.reload(); 
+
+    } catch (e) {
+        console.error("Erro ao salvar:", e);
+        alert("❌ Erro ao salvar cadastro: " + e.message);
+        btn.disabled = false;
+        btn.innerText = "TENTAR NOVAMENTE";
+    }
+}
+function renderizarCardMural(pedido, planoPrestador) {
+    let isOuro = pedido.alto_valor || pedido.tipo_cliente === 'empresa' || pedido.tamanho_servico === 'grande';
+    let isSOS = pedido.urgencia_sos;
+
+    // Aversão à perda para Grátis e Platinum
+    if (planoPrestador !== 'premium' && (isOuro || isSOS)) {
+        return `
+        <div class="card-borrado" style="margin-bottom: 15px;">
+            <div class="blur-effect"></div>
+            <div class="cadeado-aviso">
+                <h4>🔒 EXCLUSIVO PREMIUM</h4>
+                <span style="color: #fff; font-size: 12px; font-weight: bold;">
+                    ${isSOS ? '🚨 Empresa a pedir Urgência Máxima!' : '🚧 Projeto de Alto Valor Financeiro'}
+                </span><br>
+                <button class="btn-upgrade" onclick="alert('Redirecionando para Assinatura...')">Liberar Acesso - R$ 49,90/mês</button>
+            </div>
+            <div style="padding: 10px; color: #666;">Cliente Oculto - Orçamento de alto valor bloqueado.</div>
+        </div>`;
+    }
+
+    // Card normal se for Premium ou pedido simples
+    return `
+    <div class="fb-card ${isSOS ? 'sos-piscar' : ''}" style="margin-bottom: 15px; padding: 15px; background: #242526; border-radius: 12px; border: 1px solid #3e4042;">
+        ${isSOS ? '<div style="color: #FF4500; font-weight: bold; font-size: 12px; margin-bottom: 10px;">🚨 URGÊNCIA SOS PAGA ATIVA</div>' : ''}
+        <h4 style="margin: 0; color: white;">${pedido.tipo_cliente === 'empresa' ? '🏢 Empresa Confidencial' : '👤 ' + pedido.nome_cliente}</h4>
+        <div style="color: #ddd; font-size: 14px; margin: 15px 0;">${pedido.descricao}</div>
+        <button style="background: #FFB400; color: black; font-weight: bold; border: none; padding: 10px; border-radius: 8px; width: 100%; cursor: pointer;">Aceitar e Abrir WhatsApp</button>
+    </div>`;
+}
+
+function enviarPedidoSOS() {
+    const isEmpresa = document.querySelector('input[name="tipoCliente"]:checked').value === 'empresa';
+    const isSOS = document.getElementById('checkSOS').checked;
+    
+    if (isSOS) {
+        alert(isEmpresa ? "Iniciando geração de Boleto Híbrido Asaas de R$ 19,90..." : "Iniciando pagamento Pix de R$ 4,90...");
+    } else {
+        alert("Pedido normal postado gratuitamente no mural!");
+    }
+    document.getElementById('modalPedido').style.display = 'none';
+}
+/* --- FIM DA LÓGICA VIP --- */
+/* --- INÍCIO GEOLOCALIZAÇÃO DO BANNER --- */
+document.addEventListener("DOMContentLoaded", function() {
+    // API Gratuita que descobre a cidade do usuário pelo IP da internet dele
+    fetch('https://ipinfo.io/json')
+        .then(response => response.json())
+        .then(data => {
+            const cidadeUsuario = data.city; // Ex: Sumare, Campinas, etc
+            const cidadesAlvo = ["Sumaré", "Sumare", "Campinas", "Hortolândia", "Hortolandia", "Americana", "Nova Odessa", "Santa Bárbara d'Oeste"];
+            
+            // Se a cidade dele estiver na nossa lista, mostramos a cidade. Se não, mostramos "Sua Região".
+            if(cidadeUsuario && cidadesAlvo.includes(cidadeUsuario)) {
+                document.getElementById('cidade-dinamica').innerText = cidadeUsuario;
+            } else {
+                document.getElementById('cidade-dinamica').innerText = "sua região";
+            }
+        })
+        .catch(error => {
+            console.log("Geolocalização bloqueada. Usando texto padrão.");
+            document.getElementById('cidade-dinamica').innerText = "sua região";
+        });
+});
+
+// Funções para garantir que os links do rodapé abram os modais corretamente
+function abrirModal(id) {
+    document.getElementById(id).style.display = 'flex';
+    
+    // Se for o modal de prestador, calcula as vagas na hora!
+    if(id === 'modalPrestador') {
+        verificarVagasGratuitas();
+    }
+}
+/* --- FIM GEOLOCALIZAÇÃO DO BANNER --- */
+/* --- FECHAR MODAL AO CLICAR FORA --- */
+window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+});
 </script>
 </body>
 </html>
