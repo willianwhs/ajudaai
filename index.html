@@ -1871,6 +1871,18 @@ document.getElementById('formPedido').onsubmit = async (e) => {
     function closeMenu() { document.getElementById('navActions').classList.remove('active'); }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    window.addEventListener('mousedown', function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    });
+
+    window.addEventListener('touchstart', function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    }, { passive: true });
     
     function getGPS() { 
         navigator.geolocation.getCurrentPosition(p => { 
@@ -2080,23 +2092,6 @@ function abrirModal(id) {
     }
 }
 /* --- FIM GEOLOCALIZAÇÃO DO BANNER --- */
-    
-/* --- FECHAR MODAL AO CLICAR FORA --- */
-document.addEventListener('DOMContentLoaded', () => {
-    const modais = document.querySelectorAll('.modal');
-    modais.forEach(modal => {
-        modal.addEventListener('mousedown', function(event) {
-            if (event.target === this) {
-                this.style.display = 'none';
-            }
-        });
-        modal.addEventListener('touchstart', function(event) {
-            if (event.target === this) {
-                this.style.display = 'none';
-            }
-        }, { passive: true });
-    });
-});
     
 </script>
 </body>
