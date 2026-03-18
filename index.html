@@ -1230,46 +1230,43 @@ select:focus {
 </div>
 <div class="modal" id="modalPedido">
     <div class="modal-content">
-
-        <h2 style="text-align:center;">
-            <i class="fa-solid fa-bullseye" style="color: var(--brand-yellow);"></i> 
-            Pedir <span>Ajuda</span>
-        </h2>
+        <h2>🎯 Contrate com <span>Segurança</span></h2>
 
         <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
-            Descreva seu problema e receba ajuda de profissionais próximos.
+            Encontre profissionais avaliados perto de você.
         </p>
 
         <form id="formPedido">
 
             <input type="text" id="ped_nome" placeholder="👤 Seu nome completo" required>
 
-            <!-- WHATSAPP (IMPLEMENTADO E PADRONIZADO) -->
+            <!-- WHATSAPP (MANTIDO ORIGINAL) -->
             <input type="tel" class="mask-whatsapp" id="ped_whatsapp" placeholder="📱 Seu WhatsApp (com DDD)" maxlength="16" required>
 
-            <input type="text" id="ped_titulo" placeholder="🛠️ O que você precisa? (Ex: Eletricista)" required>
+            <input type="text" id="ped_titulo" placeholder="🛠️ O que você precisa? (Ex: Preciso de eletricista)" required>
 
-            <input type="text" id="ped_cidade" placeholder="📍 Sua cidade" required>
+            <input type="text" id="ped_cidade" placeholder="📍 Sua Cidade" required>
 
             <label style="display: block; font-size: 12px; color: var(--text-muted); margin: 15px 0 5px 5px; text-align: left;">
-                Seja objetivo no pedido (máx: 150 caracteres)
+                ✍️ Seja objetivo no pedido (Max: 150 caracteres)
             </label>
 
-            <textarea id="ped_descricao" placeholder="✍️ Descreva os detalhes do serviço..." maxlength="150" required></textarea>
+            <textarea id="ped_descricao" placeholder="📝 Descreva os detalhes do serviço..." maxlength="150" required></textarea>
 
             <button type="submit" id="btnPostarPedido" class="btn-yellow"
                 style="width:100%; padding:18px; border:none; border-radius:15px; font-weight:800; margin-top:15px; cursor:pointer;">
-                <i class="fa-solid fa-paper-plane"></i> POSTAR PEDIDO
+                🚀 POSTAR NO MURAL
             </button>
 
             <button type="button" onclick="closeModal('modalPedido')"
-                style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width:100%;">
-                Cancelar
+                style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width: 100%;">
+                ❌ Cancelar
             </button>
 
         </form>
     </div>
 </div>
+
 </div>
     
 </div>
