@@ -10,8 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
-        
-#btnVerMaisProximos {
+
+        #btnVerMaisProximos {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,6 +28,12 @@
         padding: 12px;
         border-radius: 10px;
     }
+}
+    #map, .map-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 }
 * {
     box-sizing: border-box;
@@ -2201,6 +2207,18 @@ function abrirModal(id) {
 }
 /* --- FIM GEOLOCALIZAÇÃO DO BANNER --- */
     
+    <script>
+window.onclick = function(event) {
+    const modais = document.querySelectorAll('.modal');
+
+    modais.forEach(function(modal) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+};
+</script>
+
 </script>
 </body>
 </html>
