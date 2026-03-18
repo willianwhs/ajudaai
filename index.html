@@ -2081,21 +2081,6 @@ function abrirModal(id) {
 }
 /* --- FIM GEOLOCALIZAÇÃO DO BANNER --- */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        modal.addEventListener('mousedown', function(event) {
-            if (event.target === this) {
-                this.style.display = 'none';
-            }
-        });
-        modal.addEventListener('touchstart', function(event) {
-            if (event.target === this) {
-                this.style.display = 'none';
-            }
-        }, { passive: true });
-    });
-});
 </script>
 </body>
 </html>
