@@ -10,7 +10,25 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
+        
+#btnVerMaisProximos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 
+    margin: 10px auto;
+}
+
+/* mobile ajuste fino */
+@media (max-width: 768px) {
+    #btnVerMaisProximos {
+        width: 90%;
+        margin: 15px auto;
+        padding: 12px;
+        border-radius: 10px;
+    }
+}
 * {
     box-sizing: border-box;
 }
