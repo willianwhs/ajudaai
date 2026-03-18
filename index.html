@@ -2080,29 +2080,22 @@ function abrirModal(id) {
     }
 }
 /* --- FIM GEOLOCALIZAÇÃO DO BANNER --- */
-/* --- FECHAR MODAL AO CLICAR FORA --- */
-window.addEventListener('click', function(event) {
-    if (event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
-    }
-});
-    
-    // FECHAR QUALQUER MODAL AO CLICAR FORA (DESKTOP E MOBILE)
-    window.addEventListener('click', function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
-        }
-    });
 
-    window.addEventListener('touchstart', function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
-        }
-    }, { passive: true });
-    
-</script>
-</body>
-</html>
+document.addEventListener('DOMContentLoaded', () => {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        modal.addEventListener('mousedown', function(event) {
+            if (event.target === this) {
+                this.style.display = 'none';
+            }
+        });
+        modal.addEventListener('touchstart', function(event) {
+            if (event.target === this) {
+                this.style.display = 'none';
+            }
+        }, { passive: true });
+    });
+});
 </script>
 </body>
 </html>
