@@ -2240,7 +2240,7 @@ async function enviarPedidoSOS() {
         // 1) cria pedido no Supabase
         const payloadPedido = {
             cliente_nome: nome,
-            cliente_whatsapp: telefone.replace(/\D/g, ''),
+            cliente_whats: telefone.replace(/\D/g, ''),
             titulo_ajuda: isEmpresa ? 'Pedido Empresarial' : 'Pedido de Ajuda',
             cidade: typeof currentCity !== 'undefined' && currentCity ? currentCity : 'Sua Região',
             descricao: descricao,
