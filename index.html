@@ -2221,18 +2221,105 @@ function renderizarCardMural(pedido, planoPrestador) {
         <div style="color: #ddd; font-size: 14px; margin: 15px 0;">${pedido.descricao}</div>
         <button style="background: #FFB400; color: black; font-weight: bold; border: none; padding: 10px; border-radius: 8px; width: 100%; cursor: pointer;">Aceitar e Abrir WhatsApp</button>
     </div>`;
-}
-
-function enviarPedidoSOS() {
+async function enviarPedidoSOS() {
     const isEmpresa = document.querySelector('input[name="tipoCliente"]:checked').value === 'empresa';
-    const isSOS = document.getElementById('checkSOS').checked;
-    
-    if (isSOS) {
-        alert(isEmpresa ? "Iniciando geração de Boleto Híbrido Asaas de R$ 19,90..." : "Iniciando pagamento Pix de R$ 4,90...");
-    } else {
-        alert("Pedido normal postado gratuitamente no mural!");
+    const isSOS = document.getElementById('urgencia-sos').checked;
+
+    const nome = document.getElementById('nome-cliente').value.trim();
+    const telefone = document.getElementById('whatsapp-cliente').value.trim();
+    const descricao = document.getElementById('descricao-pedido').value.trim();
+    const tamanho = document.getElementById('tamanho-servico').value;
+    const cnpj = document.getElementById('cnpj-input') ? document.getElementById('cnpj-input').value.trim() : '';
+
+    if (!nome || !telefone || !descricao) {
+        alert('Preencha nome, WhatsApp e descrição do pedido.');
+        return;
     }
-    document.getElementById('modalPedido').style.display = 'none';
+
+    try {
+        // 1) cria pedido no Supabase
+        const payloadPedido = {
+            cliente_nome: nome,
+            cliente_whatsapp: telefone.replace(/\D/g, ''),
+            titulo_ajuda: isEmpresa ? 'Pedido Empresarial' : 'Pedido de Ajuda',
+            cidade: typeof currentCity !== 'undefined' && currentCity ? currentCity : 'Sua Região',
+            descricao: descricao,
+            status: isSOS ? 'aguardando_pagamento' : 'aberto',
+            tipo_cliente: isEmpresa ? 'empresa' : 'fisica',
+            tamanho_servico: tamanho,
+            urgencia_sos: isSOS,
+            cnpj_empresa: isEmpresa ? cnpj : null
+        };
+
+        const { data: pedidoCriado, error: erroPedido } = await _supabase
+            .from('pedidos_ajuda')
+            .insert([payloadPedido])
+            .select()
+            .single();
+
+        if (erroPedido) {
+            alert('Erro ao criar pedido: ' + erroPedido.message);
+            return;
+        }
+
+        // 2) se não for SOS, publica direto
+        if (!isSOS) {
+            alert('Pedido publicado com sucesso!');
+            document.getElementById('modalPedido').style.display = 'none';
+            if (typeof carregarMural === 'function') carregarMural(currentCity);
+            return;
+        }
+
+        // 3) se for SOS, chama a Edge Function
+        const valor = isEmpresa ? 19.90 : 4.90;
+        const tipo = isEmpresa ? 'BOLETO' : 'PIX';
+
+        const respostaPagamento = await fetch('https://vhoiwkndxmmajwoskxdl.functions.supabase.co/criar_pagamento', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nome,
+                telefone: telefone.replace(/\D/g, ''),
+                valor,
+                tipo,
+                descricao: isEmpresa ? 'SOS Empresa Ajuda Aí' : 'SOS Cliente Ajuda Aí'
+            })
+        });
+
+        const pagamento = await respostaPagamento.json();
+
+        if (!pagamento || (!pagamento.pagamento_id && !pagamento.pixQrCode && !pagamento.boletoUrl)) {
+            alert('Erro ao gerar pagamento.');
+            return;
+        }
+
+        // 4) salva payment_id no pedido
+        await _supabase
+            .from('pedidos_ajuda')
+            .update({
+                payment_id: pagamento.pagamento_id
+            })
+            .eq('id', pedidoCriado.id);
+
+        // 5) mostra o PIX ou boleto no mesmo modal
+        document.getElementById('areaPagamentoSOS').style.display = 'block';
+        document.getElementById('areaPixSOS').style.display = 'none';
+        document.getElementById('areaBoletoSOS').style.display = 'none';
+
+        if (tipo === 'PIX') {
+            document.getElementById('areaPixSOS').style.display = 'block';
+            document.getElementById('pixQrCodeImg').src = pagamento.pixQrCode || '';
+            document.getElementById('pixCopiaCola').value = pagamento.pixCopiaCola || '';
+        } else {
+            document.getElementById('areaBoletoSOS').style.display = 'block';
+            document.getElementById('boletoLinkSOS').href = pagamento.boletoUrl || '#';
+        }
+
+    } catch (error) {
+        alert('Erro ao iniciar pagamento: ' + error.message);
+    }
 }
 /* --- FIM DA LÓGICA VIP --- */
 /* --- INÍCIO GEOLOCALIZAÇÃO DO BANNER --- */
